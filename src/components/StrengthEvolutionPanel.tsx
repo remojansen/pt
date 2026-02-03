@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
 	CartesianGrid,
 	Legend,
@@ -16,18 +16,50 @@ import {
 	type Strength,
 	useUserData,
 } from '../hooks/useUserData';
+import { Button } from './Button';
 import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
 import { Panel } from './Panel';
 
+type TimeRange = '1month' | '3months' | '6months' | '1year' | 'all';
+
+const TIME_RANGE_LABELS: Record<TimeRange, string> = {
+	'1month': '1 Month',
+	'3months': '3 Months',
+	'6months': '1/2 Year',
+	'1year': '1 Year',
+	all: 'All',
+};
+
+function getDaysForTimeRange(range: TimeRange): number {
+	switch (range) {
+		case '1month':
+			return 30;
+		case '3months':
+			return 90;
+		case '6months':
+			return 180;
+		case '1year':
+			return 365;
+		case 'all':
+			return 10000; // Large number to get all data
+	}
+}
+
 const REPETITION_LABELS: Record<RepetitionKey, string> = {
 	[RepetitionType.BicepCurl]: 'Bicep Curl',
 	[RepetitionType.CableTricepPushdown]: 'Cable Tricep Pushdown',
+	[RepetitionType.FrontRaise]: 'Front Raise',
+	[RepetitionType.LateralRaise]: 'Lateral Raise',
+	[RepetitionType.ShoulderPress]: 'Shoulder Press',
 };
 
 const REPETITION_COLORS: Record<RepetitionKey, string> = {
 	[RepetitionType.BicepCurl]: '#3b82f6', // blue
 	[RepetitionType.CableTricepPushdown]: '#22c55e', // green
+	[RepetitionType.FrontRaise]: '#f59e0b', // amber
+	[RepetitionType.LateralRaise]: '#a855f7', // purple
+	[RepetitionType.ShoulderPress]: '#ec4899', // pink
 };
 
 type StrengthActivityType =
@@ -102,10 +134,22 @@ function isStrengthActivity(activity: { type: string }): activity is Strength {
 
 export function StrengthEvolutionPanel() {
 	const { activities, isLoading } = useUserData();
+	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
+	const [isCalculating, setIsCalculating] = useState(false);
 
 	const chartData = useMemo(() => {
+		setIsCalculating(true);
+		// Filter by time range
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+		const numDays = getDaysForTimeRange(selectedRange);
+		const cutoffDate = new Date(today);
+		cutoffDate.setDate(today.getDate() - numDays);
+
 		// Filter strength activities
-		const strengthActivities = activities.filter(isStrengthActivity);
+		const strengthActivities = activities.filter(
+			(a) => isStrengthActivity(a) && new Date(a.date) >= cutoffDate,
+		);
 
 		if (strengthActivities.length === 0) return [];
 
@@ -126,9 +170,11 @@ export function StrengthEvolutionPanel() {
 			const dateData = dataByDate.get(dateKey);
 			if (!dateData) continue;
 
-			for (const rep of activity.repetitions) {
-				if (rep.weightKg > 0) {
-					dateData[rep.type].push(rep.weightKg);
+			if ('repetitions' in activity) {
+				for (const rep of activity.repetitions) {
+					if (rep.weightKg > 0) {
+						dateData[rep.type as RepetitionKey].push(rep.weightKg);
+					}
 				}
 			}
 		}
@@ -160,10 +206,12 @@ export function StrengthEvolutionPanel() {
 		}
 
 		// Sort by date ascending
-		return data.sort(
+		const sortedData = data.sort(
 			(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
 		);
-	}, [activities]);
+		setIsCalculating(false);
+		return sortedData;
+	}, [activities, selectedRange]);
 
 	// Determine which repetition types have data
 	const activeRepetitionTypes = useMemo(() => {
@@ -239,9 +287,25 @@ export function StrengthEvolutionPanel() {
 		});
 	}, [activities]);
 
+	const timeRangeButtons = (
+		<div className="flex gap-2">
+			{(Object.keys(TIME_RANGE_LABELS) as TimeRange[]).map((range) => (
+				<Button
+					key={range}
+					variant={selectedRange === range ? 'primary' : 'secondary'}
+					color="blue"
+					onClick={() => setSelectedRange(range)}
+					disabled={isLoading || isCalculating}
+				>
+					{TIME_RANGE_LABELS[range]}
+				</Button>
+			))}
+		</div>
+	);
+
 	if (isLoading) {
 		return (
-			<Panel title="Strength Evolution">
+			<Panel title="Strength Evolution" headerActions={timeRangeButtons}>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -249,9 +313,19 @@ export function StrengthEvolutionPanel() {
 		);
 	}
 
+	if (isCalculating) {
+		return (
+			<Panel title="Strength Evolution" headerActions={timeRangeButtons}>
+				<div className="h-64 flex items-center justify-center text-gray-400">
+					Calculating...
+				</div>
+			</Panel>
+		);
+	}
+
 	if (chartData.length === 0) {
 		return (
-			<Panel title="Strength Evolution">
+			<Panel title="Strength Evolution" headerActions={timeRangeButtons}>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					No strength training activities yet
 				</div>
@@ -260,7 +334,7 @@ export function StrengthEvolutionPanel() {
 	}
 
 	return (
-		<Panel title="Strength Evolution">
+		<Panel title="Strength Evolution" headerActions={timeRangeButtons}>
 			<HighlightGroup>
 				{muscleGroupGains.map((gain) => (
 					<Highlight

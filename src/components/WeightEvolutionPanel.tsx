@@ -17,6 +17,31 @@ import { HighlightGroup } from './HighlightGroup';
 import { Modal } from './Modal';
 import { Panel } from './Panel';
 
+type TimeRange = '1month' | '3months' | '6months' | '1year' | 'all';
+
+const TIME_RANGE_LABELS: Record<TimeRange, string> = {
+	'1month': '1 Month',
+	'3months': '3 Months',
+	'6months': '1/2 Year',
+	'1year': '1 Year',
+	all: 'All',
+};
+
+function getDaysForTimeRange(range: TimeRange): number {
+	switch (range) {
+		case '1month':
+			return 30;
+		case '3months':
+			return 90;
+		case '6months':
+			return 180;
+		case '1year':
+			return 365;
+		case 'all':
+			return 10000; // Large number to get all data
+	}
+}
+
 type BMICategory =
 	| 'underweight'
 	| 'healthy'
@@ -193,6 +218,8 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
 
 export function WeightEvolutionPanel() {
 	const { statsEntries, userProfile, isLoading, addStatsEntry } = useUserData();
+	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
+	const [isCalculating, setIsCalculating] = useState(false);
 	const [showReminderModal, setShowReminderModal] = useState(false);
 	const [showLogWeightModal, setShowLogWeightModal] = useState(false);
 	const [newWeight, setNewWeight] = useState<string>('');
@@ -277,16 +304,56 @@ export function WeightEvolutionPanel() {
 		setShowLogWeightModal(true);
 	};
 
+	const timeRangeButtons = (
+		<div className="flex gap-2">
+			{(Object.keys(TIME_RANGE_LABELS) as TimeRange[]).map((range) => (
+				<Button
+					key={range}
+					variant={selectedRange === range ? 'primary' : 'secondary'}
+					color="blue"
+					onClick={() => setSelectedRange(range)}
+					disabled={isLoading || isCalculating}
+				>
+					{TIME_RANGE_LABELS[range]}
+				</Button>
+			))}
+		</div>
+	);
+
+	const headerActions = (
+		<div className="flex gap-2 items-center">
+			{timeRangeButtons}
+			<Button
+				variant="primary"
+				color="blue"
+				onClick={openLogWeightModal}
+				disabled={isLoading || isCalculating}
+			>
+				Log Weight
+			</Button>
+		</div>
+	);
+
 	const chartData = useMemo(() => {
+		setIsCalculating(true);
 		if (!userProfile.heightCm || !userProfile.dateOfBirth || !userProfile.sex) {
+			setIsCalculating(false);
 			return [];
 		}
+
+		// Filter by time range
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+		const numDays = getDaysForTimeRange(selectedRange);
+		const cutoffDate = new Date(today);
+		cutoffDate.setDate(today.getDate() - numDays);
 
 		const age = calculateAge(userProfile.dateOfBirth);
 		const heightCm = userProfile.heightCm;
 		const sex = userProfile.sex;
 
-		return statsEntries
+		const filteredData = statsEntries
+			.filter((entry) => new Date(entry.date) >= cutoffDate)
 			.map((entry) => {
 				const bmi = calculateBMI(entry.weightKg, heightCm);
 				const bmiCategory = getBMICategory(bmi);
@@ -309,7 +376,9 @@ export function WeightEvolutionPanel() {
 				};
 			})
 			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-	}, [statsEntries, userProfile]);
+		setIsCalculating(false);
+		return filteredData;
+	}, [statsEntries, userProfile, selectedRange]);
 
 	const weightAxisMax = useMemo(() => {
 		if (chartData.length === 0) return 100;
@@ -443,7 +512,7 @@ export function WeightEvolutionPanel() {
 
 	if (isLoading) {
 		return (
-			<Panel title="Weight Evolution">
+			<Panel title="Weight Evolution" headerActions={headerActions}>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -453,7 +522,7 @@ export function WeightEvolutionPanel() {
 
 	if (!userProfile.heightCm || !userProfile.dateOfBirth || !userProfile.sex) {
 		return (
-			<Panel title="Weight Evolution">
+			<Panel title="Weight Evolution" headerActions={headerActions}>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Complete your profile to see stats chart
 				</div>
@@ -542,10 +611,7 @@ export function WeightEvolutionPanel() {
 						</div>
 					</div>
 				</Modal>
-				<Panel
-					title="Weight Evolution"
-					cta={{ cta: 'Log Weight', onCta: openLogWeightModal }}
-				>
+				<Panel title="Weight Evolution" headerActions={headerActions}>
 					<div className="h-64 flex items-center justify-center text-gray-400">
 						No stats entries yet
 					</div>
@@ -655,10 +721,7 @@ export function WeightEvolutionPanel() {
 					</div>
 				</div>
 			</Modal>
-			<Panel
-				title="Weight Evolution"
-				cta={{ cta: 'Log Weight', onCta: openLogWeightModal }}
-			>
+			<Panel title="Weight Evolution" headerActions={headerActions}>
 				<HighlightGroup>
 					<Highlight
 						value={
