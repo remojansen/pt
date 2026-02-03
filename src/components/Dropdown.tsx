@@ -89,12 +89,12 @@ export function Dropdown<T = string>({
 				disabled={disabled}
 				className={`
 					px-4 py-2 text-sm font-medium rounded-lg transition-colors 
-					focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500
+					focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-purple-500
 					flex items-center justify-between gap-2 min-w-[140px]
 					${
 						disabled
 							? 'bg-gray-800 text-gray-500 cursor-not-allowed'
-							: 'bg-blue-600 text-white hover:bg-blue-700'
+							: 'bg-purple-600 text-white hover:bg-purple-700'
 					}
 				`}
 			>
@@ -129,7 +129,7 @@ export function Dropdown<T = string>({
 										w-full text-left px-4 py-2 text-sm transition-colors
 										${
 											option.value === value
-												? 'bg-blue-600 text-white'
+												? 'bg-purple-600 text-white'
 												: 'text-gray-300 hover:bg-gray-700'
 										}
 									`}
