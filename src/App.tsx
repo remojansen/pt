@@ -4,6 +4,7 @@ import { useUserData } from './hooks/useUserData';
 import { HomePage } from './pages/HomePage';
 import { RegistrationPage } from './pages/RegistrationPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { TrainingSessionPage } from './pages/TrainingSessionPage';
 
 function App() {
 	const { isLoading, isRegistered } = useUserData();
@@ -25,6 +26,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/settings" element={<SettingsPage />} />
+				<Route path="/training-session" element={<TrainingSessionPage />} />
 			</Routes>
 		</Layout>
 	);

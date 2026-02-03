@@ -18,6 +18,28 @@ export function UserProfileForm({
 		<div className="space-y-6">
 			<div>
 				<label
+					htmlFor="name"
+					className="block text-sm font-medium text-gray-300 mb-2"
+				>
+					Name
+				</label>
+				<input
+					type="text"
+					id="name"
+					value={userProfile.name ?? ''}
+					onChange={(e) =>
+						onChange({
+							...userProfile,
+							name: e.target.value || null,
+						})
+					}
+					className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-lg text-white placeholder-gray-400"
+					placeholder="Your name"
+				/>
+			</div>
+
+			<div>
+				<label
 					htmlFor="heightCm"
 					className="block text-sm font-medium text-gray-300 mb-2"
 				>
@@ -90,24 +112,25 @@ export function UserProfileForm({
 			</div>
 
 			<div>
-				<label
-					htmlFor="targetDate"
-					className="block text-sm font-medium text-gray-300 mb-2"
-				>
-					Target Date
-				</label>
-				<input
-					type="date"
-					id="targetDate"
-					value={userProfile.targetDate ?? ''}
-					onChange={(e) =>
-						onChange({
-							...userProfile,
-							targetDate: e.target.value || null,
-						})
-					}
-					className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-lg text-white"
-				/>
+				<span className="block text-sm font-medium text-gray-300 mb-2">
+					Target Weight Loss per Week (kg)
+				</span>
+				<div className="flex gap-2">
+					{[0.25, 0.5, 0.75, 1].map((value) => (
+						<Button
+							key={value}
+							color="purple"
+							size="md"
+							active={userProfile.targetWeightLossPerWeekKg === value}
+							onClick={() =>
+								onChange({ ...userProfile, targetWeightLossPerWeekKg: value })
+							}
+							className="flex-1"
+						>
+							{value}
+						</Button>
+					))}
+				</div>
 			</div>
 
 			<div>

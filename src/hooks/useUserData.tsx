@@ -8,28 +8,36 @@ import {
 } from 'react';
 import {
 	deleteActivity as deleteActivityFromDB,
+	deleteDietEntry as deleteDietEntryFromDB,
 	deleteStatsEntry as deleteStatsEntryFromDB,
 	getActivityCount,
+	getDietEntryCount,
 	getStatsEntryCount,
 	loadActivities,
 	loadAllActivities,
+	loadAllDietEntries,
 	loadAllStatsEntries,
+	loadDietEntries,
+	loadDietEntryByDate,
 	loadStatsEntries,
 	loadStatsEntryByDate,
 	loadUserProfile,
 	saveActivities,
 	saveActivity,
+	saveDietEntries,
+	saveDietEntry,
 	saveStatsEntries,
 	saveStatsEntry,
 	saveUserProfile,
 } from './db';
 
 export interface UserProfile {
+	name: string | null;
 	heightCm: number | null;
 	dateOfBirth: string | null;
 	sex: 'male' | 'female' | null;
 	targetWeightKg: number | null;
-	targetDate: string | null;
+	targetWeightLossPerWeekKg: number | null;
 	schedule: Schedule;
 }
 
@@ -44,10 +52,11 @@ export const ActivityType = {
 	StrengthTrainingArms: 'StrengthTrainingArms',
 	StrengthTrainingCore: 'StrengthTrainingCore',
 	StrengthTrainingShoulders: 'StrengthTrainingShoulders',
-	StrengthTrainingBack: 'StrengthTrainingBack'
+	StrengthTrainingBack: 'StrengthTrainingBack',
+	StrengthTrainingChest: 'StrengthTrainingChest',
 } as const;
 
-export type ActivityTypeKey = typeof ActivityType[keyof typeof ActivityType];
+export type ActivityTypeKey = (typeof ActivityType)[keyof typeof ActivityType];
 
 export interface Schedule {
 	monday: ActivityTypeKey[];
@@ -59,19 +68,79 @@ export interface Schedule {
 	sunday: ActivityTypeKey[];
 }
 
-export interface Activity {
+interface BaseActivity {
 	id: string;
-	type: ActivityTypeKey;
 	date: string;
-	distanceInKm: number;
 	durationInSeconds: number;
 }
+
+export interface Cardio extends BaseActivity {
+	type:
+		| typeof ActivityType.RoadRun
+		| typeof ActivityType.TreadmillRun
+		| typeof ActivityType.PoolSwim
+		| typeof ActivityType.SeaSwim
+		| typeof ActivityType.RoadCycle
+		| typeof ActivityType.IndoorCycle;
+	distanceInKm: number;
+}
+
+export const RepetitionType = {
+	BicepCurl: 'BicepCurl',
+	CableTricepPushdown: 'CableTricepPushdown',
+} as const;
+
+export type RepetitionKey =
+	(typeof RepetitionType)[keyof typeof RepetitionType];
+
+export function getRepetitionsForActivityType(
+	activityType: ActivityTypeKey,
+): RepetitionKey[] {
+	switch (activityType) {
+		case ActivityType.StrengthTrainingArms:
+			return [RepetitionType.BicepCurl, RepetitionType.CableTricepPushdown];
+		case ActivityType.StrengthTrainingLegs:
+		case ActivityType.StrengthTrainingCore:
+		case ActivityType.StrengthTrainingChest:
+		case ActivityType.StrengthTrainingShoulders:
+		case ActivityType.StrengthTrainingBack:
+			return [];
+		default:
+			return [];
+	}
+}
+
+export interface Repetition {
+	type: RepetitionKey;
+	count: number;
+	series: number;
+	weightKg: number;
+}
+
+export interface Strength extends BaseActivity {
+	type:
+		| typeof ActivityType.StrengthTrainingLegs
+		| typeof ActivityType.StrengthTrainingArms
+		| typeof ActivityType.StrengthTrainingCore
+		| typeof ActivityType.StrengthTrainingChest
+		| typeof ActivityType.StrengthTrainingShoulders
+		| typeof ActivityType.StrengthTrainingBack;
+	repetitions: Repetition[];
+}
+
+export type Activity = Cardio | Strength;
 
 export interface UserStatsEntry {
 	id: string;
 	date: string;
 	weightKg: number;
 	bodyFatPercentage: number | null;
+}
+
+export interface DietEntry {
+	id: string;
+	date: string;
+	calories: number;
 }
 
 interface UserData {
@@ -102,6 +171,15 @@ interface UserData {
 	addStatsEntry: (entry: UserStatsEntry) => Promise<void>;
 	updateStatsEntries: (entries: UserStatsEntry[]) => Promise<void>;
 	deleteStatsEntry: (id: string) => Promise<void>;
+
+	// Diet entries - paginated for large datasets
+	dietEntries: DietEntry[];
+	dietEntryCount: number;
+	loadMoreDietEntries: (limit?: number) => Promise<void>;
+	loadAllUserDietEntries: () => Promise<DietEntry[]>;
+	addDietEntry: (entry: DietEntry) => Promise<void>;
+	updateDietEntries: (entries: DietEntry[]) => Promise<void>;
+	deleteDietEntry: (id: string) => Promise<void>;
 }
 
 const DEFAULT_SCHEDULE: Schedule = {
@@ -115,16 +193,18 @@ const DEFAULT_SCHEDULE: Schedule = {
 };
 
 const DEFAULT_USER_PROFILE: UserProfile = {
+	name: null,
 	heightCm: null,
 	dateOfBirth: null,
 	sex: null,
 	targetWeightKg: null,
-	targetDate: null,
+	targetWeightLossPerWeekKg: null,
 	schedule: DEFAULT_SCHEDULE,
 };
 
 const ACTIVITIES_PAGE_SIZE = 50;
 const STATS_ENTRIES_PAGE_SIZE = 50;
+const DIET_ENTRIES_PAGE_SIZE = 50;
 
 const UserDataContext = createContext<UserData | undefined>(undefined);
 
@@ -141,6 +221,8 @@ export function UserDataProvider({ children }: UserDataProviderProps) {
 	const [activityCount, setActivityCount] = useState(0);
 	const [statsEntries, setStatsEntriesState] = useState<UserStatsEntry[]>([]);
 	const [statsEntryCount, setStatsEntryCount] = useState(0);
+	const [dietEntries, setDietEntriesState] = useState<DietEntry[]>([]);
+	const [dietEntryCount, setDietEntryCount] = useState(0);
 
 	// Check if user has completed registration (has profile data)
 	const checkIsRegistered = useCallback((profile: UserProfile) => {
@@ -161,12 +243,16 @@ export function UserDataProvider({ children }: UserDataProviderProps) {
 					activityCountResult,
 					initialStatsEntries,
 					statsEntryCountResult,
+					initialDietEntries,
+					dietEntryCountResult,
 				] = await Promise.all([
 					loadUserProfile(),
 					loadActivities(ACTIVITIES_PAGE_SIZE, 0),
 					getActivityCount(),
 					loadStatsEntries(STATS_ENTRIES_PAGE_SIZE, 0),
 					getStatsEntryCount(),
+					loadDietEntries(DIET_ENTRIES_PAGE_SIZE, 0),
+					getDietEntryCount(),
 				]);
 
 				if (savedUserProfile) {
@@ -177,6 +263,8 @@ export function UserDataProvider({ children }: UserDataProviderProps) {
 				setActivityCount(activityCountResult);
 				setStatsEntriesState(initialStatsEntries);
 				setStatsEntryCount(statsEntryCountResult);
+				setDietEntriesState(initialDietEntries);
+				setDietEntryCount(dietEntryCountResult);
 			} catch (error) {
 				console.error('Failed to load data from IndexedDB:', error);
 			} finally {
@@ -252,6 +340,56 @@ export function UserDataProvider({ children }: UserDataProviderProps) {
 		setStatsEntryCount((prev) => prev - 1);
 	}, []);
 
+	// Load more diet entries (pagination)
+	const loadMoreDietEntries = useCallback(
+		async (limit = DIET_ENTRIES_PAGE_SIZE) => {
+			const moreEntries = await loadDietEntries(limit, dietEntries.length);
+			setDietEntriesState((prev) => [...prev, ...moreEntries]);
+		},
+		[dietEntries.length],
+	);
+
+	// Load all diet entries (use sparingly for large datasets)
+	const loadAllUserDietEntries = useCallback(async () => {
+		return loadAllDietEntries();
+	}, []);
+
+	// Add single diet entry (or update if entry for date already exists)
+	const addDietEntry = useCallback(async (entry: DietEntry) => {
+		const existingEntry = await loadDietEntryByDate(entry.date);
+		if (existingEntry) {
+			// Update existing entry, keeping the original id
+			const updatedEntry = { ...entry, id: existingEntry.id };
+			await saveDietEntry(updatedEntry);
+			setDietEntriesState((prev) =>
+				prev.map((e) => (e.id === existingEntry.id ? updatedEntry : e)),
+			);
+		} else {
+			await saveDietEntry(entry);
+			setDietEntriesState((prev) => [entry, ...prev]); // newest first
+			setDietEntryCount((prev) => prev + 1);
+		}
+	}, []);
+
+	// Bulk update diet entries
+	const updateDietEntries = useCallback(async (newEntries: DietEntry[]) => {
+		await saveDietEntries(newEntries);
+		// Reload entries to ensure consistency
+		const [reloadedEntries, count] = await Promise.all([
+			loadDietEntries(DIET_ENTRIES_PAGE_SIZE, 0),
+			getDietEntryCount(),
+		]);
+		setDietEntriesState(reloadedEntries);
+		setDietEntryCount(count);
+	}, []);
+
+	// Delete diet entry
+	const deleteDietEntry = useCallback(async (id: string) => {
+		await deleteDietEntryFromDB(id);
+		setDietEntriesState((prev) => prev.filter((e) => e.id !== id));
+		setDietEntryCount((prev) => prev - 1);
+	}, []);
+
 	// Load more activities (pagination)
 	const loadMoreActivities = useCallback(
 		async (limit = ACTIVITIES_PAGE_SIZE) => {
@@ -313,6 +451,13 @@ export function UserDataProvider({ children }: UserDataProviderProps) {
 				addStatsEntry,
 				updateStatsEntries,
 				deleteStatsEntry,
+				dietEntries,
+				dietEntryCount,
+				loadMoreDietEntries,
+				loadAllUserDietEntries,
+				addDietEntry,
+				updateDietEntries,
+				deleteDietEntry,
 			}}
 		>
 			{children}

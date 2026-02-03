@@ -9,7 +9,7 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
-import { ActivityType, useUserData } from '../hooks/useUserData';
+import { ActivityType, type Cardio, useUserData } from '../hooks/useUserData';
 import { Panel } from './Panel';
 
 interface ChartDataPoint {
@@ -20,7 +20,10 @@ interface ChartDataPoint {
 	avgPace: number | null;
 }
 
-function calculatePace(distanceInKm: number, durationInSeconds: number): number {
+function calculatePace(
+	distanceInKm: number,
+	durationInSeconds: number,
+): number {
 	// Pace in min/km
 	const durationInMinutes = durationInSeconds / 60;
 	return durationInMinutes / distanceInKm;
@@ -30,6 +33,13 @@ function formatPace(paceMinPerKm: number): string {
 	const minutes = Math.floor(paceMinPerKm);
 	const seconds = Math.round((paceMinPerKm - minutes) * 60);
 	return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function formatTime(totalMinutes: number): string {
+	const hours = Math.floor(totalMinutes / 60);
+	const minutes = Math.floor(totalMinutes % 60);
+	const seconds = Math.round((totalMinutes - Math.floor(totalMinutes)) * 60);
+	return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
 interface CustomTooltipProps {
@@ -82,12 +92,36 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
 export function RunningPaceEvolutionPanel() {
 	const { activities, isLoading } = useUserData();
 
+	const avgPaceLast30Days = useMemo(() => {
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+		const thirtyDaysAgo = new Date(today);
+		thirtyDaysAgo.setDate(today.getDate() - 30);
+
+		const recentRunningActivities = activities.filter(
+			(a): a is Cardio =>
+				(a.type === ActivityType.RoadRun ||
+					a.type === ActivityType.TreadmillRun) &&
+				new Date(a.date) >= thirtyDaysAgo &&
+				a.distanceInKm > 0 &&
+				a.durationInSeconds > 0,
+		);
+
+		if (recentRunningActivities.length === 0) return null;
+
+		const totalPace = recentRunningActivities.reduce(
+			(sum, a) => sum + calculatePace(a.distanceInKm, a.durationInSeconds),
+			0,
+		);
+
+		return totalPace / recentRunningActivities.length;
+	}, [activities]);
+
 	const chartData = useMemo(() => {
 		// Filter running activities
 		const runningActivities = activities.filter(
-			(a) =>
-				a.type === ActivityType.RoadRun ||
-				a.type === ActivityType.TreadmillRun,
+			(a): a is Cardio =>
+				a.type === ActivityType.RoadRun || a.type === ActivityType.TreadmillRun,
 		);
 
 		if (runningActivities.length === 0) return [];
@@ -181,6 +215,43 @@ export function RunningPaceEvolutionPanel() {
 
 	return (
 		<Panel title="Running Pace Evolution">
+			{avgPaceLast30Days !== null && (
+				<div className="flex flex-wrap gap-6 mb-6">
+					<div className="flex items-center gap-3">
+						<div className="text-3xl">⚡</div>
+						<div>
+							<div className="text-2xl font-bold text-white">
+								{formatPace(avgPaceLast30Days)} min
+							</div>
+							<div className="text-xs text-gray-400">
+								Average pace (km) 
+							</div>
+						</div>
+					</div>
+					<div className="flex items-center gap-3">
+						<div className="text-3xl">🏃</div>
+						<div>
+							<div className="text-2xl font-bold text-white">
+								{formatTime(avgPaceLast30Days * 21.0975)}
+							</div>
+							<div className="text-xs text-gray-400">
+								Projected 1/2 Marathon
+							</div>
+						</div>
+					</div>
+					<div className="flex items-center gap-3">
+						<div className="text-3xl">🏅</div>
+						<div>
+							<div className="text-2xl font-bold text-white">
+								{formatTime(avgPaceLast30Days * 42.195)}
+							</div>
+							<div className="text-xs text-gray-400">
+								Projected Full Marathon
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 			<div className="h-80 min-w-0 w-full">
 				<ResponsiveContainer width="100%" height="100%">
 					<LineChart

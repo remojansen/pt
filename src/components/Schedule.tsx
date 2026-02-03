@@ -28,6 +28,7 @@ const ACTIVITY_LABELS: Record<ActivityTypeKey, string> = {
 	[ActivityType.StrengthTrainingCore]: 'Strength: Core',
 	[ActivityType.StrengthTrainingShoulders]: 'Strength: Shoulders',
 	[ActivityType.StrengthTrainingBack]: 'Strength: Back',
+	[ActivityType.StrengthTrainingChest]: 'Strength: Chest',
 };
 
 interface ScheduleProps {

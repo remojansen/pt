@@ -1,5 +1,10 @@
 import { type DBSchema, type IDBPDatabase, openDB } from 'idb';
-import type { Activity, UserProfile, UserStatsEntry } from './useUserData';
+import type {
+	Activity,
+	DietEntry,
+	UserProfile,
+	UserStatsEntry,
+} from './useUserData';
 
 interface PersonalTrainerDB extends DBSchema {
 	userProfile: {
@@ -21,17 +26,28 @@ interface PersonalTrainerDB extends DBSchema {
 			'by-date': string;
 		};
 	};
+	dietEntries: {
+		key: string;
+		value: DietEntry;
+		indexes: {
+			'by-date': string;
+		};
+	};
 }
 
 const DB_NAME = 'personal-trainer-db';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
+const REQUIRED_STORES = [
+	'userProfile',
+	'activities',
+	'statsEntries',
+	'dietEntries',
+] as const;
 
 let dbInstance: IDBPDatabase<PersonalTrainerDB> | null = null;
 
-export async function getDB(): Promise<IDBPDatabase<PersonalTrainerDB>> {
-	if (dbInstance) return dbInstance;
-
-	dbInstance = await openDB<PersonalTrainerDB>(DB_NAME, DB_VERSION, {
+async function createDB(): Promise<IDBPDatabase<PersonalTrainerDB>> {
+	return openDB<PersonalTrainerDB>(DB_NAME, DB_VERSION, {
 		upgrade(db) {
 			// User Profile store
 			if (!db.objectStoreNames.contains('userProfile')) {
@@ -55,14 +71,60 @@ export async function getDB(): Promise<IDBPDatabase<PersonalTrainerDB>> {
 				statsEntriesStore.createIndex('by-date', 'date');
 			}
 
+			// Diet entries store with date index
+			if (!db.objectStoreNames.contains('dietEntries')) {
+				const dietEntriesStore = db.createObjectStore('dietEntries', {
+					keyPath: 'id',
+				});
+				dietEntriesStore.createIndex('by-date', 'date');
+			}
+
 			// Remove old stats store if it exists (migration from v1)
 			if ((db.objectStoreNames as DOMStringList).contains('stats')) {
 				db.deleteObjectStore('stats' as 'statsEntries');
 			}
 		},
 	});
+}
 
+function validateDB(db: IDBPDatabase<PersonalTrainerDB>): boolean {
+	for (const store of REQUIRED_STORES) {
+		if (!db.objectStoreNames.contains(store)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+export async function getDB(): Promise<IDBPDatabase<PersonalTrainerDB>> {
+	if (dbInstance) return dbInstance;
+
+	let db = await createDB();
+
+	// Validate that all required stores exist
+	if (!validateDB(db)) {
+		// Database is corrupted or incomplete - delete and recreate
+		console.warn('IndexedDB schema mismatch detected, recreating database...');
+		db.close();
+		dbInstance = null;
+		await deleteDatabase();
+		db = await createDB();
+	}
+
+	dbInstance = db;
 	return dbInstance;
+}
+
+async function deleteDatabase(): Promise<void> {
+	return new Promise((resolve, reject) => {
+		const request = indexedDB.deleteDatabase(DB_NAME);
+		request.onsuccess = () => resolve();
+		request.onerror = () => reject(request.error);
+		request.onblocked = () => {
+			console.warn('Database deletion blocked - closing connections');
+			resolve();
+		};
+	});
 }
 
 // User Profile operations
@@ -223,4 +285,76 @@ export async function loadActivitiesByType(
 ): Promise<Activity[]> {
 	const db = await getDB();
 	return db.getAllFromIndex('activities', 'by-type', type);
+}
+
+// Diet entry operations - designed for large datasets
+export async function loadDietEntries(
+	limit?: number,
+	offset = 0,
+): Promise<DietEntry[]> {
+	const db = await getDB();
+	const tx = db.transaction('dietEntries', 'readonly');
+	const index = tx.store.index('by-date');
+
+	const entries: DietEntry[] = [];
+	let cursor = await index.openCursor(null, 'prev'); // newest first
+	let skipped = 0;
+
+	while (cursor) {
+		if (skipped < offset) {
+			skipped++;
+			cursor = await cursor.continue();
+			continue;
+		}
+
+		entries.push(cursor.value);
+
+		if (limit && entries.length >= limit) {
+			break;
+		}
+
+		cursor = await cursor.continue();
+	}
+
+	return entries;
+}
+
+export async function loadAllDietEntries(): Promise<DietEntry[]> {
+	const db = await getDB();
+	return db.getAllFromIndex('dietEntries', 'by-date');
+}
+
+export async function getDietEntryCount(): Promise<number> {
+	const db = await getDB();
+	return db.count('dietEntries');
+}
+
+export async function loadDietEntryById(
+	id: string,
+): Promise<DietEntry | undefined> {
+	const db = await getDB();
+	return db.get('dietEntries', id);
+}
+
+export async function loadDietEntryByDate(
+	date: string,
+): Promise<DietEntry | undefined> {
+	const db = await getDB();
+	return db.getFromIndex('dietEntries', 'by-date', date);
+}
+
+export async function saveDietEntry(entry: DietEntry): Promise<void> {
+	const db = await getDB();
+	await db.put('dietEntries', entry);
+}
+
+export async function saveDietEntries(entries: DietEntry[]): Promise<void> {
+	const db = await getDB();
+	const tx = db.transaction('dietEntries', 'readwrite');
+	await Promise.all([...entries.map((entry) => tx.store.put(entry)), tx.done]);
+}
+
+export async function deleteDietEntry(id: string): Promise<void> {
+	const db = await getDB();
+	await db.delete('dietEntries', id);
 }

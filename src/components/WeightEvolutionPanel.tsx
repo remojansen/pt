@@ -119,7 +119,7 @@ interface CustomDotProps {
 }
 
 function WeightDot({ cx, cy, payload }: CustomDotProps) {
-	if (!cx || !cy || !payload) return null;
+	if (cx === undefined || cy === undefined || !payload) return null;
 	const color = BMI_COLORS[payload.bmiCategory];
 	return (
 		<circle
@@ -134,7 +134,13 @@ function WeightDot({ cx, cy, payload }: CustomDotProps) {
 }
 
 function BodyFatDot({ cx, cy, payload }: CustomDotProps) {
-	if (!cx || !cy || !payload || !payload.bodyFatCategory) return null;
+	if (
+		cx === undefined ||
+		cy === undefined ||
+		!payload ||
+		!payload.bodyFatCategory
+	)
+		return null;
 	const color = BODY_FAT_COLORS[payload.bodyFatCategory];
 	return (
 		<circle
@@ -188,7 +194,9 @@ export function WeightEvolutionPanel() {
 	const [showReminderModal, setShowReminderModal] = useState(false);
 	const [showLogWeightModal, setShowLogWeightModal] = useState(false);
 	const [newWeight, setNewWeight] = useState<string>('');
-	const [bodyFatMode, setBodyFatMode] = useState<'unknown' | 'value'>('unknown');
+	const [bodyFatMode, setBodyFatMode] = useState<'unknown' | 'value'>(
+		'unknown',
+	);
 	const [newBodyFat, setNewBodyFat] = useState<string>('');
 	const [weightError, setWeightError] = useState<string | null>(null);
 	const [bodyFatError, setBodyFatError] = useState<string | null>(null);
@@ -307,6 +315,124 @@ export function WeightEvolutionPanel() {
 		return maxWeight + 10;
 	}, [chartData]);
 
+	const weightStats = useMemo(() => {
+		if (chartData.length === 0) {
+			return {
+				kgsLost90Days: null,
+				kgsToTarget: null,
+				currentWeight: null,
+				weeksToTarget: null,
+				currentStreak: 0,
+				longestStreak: 0,
+			};
+		}
+
+		// Get current weight (most recent entry)
+		const sortedData = [...chartData].sort(
+			(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+		);
+		const currentWeight = sortedData[0].weightKg;
+
+		// Calculate kgs lost in last 90 days
+		const today = new Date();
+		const ninetyDaysAgo = new Date(today);
+		ninetyDaysAgo.setDate(today.getDate() - 90);
+
+		const entriesLast90Days = chartData.filter(
+			(d) => new Date(d.date) >= ninetyDaysAgo,
+		);
+
+		let kgsLost90Days: number | null = null;
+		if (entriesLast90Days.length >= 2) {
+			const oldestIn90Days = entriesLast90Days.reduce((oldest, entry) =>
+				new Date(entry.date) < new Date(oldest.date) ? entry : oldest,
+			);
+			kgsLost90Days = oldestIn90Days.weightKg - currentWeight;
+		}
+
+		// Calculate kgs to target
+		const kgsToTarget =
+			userProfile.targetWeightKg !== null
+				? currentWeight - userProfile.targetWeightKg
+				: null;
+
+		// Calculate weeks to target
+		const weeksToTarget =
+			kgsToTarget !== null && userProfile.targetWeightLossPerWeekKg !== null && userProfile.targetWeightLossPerWeekKg > 0
+				? Math.ceil(kgsToTarget / userProfile.targetWeightLossPerWeekKg)
+				: null;
+
+		// Calculate streaks
+		// A day is "on target" if:
+		// - Weight is at or below target, OR
+		// - Weight is above target but lower than weight 7 days prior
+		const sortedByDateAsc = [...chartData].sort(
+			(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+		);
+
+		const isOnTarget = (index: number): boolean => {
+			const entry = sortedByDateAsc[index];
+			const targetWeight = userProfile.targetWeightKg;
+
+			// If at or below target, it's on target
+			if (targetWeight !== null && entry.weightKg <= targetWeight) {
+				return true;
+			}
+
+			// Check if weight is lower than 7 days prior
+			const entryDate = new Date(entry.date);
+			const sevenDaysAgo = new Date(entryDate);
+			sevenDaysAgo.setDate(entryDate.getDate() - 7);
+
+			// Find the closest entry on or before 7 days ago
+			let priorEntry: ChartDataPoint | null = null;
+			for (let i = index - 1; i >= 0; i--) {
+				const candidateDate = new Date(sortedByDateAsc[i].date);
+				if (candidateDate <= sevenDaysAgo) {
+					priorEntry = sortedByDateAsc[i];
+					break;
+				}
+			}
+
+			if (priorEntry && entry.weightKg < priorEntry.weightKg) {
+				return true;
+			}
+
+			return false;
+		};
+
+		// Calculate longest streak (from beginning)
+		let longestStreak = 0;
+		let tempStreak = 0;
+		for (let i = 0; i < sortedByDateAsc.length; i++) {
+			if (isOnTarget(i)) {
+				tempStreak++;
+				longestStreak = Math.max(longestStreak, tempStreak);
+			} else {
+				tempStreak = 0;
+			}
+		}
+
+		// Calculate current streak (from most recent backwards)
+		let currentStreak = 0;
+		for (let i = sortedByDateAsc.length - 1; i >= 0; i--) {
+			if (isOnTarget(i)) {
+				currentStreak++;
+			} else {
+				break;
+			}
+		}
+
+		return {
+			kgsLost90Days,
+			kgsToTarget,
+			currentWeight,
+			weeksToTarget,
+			currentStreak,
+			longestStreak,
+		};
+	}, [chartData, userProfile.targetWeightKg, userProfile.targetWeightLossPerWeekKg]);
+
 	if (isLoading) {
 		return (
 			<Panel title="Weight Evolution">
@@ -333,7 +459,7 @@ export function WeightEvolutionPanel() {
 				<Modal
 					isOpen={showLogWeightModal}
 					onClose={() => setShowLogWeightModal(false)}
-					title="Log New Weight"
+					title="Log Weight"
 					primaryAction={{
 						label: 'Save',
 						onClick: handleLogWeight,
@@ -410,7 +536,7 @@ export function WeightEvolutionPanel() {
 				</Modal>
 				<Panel
 					title="Weight Evolution"
-					cta={{ cta: 'Log New Weight', onCta: openLogWeightModal }}
+					cta={{ cta: 'Log Weight', onCta: openLogWeightModal }}
 				>
 					<div className="h-64 flex items-center justify-center text-gray-400">
 						No stats entries yet
@@ -446,7 +572,7 @@ export function WeightEvolutionPanel() {
 			<Modal
 				isOpen={showLogWeightModal}
 				onClose={() => setShowLogWeightModal(false)}
-				title="Log New Weight"
+				title="Log Weight"
 				primaryAction={{
 					label: 'Save',
 					onClick: handleLogWeight,
@@ -523,8 +649,61 @@ export function WeightEvolutionPanel() {
 			</Modal>
 			<Panel
 				title="Weight Evolution"
-				cta={{ cta: 'Log New Weight', onCta: openLogWeightModal }}
+				cta={{ cta: 'Log Weight', onCta: openLogWeightModal }}
 			>
+				<div className="flex flex-wrap gap-6 mb-6">
+					<div className="flex items-center gap-3">
+						<div className="text-3xl">📉</div>
+						<div>
+							<div className="text-2xl font-bold text-white">
+								{weightStats.kgsLost90Days !== null
+									? `${weightStats.kgsLost90Days >= 0 ? '' : '+'}${Math.abs(weightStats.kgsLost90Days).toFixed(1)} kg`
+									: '—'}
+							</div>
+							<div className="text-xs text-gray-400">Lost (90 days)</div>
+						</div>
+					</div>
+					<div className="flex items-center gap-3">
+						<div className="text-3xl">🎯</div>
+						<div>
+							<div className="text-2xl font-bold text-white">
+								{weightStats.kgsToTarget !== null
+									? `${weightStats.kgsToTarget.toFixed(1)} kg`
+									: '—'}
+							</div>
+							<div className="text-xs text-gray-400">To Target</div>
+						</div>
+					</div>
+					<div className="flex items-center gap-3">
+						<div className="text-3xl">📅</div>
+						<div>
+							<div className="text-2xl font-bold text-white">
+								{weightStats.weeksToTarget !== null && weightStats.weeksToTarget > 0
+									? `${weightStats.weeksToTarget}`
+									: '—'}
+							</div>
+							<div className="text-xs text-gray-400">Weeks to Target</div>
+						</div>
+					</div>
+					<div className="flex items-center gap-3">
+						<div className="text-3xl">🔥</div>
+						<div>
+							<div className="text-2xl font-bold text-white">
+								{weightStats.currentStreak}
+							</div>
+							<div className="text-xs text-gray-400">Current Streak</div>
+						</div>
+					</div>
+					<div className="flex items-center gap-3">
+						<div className="text-3xl">🏆</div>
+						<div>
+							<div className="text-2xl font-bold text-white">
+								{weightStats.longestStreak}
+							</div>
+							<div className="text-xs text-gray-400">Longest Streak</div>
+						</div>
+					</div>
+				</div>
 				<div className="h-80 min-w-0 w-full">
 					<ResponsiveContainer width="100%" height="100%">
 						<LineChart
@@ -554,20 +733,20 @@ export function WeightEvolutionPanel() {
 								}}
 							/>
 							<YAxis
-									yAxisId="bodyFat"
-									orientation="right"
-									tick={{ fill: '#9ca3af', fontSize: 12 }}
-									tickLine={{ stroke: '#4b5563' }}
-									axisLine={{ stroke: '#4b5563' }}
-									domain={[0, 50]}
-									label={{
-										value: 'Body Fat (%)',
-										angle: 90,
-										position: 'insideRight',
-										fill: '#9ca3af',
-										fontSize: 12,
-									}}
-								/>
+								yAxisId="bodyFat"
+								orientation="right"
+								tick={{ fill: '#9ca3af', fontSize: 12 }}
+								tickLine={{ stroke: '#4b5563' }}
+								axisLine={{ stroke: '#4b5563' }}
+								domain={[0, 50]}
+								label={{
+									value: 'Body Fat (%)',
+									angle: 90,
+									position: 'insideRight',
+									fill: '#9ca3af',
+									fontSize: 12,
+								}}
+							/>
 							<Tooltip content={<CustomTooltip />} />
 							{userProfile.targetWeightKg !== null && (
 								<ReferenceLine
