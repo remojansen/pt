@@ -118,7 +118,90 @@ export function DietConsistencyPanel() {
 		return map;
 	}, [dietEntries]);
 
-	// Calculate calorie limit and chart data
+	// Calculate streaks based on ALL available data, not filtered by time range
+	const streaks = useMemo(() => {
+		const latestStats = statsEntries.length > 0 ? statsEntries[0] : null;
+		const currentWeightKg = latestStats?.weightKg;
+
+		const {
+			heightCm,
+			dateOfBirth,
+			sex,
+			targetWeightKg,
+			targetWeightLossPerWeekKg,
+		} = userProfile;
+
+		// Check if we have all the data needed to calculate calorie limit
+		if (
+			!currentWeightKg ||
+			!heightCm ||
+			!dateOfBirth ||
+			!sex ||
+			!targetWeightKg ||
+			!targetWeightLossPerWeekKg
+		) {
+			return { currentStreak: 0, longestStreak: 0 };
+		}
+
+		const age = calculateAge(dateOfBirth);
+		const { dailyLimit } = calculateDailyCalorieLimit(
+			currentWeightKg,
+			targetWeightLossPerWeekKg,
+			heightCm,
+			age,
+			sex,
+		);
+
+		// Get all diet entries (1 year of data)
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+		const allDays: DayData[] = [];
+		for (let i = 365; i >= 0; i--) {
+			const date = new Date(today);
+			date.setDate(today.getDate() - i);
+			allDays.push({
+				date,
+				dateStr: date.toISOString().split('T')[0],
+			});
+		}
+
+		const allChartData = allDays.map((day) => {
+			const dietEntry = dietEntriesMap.get(day.dateStr);
+			return {
+				date: day.date,
+				dateStr: day.dateStr,
+				calories: dietEntry?.calories ?? null,
+			};
+		});
+
+		let currentStreak = 0;
+		let longestStreak = 0;
+		let tempStreak = 0;
+
+		// Go through chart data to calculate longest streak
+		for (const day of allChartData) {
+			if (day.calories !== null && day.calories <= dailyLimit) {
+				tempStreak++;
+				longestStreak = Math.max(longestStreak, tempStreak);
+			} else {
+				tempStreak = 0;
+			}
+		}
+
+		// Calculate current streak (from today backwards)
+		for (let i = allChartData.length - 1; i >= 0; i--) {
+			const day = allChartData[i];
+			if (day.calories !== null && day.calories <= dailyLimit) {
+				currentStreak++;
+			} else if (day.calories !== null) {
+				break;
+			}
+		}
+
+		return { currentStreak, longestStreak };
+	}, [statsEntries, userProfile, dietEntriesMap]);
+
+	// Calculate calorie limit and chart data for selected time range
 	const calorieData = useMemo(() => {
 		setIsCalculating(true);
 		// Get current weight from latest stats entry
@@ -173,31 +256,6 @@ export function DietConsistencyPanel() {
 				? Math.max(...calorieValues, dailyLimit)
 				: dailyLimit;
 
-		// Calculate streaks (consecutive days under limit)
-		let currentStreak = 0;
-		let longestStreak = 0;
-		let tempStreak = 0;
-
-		// Go through chart data to calculate longest streak
-		for (const day of chartData) {
-			if (day.calories !== null && day.calories <= dailyLimit) {
-				tempStreak++;
-				longestStreak = Math.max(longestStreak, tempStreak);
-			} else {
-				tempStreak = 0;
-			}
-		}
-
-		// Calculate current streak (from today backwards)
-		for (let i = chartData.length - 1; i >= 0; i--) {
-			const day = chartData[i];
-			if (day.calories !== null && day.calories <= dailyLimit) {
-				currentStreak++;
-			} else if (day.calories !== null) {
-				break;
-			}
-		}
-
 		setIsCalculating(false);
 		return {
 			dailyLimit,
@@ -206,8 +264,6 @@ export function DietConsistencyPanel() {
 			maxCalories,
 			currentWeightKg,
 			targetWeightKg,
-			currentStreak,
-			longestStreak,
 		};
 	}, [statsEntries, userProfile, selectedDays, dietEntriesMap]);
 
@@ -270,11 +326,11 @@ export function DietConsistencyPanel() {
 					label={`Daily ${calorieData.deficit >= 0 ? 'deficit' : 'surplus'}`}
 				/>
 				<Highlight
-					value={`${calorieData.currentStreak} days`}
+					value={`${streaks.currentStreak} days`}
 					label="Current Streak"
 				/>
 				<Highlight
-					value={`${calorieData.longestStreak} days`}
+					value={`${streaks.longestStreak} days`}
 					label="Longest Streak"
 				/>
 			</HighlightGroup>

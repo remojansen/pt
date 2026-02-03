@@ -117,16 +117,35 @@ export function TrainingConsistencyPanel() {
 		return Array.from(types);
 	}, [userProfile.schedule]);
 
+	// Calculate streaks based on ALL available data, not filtered by time range
 	const streaks = useMemo(() => {
-		setIsCalculating(true);
+		// Get all days from earliest activity or 1 year ago to today
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+
+		// Start from 1 year ago or earliest activity date
+		const oneYearAgo = new Date(today);
+		oneYearAgo.setFullYear(today.getFullYear() - 1);
+
+		const allDays: DayData[] = [];
+		for (let i = 365; i >= 0; i--) {
+			const date = new Date(today);
+			date.setDate(today.getDate() - i);
+			allDays.push({
+				date,
+				dateStr: date.toISOString().split('T')[0],
+				dayKey: getDayKey(date),
+			});
+		}
+
 		let currentStreak = 0;
 		let longestStreak = 0;
 		let tempStreak = 0;
 		let streakBroken = false;
 
 		// Iterate from most recent to oldest
-		for (let i = selectedDays.length - 1; i >= 0; i--) {
-			const day = selectedDays[i];
+		for (let i = allDays.length - 1; i >= 0; i--) {
+			const day = allDays[i];
 			const scheduledForDay = userProfile.schedule[day.dayKey];
 
 			// Skip days with no scheduled activities (rest days don't break streak)
@@ -151,11 +170,11 @@ export function TrainingConsistencyPanel() {
 			}
 		}
 
-		setIsCalculating(false);
 		return { currentStreak, longestStreak };
-	}, [selectedDays, userProfile.schedule, activitiesMap]);
+	}, [userProfile.schedule, activitiesMap]);
 
 	const selectedDaysStats = useMemo(() => {
+		setIsCalculating(true);
 		const dateStrSet = new Set(selectedDays.map((d) => d.dateStr));
 		const selectedDaysActivities = activities.filter((a) =>
 			dateStrSet.has(a.date),
@@ -183,6 +202,7 @@ export function TrainingConsistencyPanel() {
 				60,
 		);
 
+		setIsCalculating(false);
 		return { distanceRunKm, distanceCycledKm, exerciseMinutes };
 	}, [activities, selectedDays]);
 
