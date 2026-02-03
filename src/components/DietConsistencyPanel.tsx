@@ -1,13 +1,38 @@
 import { useMemo, useState } from 'react';
 import { type DietEntry, useUserData } from '../hooks/useUserData';
+import { Button } from './Button';
 import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
-import { Modal } from './Modal';
 import { Panel } from './Panel';
 
 interface DayData {
 	date: Date;
 	dateStr: string;
+}
+
+type TimeRange = '1month' | '3months' | '6months' | '1year' | 'all';
+
+const TIME_RANGE_LABELS: Record<TimeRange, string> = {
+	'1month': '1 Month',
+	'3months': '3 Months',
+	'6months': '1/2 Year',
+	'1year': '1 Year',
+	all: 'All',
+};
+
+function getDaysForTimeRange(range: TimeRange): number {
+	switch (range) {
+		case '1month':
+			return 30;
+		case '3months':
+			return 90;
+		case '6months':
+			return 180;
+		case '1year':
+			return 365;
+		case 'all':
+			return 1000; // Large number to get all data
+	}
 }
 
 // Calculate age from date of birth
@@ -62,21 +87,18 @@ function calculateDailyCalorieLimit(
 }
 
 export function DietConsistencyPanel() {
-	const { userProfile, statsEntries, dietEntries, isLoading, addDietEntry } =
-		useUserData();
+	const { userProfile, statsEntries, dietEntries, isLoading } = useUserData();
 
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [mealDate, setMealDate] = useState(
-		() => new Date().toISOString().split('T')[0],
-	);
-	const [mealCalories, setMealCalories] = useState('');
+	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
+	const [isCalculating, setIsCalculating] = useState(false);
 
-	const last30Days = useMemo(() => {
+	const selectedDays = useMemo(() => {
 		const days: DayData[] = [];
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
+		const numDays = getDaysForTimeRange(selectedRange);
 
-		for (let i = 29; i >= 0; i--) {
+		for (let i = numDays - 1; i >= 0; i--) {
 			const date = new Date(today);
 			date.setDate(today.getDate() - i);
 			days.push({
@@ -85,7 +107,7 @@ export function DietConsistencyPanel() {
 			});
 		}
 		return days;
-	}, []);
+	}, [selectedRange]);
 
 	// Create a map of diet entries by date
 	const dietEntriesMap = useMemo(() => {
@@ -98,6 +120,7 @@ export function DietConsistencyPanel() {
 
 	// Calculate calorie limit and chart data
 	const calorieData = useMemo(() => {
+		setIsCalculating(true);
 		// Get current weight from latest stats entry
 		const latestStats = statsEntries.length > 0 ? statsEntries[0] : null;
 		const currentWeightKg = latestStats?.weightKg;
@@ -131,8 +154,8 @@ export function DietConsistencyPanel() {
 			sex,
 		);
 
-		// Get calorie data for last 30 days
-		const chartData = last30Days.map((day) => {
+		// Get calorie data for selected days
+		const chartData = selectedDays.map((day) => {
 			const dietEntry = dietEntriesMap.get(day.dateStr);
 			return {
 				date: day.date,
@@ -175,6 +198,7 @@ export function DietConsistencyPanel() {
 			}
 		}
 
+		setIsCalculating(false);
 		return {
 			dailyLimit,
 			deficit,
@@ -185,11 +209,27 @@ export function DietConsistencyPanel() {
 			currentStreak,
 			longestStreak,
 		};
-	}, [statsEntries, userProfile, last30Days, dietEntriesMap]);
+	}, [statsEntries, userProfile, selectedDays, dietEntriesMap]);
+
+	const timeRangeButtons = (
+		<div className="flex gap-2">
+			{(Object.keys(TIME_RANGE_LABELS) as TimeRange[]).map((range) => (
+				<Button
+					key={range}
+					variant={selectedRange === range ? 'primary' : 'secondary'}
+					color="blue"
+					onClick={() => setSelectedRange(range)}
+					disabled={isLoading || isCalculating}
+				>
+					{TIME_RANGE_LABELS[range]}
+				</Button>
+			))}
+		</div>
+	);
 
 	if (isLoading) {
 		return (
-			<Panel title="Diet Consistency">
+			<Panel title="Diet Consistency" headerActions={timeRangeButtons}>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -199,7 +239,7 @@ export function DietConsistencyPanel() {
 
 	if (!calorieData) {
 		return (
-			<Panel title="Diet Consistency">
+			<Panel title="Diet Consistency" headerActions={timeRangeButtons}>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Set your target weight and target weight loss per week in Settings,
 					and add weight measurements to track calorie intake.
@@ -208,71 +248,18 @@ export function DietConsistencyPanel() {
 		);
 	}
 
-	const handleLogMeal = async () => {
-		const calories = Number.parseInt(mealCalories, 10);
-		if (mealDate && !Number.isNaN(calories) && calories > 0) {
-			await addDietEntry({
-				id: crypto.randomUUID(),
-				date: mealDate,
-				calories,
-			});
-			setIsModalOpen(false);
-			setMealCalories('');
-			setMealDate(new Date().toISOString().split('T')[0]);
-		}
-	};
+	if (isCalculating) {
+		return (
+			<Panel title="Diet Consistency" headerActions={timeRangeButtons}>
+				<div className="h-64 flex items-center justify-center text-gray-400">
+					Calculating...
+				</div>
+			</Panel>
+		);
+	}
 
 	return (
-		<Panel
-			title="Diet Consistency"
-			cta={{ cta: 'Log Meal', onCta: () => setIsModalOpen(true) }}
-		>
-			<Modal
-				isOpen={isModalOpen}
-				onClose={() => setIsModalOpen(false)}
-				title="Log Meal"
-				primaryAction={{ label: 'Save', onClick: handleLogMeal }}
-				secondaryAction={{
-					label: 'Cancel',
-					onClick: () => setIsModalOpen(false),
-				}}
-			>
-				<div className="space-y-4">
-					<div>
-						<label
-							htmlFor="meal-date"
-							className="block text-sm font-medium text-gray-300 mb-1"
-						>
-							Date
-						</label>
-						<input
-							id="meal-date"
-							type="date"
-							value={mealDate}
-							onChange={(e) => setMealDate(e.target.value)}
-							className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-						/>
-					</div>
-					<div>
-						<label
-							htmlFor="meal-calories"
-							className="block text-sm font-medium text-gray-300 mb-1"
-						>
-							Total Calories (kcal)
-						</label>
-						<input
-							id="meal-calories"
-							type="number"
-							value={mealCalories}
-							onChange={(e) => setMealCalories(e.target.value)}
-							placeholder="e.g. 2000"
-							min="0"
-							className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-						/>
-					</div>
-				</div>
-			</Modal>
-
+		<Panel title="Diet Consistency" headerActions={timeRangeButtons}>
 			<HighlightGroup>
 				<Highlight
 					value={`${calorieData.dailyLimit} kcal`}

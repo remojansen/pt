@@ -1,10 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
 	ActivityType,
 	type ActivityTypeKey,
 	type Schedule,
 	useUserData,
 } from '../hooks/useUserData';
+import { Button } from './Button';
 import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
 import { Panel } from './Panel';
@@ -45,15 +46,43 @@ interface DayData {
 	dayKey: keyof Schedule;
 }
 
+type TimeRange = '1month' | '3months' | '6months' | '1year' | 'all';
+
+const TIME_RANGE_LABELS: Record<TimeRange, string> = {
+	'1month': '1 Month',
+	'3months': '3 Months',
+	'6months': '1/2 Year',
+	'1year': '1 Year',
+	all: 'All',
+};
+
+function getDaysForTimeRange(range: TimeRange): number {
+	switch (range) {
+		case '1month':
+			return 30;
+		case '3months':
+			return 90;
+		case '6months':
+			return 180;
+		case '1year':
+			return 365;
+		case 'all':
+			return 1000; // Large number to get all data
+	}
+}
+
 export function TrainingConsistencyPanel() {
 	const { userProfile, activities, isLoading } = useUserData();
+	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
+	const [isCalculating, setIsCalculating] = useState(false);
 
-	const last30Days = useMemo(() => {
+	const selectedDays = useMemo(() => {
 		const days: DayData[] = [];
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
+		const numDays = getDaysForTimeRange(selectedRange);
 
-		for (let i = 29; i >= 0; i--) {
+		for (let i = numDays - 1; i >= 0; i--) {
 			const date = new Date(today);
 			date.setDate(today.getDate() - i);
 			days.push({
@@ -63,7 +92,7 @@ export function TrainingConsistencyPanel() {
 			});
 		}
 		return days;
-	}, []);
+	}, [selectedRange]);
 
 	const activitiesMap = useMemo(() => {
 		const map = new Map<string, Set<ActivityTypeKey>>();
@@ -89,14 +118,15 @@ export function TrainingConsistencyPanel() {
 	}, [userProfile.schedule]);
 
 	const streaks = useMemo(() => {
+		setIsCalculating(true);
 		let currentStreak = 0;
 		let longestStreak = 0;
 		let tempStreak = 0;
 		let streakBroken = false;
 
 		// Iterate from most recent to oldest
-		for (let i = last30Days.length - 1; i >= 0; i--) {
-			const day = last30Days[i];
+		for (let i = selectedDays.length - 1; i >= 0; i--) {
+			const day = selectedDays[i];
 			const scheduledForDay = userProfile.schedule[day.dayKey];
 
 			// Skip days with no scheduled activities (rest days don't break streak)
@@ -121,12 +151,13 @@ export function TrainingConsistencyPanel() {
 			}
 		}
 
+		setIsCalculating(false);
 		return { currentStreak, longestStreak };
-	}, [last30Days, userProfile.schedule, activitiesMap]);
+	}, [selectedDays, userProfile.schedule, activitiesMap]);
 
-	const last30DaysStats = useMemo(() => {
-		const dateStrSet = new Set(last30Days.map((d) => d.dateStr));
-		const last30DaysActivities = activities.filter((a) =>
+	const selectedDaysStats = useMemo(() => {
+		const dateStrSet = new Set(selectedDays.map((d) => d.dateStr));
+		const selectedDaysActivities = activities.filter((a) =>
 			dateStrSet.has(a.date),
 		);
 
@@ -139,28 +170,28 @@ export function TrainingConsistencyPanel() {
 			ActivityType.IndoorCycle,
 		];
 
-		const distanceRunKm = last30DaysActivities
+		const distanceRunKm = selectedDaysActivities
 			.filter((a) => runTypes.includes(a.type))
 			.reduce((sum, a) => sum + ('distanceInKm' in a ? a.distanceInKm : 0), 0);
 
-		const distanceCycledKm = last30DaysActivities
+		const distanceCycledKm = selectedDaysActivities
 			.filter((a) => cycleTypes.includes(a.type))
 			.reduce((sum, a) => sum + ('distanceInKm' in a ? a.distanceInKm : 0), 0);
 
 		const exerciseMinutes = Math.round(
-			last30DaysActivities.reduce((sum, a) => sum + a.durationInSeconds, 0) /
+			selectedDaysActivities.reduce((sum, a) => sum + a.durationInSeconds, 0) /
 				60,
 		);
 
 		return { distanceRunKm, distanceCycledKm, exerciseMinutes };
-	}, [activities, last30Days]);
+	}, [activities, selectedDays]);
 
 	const activityStats = useMemo(() => {
 		return scheduledActivityTypes.map((activityType) => {
 			let scheduled = 0;
 			let completed = 0;
 
-			for (const day of last30Days) {
+			for (const day of selectedDays) {
 				const isScheduled =
 					userProfile.schedule[day.dayKey].includes(activityType);
 				if (isScheduled) {
@@ -183,11 +214,32 @@ export function TrainingConsistencyPanel() {
 				consistency,
 			};
 		});
-	}, [scheduledActivityTypes, last30Days, userProfile.schedule, activitiesMap]);
+	}, [
+		scheduledActivityTypes,
+		selectedDays,
+		userProfile.schedule,
+		activitiesMap,
+	]);
+
+	const timeRangeButtons = (
+		<div className="flex gap-2">
+			{(Object.keys(TIME_RANGE_LABELS) as TimeRange[]).map((range) => (
+				<Button
+					key={range}
+					variant={selectedRange === range ? 'primary' : 'secondary'}
+					color="blue"
+					onClick={() => setSelectedRange(range)}
+					disabled={isLoading || isCalculating}
+				>
+					{TIME_RANGE_LABELS[range]}
+				</Button>
+			))}
+		</div>
+	);
 
 	if (isLoading) {
 		return (
-			<Panel title="Training Consistency">
+			<Panel title="Training Consistency" headerActions={timeRangeButtons}>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -197,7 +249,7 @@ export function TrainingConsistencyPanel() {
 
 	if (scheduledActivityTypes.length === 0) {
 		return (
-			<Panel title="Training Consistency">
+			<Panel title="Training Consistency" headerActions={timeRangeButtons}>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Set up your training schedule in Settings to track consistency
 				</div>
@@ -205,21 +257,31 @@ export function TrainingConsistencyPanel() {
 		);
 	}
 
+	if (isCalculating) {
+		return (
+			<Panel title="Training Consistency" headerActions={timeRangeButtons}>
+				<div className="h-64 flex items-center justify-center text-gray-400">
+					Calculating...
+				</div>
+			</Panel>
+		);
+	}
+
 	return (
-		<Panel title="Training Consistency">
+		<Panel title="Training Consistency" headerActions={timeRangeButtons}>
 			<HighlightGroup>
 				<Highlight value={streaks.currentStreak} label="Current Streak" />
 				<Highlight value={streaks.longestStreak} label="Longest Streak" />
 				<Highlight
-					value={`${last30DaysStats.distanceRunKm.toFixed(1)} km`}
+					value={`${selectedDaysStats.distanceRunKm.toFixed(1)} km`}
 					label="Distance Run"
 				/>
 				<Highlight
-					value={`${last30DaysStats.distanceCycledKm.toFixed(1)} km`}
+					value={`${selectedDaysStats.distanceCycledKm.toFixed(1)} km`}
 					label="Distance Cycled"
 				/>
 				<Highlight
-					value={`${last30DaysStats.exerciseMinutes} min`}
+					value={`${selectedDaysStats.exerciseMinutes} min`}
 					label="Exercise Minutes"
 				/>
 			</HighlightGroup>

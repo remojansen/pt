@@ -14,8 +14,8 @@ import {
 	RepetitionType,
 	type Schedule,
 	type Strength,
-	useUserData,
 	type UserProfile,
+	useUserData,
 } from '../hooks/useUserData';
 
 const DAYS_OF_WEEK = [
@@ -227,10 +227,19 @@ function StrengthActivityPanel({
 
 	const [durationMinutes, setDurationMinutes] = useState('');
 	const [weights, setWeights] = useState<Record<RepetitionKey, string>>(
-		() => Object.fromEntries(repetitionTypes.map((type) => [type, ''])) as Record<RepetitionKey, string>,
+		() =>
+			Object.fromEntries(repetitionTypes.map((type) => [type, ''])) as Record<
+				RepetitionKey,
+				string
+			>,
 	);
-	const [completedSeries, setCompletedSeries] = useState<Record<RepetitionKey, Set<number>>>(
-		() => Object.fromEntries(repetitionTypes.map((type) => [type, new Set<number>()])) as Record<RepetitionKey, Set<number>>,
+	const [completedSeries, setCompletedSeries] = useState<
+		Record<RepetitionKey, Set<number>>
+	>(
+		() =>
+			Object.fromEntries(
+				repetitionTypes.map((type) => [type, new Set<number>()]),
+			) as Record<RepetitionKey, Set<number>>,
 	);
 	const [helpModalOpen, setHelpModalOpen] = useState(false);
 	const [selectedRepetition, setSelectedRepetition] =
@@ -266,7 +275,8 @@ function StrengthActivityPanel({
 		(type) => weights[type] && parseFloat(weights[type]) > 0,
 	);
 
-	const canSave = allSeriesCompleted && allWeightsEntered && durationMinutes !== '';
+	const canSave =
+		allSeriesCompleted && allWeightsEntered && durationMinutes !== '';
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -379,7 +389,7 @@ function StrengthActivityPanel({
 							<div className="flex gap-2 flex-wrap">
 								{Array.from({ length: sets }, (_, i) => (
 									<button
-										key={i}
+										key={`${repType}-${i}`}
 										type="button"
 										onClick={() => toggleSeries(repType, i)}
 										className={`px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -392,7 +402,7 @@ function StrengthActivityPanel({
 									</button>
 								))}
 							</div>
-						<span className="block text-xs text-gray-500 mt-1">
+							<span className="block text-xs text-gray-500 mt-1">
 								{completedSeries[repType]?.size || 0} / {sets} completed
 							</span>
 						</div>

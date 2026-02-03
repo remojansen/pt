@@ -92,7 +92,7 @@ export const RepetitionType = {
 	CableTricepPushdown: 'CableTricepPushdown',
 	FrontRaise: 'FrontRaise',
 	LateralRaise: 'LateralRaise',
-	ShoulderPress: 'ShoulderPress'
+	ShoulderPress: 'ShoulderPress',
 } as const;
 
 export type RepetitionKey =
@@ -105,7 +105,11 @@ export function getRepetitionsForActivityType(
 		case ActivityType.StrengthTrainingArms:
 			return [RepetitionType.BicepCurl, RepetitionType.CableTricepPushdown];
 		case ActivityType.StrengthTrainingShoulders:
-			return [RepetitionType.FrontRaise, RepetitionType.LateralRaise, RepetitionType.ShoulderPress];
+			return [
+				RepetitionType.FrontRaise,
+				RepetitionType.LateralRaise,
+				RepetitionType.ShoulderPress,
+			];
 		case ActivityType.StrengthTrainingLegs:
 		case ActivityType.StrengthTrainingCore:
 		case ActivityType.StrengthTrainingChest:
