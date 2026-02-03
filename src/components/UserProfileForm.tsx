@@ -179,6 +179,58 @@ export function UserProfileForm({
 					</Button>
 				</div>
 			</div>
+
+			<div>
+				<label
+					htmlFor="strengthTrainingRepetitions"
+					className="block text-sm font-medium text-gray-300 mb-2"
+				>
+					Number of Repetitions (Strength Training)
+				</label>
+				<input
+					type="number"
+					id="strengthTrainingRepetitions"
+					value={userProfile.strengthTrainingRepetitions ?? ''}
+					onChange={(e) =>
+						onChange({
+							...userProfile,
+							strengthTrainingRepetitions: e.target.value
+								? Number(e.target.value)
+								: null,
+						})
+					}
+					className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-lg text-white placeholder-gray-400"
+					placeholder="12"
+					min="1"
+					max="100"
+				/>
+			</div>
+
+			<div>
+				<label
+					htmlFor="strengthTrainingSets"
+					className="block text-sm font-medium text-gray-300 mb-2"
+				>
+					Number of Sets (Strength Training)
+				</label>
+				<input
+					type="number"
+					id="strengthTrainingSets"
+					value={userProfile.strengthTrainingSets ?? ''}
+					onChange={(e) =>
+						onChange({
+							...userProfile,
+							strengthTrainingSets: e.target.value
+								? Number(e.target.value)
+								: null,
+						})
+					}
+					className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-lg text-white placeholder-gray-400"
+					placeholder="3"
+					min="1"
+					max="20"
+				/>
+			</div>
 		</div>
 	);
 }

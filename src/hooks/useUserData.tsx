@@ -38,6 +38,8 @@ export interface UserProfile {
 	sex: 'male' | 'female' | null;
 	targetWeightKg: number | null;
 	targetWeightLossPerWeekKg: number | null;
+	strengthTrainingRepetitions: number | null;
+	strengthTrainingSets: number | null;
 	schedule: Schedule;
 }
 
@@ -88,6 +90,9 @@ export interface Cardio extends BaseActivity {
 export const RepetitionType = {
 	BicepCurl: 'BicepCurl',
 	CableTricepPushdown: 'CableTricepPushdown',
+	FrontRaise: 'FrontRaise',
+	LateralRaise: 'LateralRaise',
+	ShoulderPress: 'ShoulderPress'
 } as const;
 
 export type RepetitionKey =
@@ -99,10 +104,11 @@ export function getRepetitionsForActivityType(
 	switch (activityType) {
 		case ActivityType.StrengthTrainingArms:
 			return [RepetitionType.BicepCurl, RepetitionType.CableTricepPushdown];
+		case ActivityType.StrengthTrainingShoulders:
+			return [RepetitionType.FrontRaise, RepetitionType.LateralRaise, RepetitionType.ShoulderPress];
 		case ActivityType.StrengthTrainingLegs:
 		case ActivityType.StrengthTrainingCore:
 		case ActivityType.StrengthTrainingChest:
-		case ActivityType.StrengthTrainingShoulders:
 		case ActivityType.StrengthTrainingBack:
 			return [];
 		default:
@@ -199,6 +205,8 @@ const DEFAULT_USER_PROFILE: UserProfile = {
 	sex: null,
 	targetWeightKg: null,
 	targetWeightLossPerWeekKg: null,
+	strengthTrainingRepetitions: null,
+	strengthTrainingSets: null,
 	schedule: DEFAULT_SCHEDULE,
 };
 

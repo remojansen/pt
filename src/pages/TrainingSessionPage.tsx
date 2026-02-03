@@ -15,6 +15,7 @@ import {
 	type Schedule,
 	type Strength,
 	useUserData,
+	type UserProfile,
 } from '../hooks/useUserData';
 
 const DAYS_OF_WEEK = [
@@ -45,12 +46,18 @@ const ACTIVITY_LABELS: Record<ActivityTypeKey, string> = {
 const REPETITION_LABELS: Record<RepetitionKey, string> = {
 	[RepetitionType.BicepCurl]: 'Bicep Curl',
 	[RepetitionType.CableTricepPushdown]: 'Cable Tricep Pushdown',
+	[RepetitionType.FrontRaise]: 'Front Raise',
+	[RepetitionType.LateralRaise]: 'Lateral Raise',
+	[RepetitionType.ShoulderPress]: 'Shoulder Press',
 };
 
 const REPETITION_IMAGES: Record<RepetitionKey, string> = {
 	[RepetitionType.BicepCurl]: '/img/repetition-type/BicepCurl.png',
 	[RepetitionType.CableTricepPushdown]:
-		'/img/repetition-type/CableTricepPushdown.webp',
+		'/img/repetition-type/CableTricepPushdown.png',
+	[RepetitionType.FrontRaise]: '/img/repetition-type/FrontRaise.png',
+	[RepetitionType.LateralRaise]: '/img/repetition-type/LateralRaise.png',
+	[RepetitionType.ShoulderPress]: '/img/repetition-type/ShoulderPress.png',
 };
 
 const CARDIO_TYPES: Set<ActivityTypeKey> = new Set([
@@ -79,13 +86,6 @@ interface CardioFormData {
 	distanceKm: string;
 	durationMinutes: string;
 	durationSeconds: string;
-}
-
-interface RepetitionFormData {
-	type: RepetitionKey;
-	weightKg: string;
-	count: string;
-	series: string;
 }
 
 interface CardioActivityPanelProps {
@@ -212,22 +212,25 @@ interface StrengthActivityPanelProps {
 	activityType: ActivityTypeKey;
 	onSave: (activity: Strength) => void;
 	isCompleted: boolean;
+	userProfile: UserProfile;
 }
 
 function StrengthActivityPanel({
 	activityType,
 	onSave,
 	isCompleted,
+	userProfile,
 }: StrengthActivityPanelProps) {
 	const repetitionTypes = getRepetitionsForActivityType(activityType);
+	const reps = userProfile.strengthTrainingRepetitions ?? 12;
+	const sets = userProfile.strengthTrainingSets ?? 4;
+
 	const [durationMinutes, setDurationMinutes] = useState('');
-	const [repetitions, setRepetitions] = useState<RepetitionFormData[]>(
-		repetitionTypes.map((type) => ({
-			type,
-			weightKg: '',
-			count: '',
-			series: '',
-		})),
+	const [weights, setWeights] = useState<Record<RepetitionKey, string>>(
+		() => Object.fromEntries(repetitionTypes.map((type) => [type, ''])) as Record<RepetitionKey, string>,
+	);
+	const [completedSeries, setCompletedSeries] = useState<Record<RepetitionKey, Set<number>>>(
+		() => Object.fromEntries(repetitionTypes.map((type) => [type, new Set<number>()])) as Record<RepetitionKey, Set<number>>,
 	);
 	const [helpModalOpen, setHelpModalOpen] = useState(false);
 	const [selectedRepetition, setSelectedRepetition] =
@@ -243,25 +246,39 @@ function StrengthActivityPanel({
 		setSelectedRepetition(null);
 	};
 
-	const handleRepetitionChange = (
-		index: number,
-		field: keyof Omit<RepetitionFormData, 'type'>,
-		value: string,
-	) => {
-		setRepetitions((prev) =>
-			prev.map((rep, i) => (i === index ? { ...rep, [field]: value } : rep)),
-		);
+	const toggleSeries = (repType: RepetitionKey, seriesIndex: number) => {
+		setCompletedSeries((prev) => {
+			const newSet = new Set(prev[repType]);
+			if (newSet.has(seriesIndex)) {
+				newSet.delete(seriesIndex);
+			} else {
+				newSet.add(seriesIndex);
+			}
+			return { ...prev, [repType]: newSet };
+		});
 	};
+
+	const allSeriesCompleted = repetitionTypes.every(
+		(type) => completedSeries[type]?.size === sets,
+	);
+
+	const allWeightsEntered = repetitionTypes.every(
+		(type) => weights[type] && parseFloat(weights[type]) > 0,
+	);
+
+	const canSave = allSeriesCompleted && allWeightsEntered && durationMinutes !== '';
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+		if (!canSave) return;
+
 		const durationInSeconds = (parseInt(durationMinutes, 10) || 0) * 60;
 
-		const parsedRepetitions: Repetition[] = repetitions.map((rep) => ({
-			type: rep.type,
-			weightKg: parseFloat(rep.weightKg) || 0,
-			count: parseInt(rep.count, 10) || 0,
-			series: parseInt(rep.series, 10) || 0,
+		const parsedRepetitions: Repetition[] = repetitionTypes.map((type) => ({
+			type,
+			weightKg: parseFloat(weights[type]) || 0,
+			count: reps,
+			series: sets,
 		}));
 
 		const activity: Strength = {
@@ -320,89 +337,76 @@ function StrengthActivityPanel({
 					/>
 				</div>
 
-				{repetitions.map((rep, index) => (
-					<div key={rep.type} className="border border-gray-800 rounded-lg p-4">
+				{repetitionTypes.map((repType) => (
+					<div key={repType} className="border border-gray-800 rounded-lg p-4">
 						<div className="flex items-center justify-between mb-3">
 							<h4 className="text-white font-medium">
-								{REPETITION_LABELS[rep.type]}
+								{REPETITION_LABELS[repType]}
 							</h4>
 							<Button
 								variant="ghost"
 								color="purple"
 								size="sm"
-								onClick={() => openHelp(rep.type)}
+								onClick={() => openHelp(repType)}
 							>
 								Help
 							</Button>
 						</div>
-						<div className="grid grid-cols-3 gap-3">
-							<div>
-								<label
-									htmlFor={`weight-${rep.type}`}
-									className="block text-xs font-medium text-gray-400 mb-1"
-								>
-									Weight (kg)
-								</label>
-								<input
-									id={`weight-${rep.type}`}
-									type="number"
-									step="0.5"
-									min="0"
-									value={rep.weightKg}
-									onChange={(e) =>
-										handleRepetitionChange(index, 'weightKg', e.target.value)
-									}
-									className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-									placeholder="10"
-									required
-								/>
+						<div className="mb-3">
+							<label
+								htmlFor={`weight-${repType}`}
+								className="block text-xs font-medium text-gray-400 mb-1"
+							>
+								Weight (kg)
+							</label>
+							<input
+								id={`weight-${repType}`}
+								type="number"
+								step="0.5"
+								min="0"
+								value={weights[repType] || ''}
+								onChange={(e) =>
+									setWeights((prev) => ({ ...prev, [repType]: e.target.value }))
+								}
+								className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+								placeholder="10"
+							/>
+						</div>
+						<div>
+							<span className="block text-xs font-medium text-gray-400 mb-2">
+								{sets} Series ({reps} reps each)
+							</span>
+							<div className="flex gap-2 flex-wrap">
+								{Array.from({ length: sets }, (_, i) => (
+									<button
+										key={i}
+										type="button"
+										onClick={() => toggleSeries(repType, i)}
+										className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+											completedSeries[repType]?.has(i)
+												? 'bg-green-600 text-white'
+												: 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+										}`}
+									>
+										{reps}
+									</button>
+								))}
 							</div>
-							<div>
-								<label
-									htmlFor={`reps-${rep.type}`}
-									className="block text-xs font-medium text-gray-400 mb-1"
-								>
-									Reps
-								</label>
-								<input
-									id={`reps-${rep.type}`}
-									type="number"
-									min="1"
-									value={rep.count}
-									onChange={(e) =>
-										handleRepetitionChange(index, 'count', e.target.value)
-									}
-									className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-									placeholder="12"
-									required
-								/>
-							</div>
-							<div>
-								<label
-									htmlFor={`series-${rep.type}`}
-									className="block text-xs font-medium text-gray-400 mb-1"
-								>
-									Series
-								</label>
-								<input
-									id={`series-${rep.type}`}
-									type="number"
-									min="1"
-									value={rep.series}
-									onChange={(e) =>
-										handleRepetitionChange(index, 'series', e.target.value)
-									}
-									className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-									placeholder="3"
-									required
-								/>
-							</div>
+						<span className="block text-xs text-gray-500 mt-1">
+								{completedSeries[repType]?.size || 0} / {sets} completed
+							</span>
 						</div>
 					</div>
 				))}
 
-				<Button type="submit" variant="primary" color="purple" fullWidth>
-					Save Activity
+				<Button
+					type="submit"
+					variant="primary"
+					color="purple"
+					fullWidth
+					disabled={!canSave}
+				>
+					{canSave ? 'Save Activity' : 'Complete all series to save'}
 				</Button>
 			</form>
 			{selectedRepetition && (
@@ -512,6 +516,7 @@ export function TrainingSessionPage() {
 									activityType={activityType}
 									onSave={handleSaveActivity}
 									isCompleted={isCompleted}
+									userProfile={userProfile}
 								/>
 							);
 						})}
