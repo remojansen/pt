@@ -8,6 +8,8 @@ React PWA for personal fitness tracking (running pace, strength training, weight
 - **Styling**: Tailwind CSS (dark theme: `bg-gray-950`, `bg-gray-900`)
 - **Data**: IndexedDB via `idb` library (see [src/hooks/db.ts](src/hooks/db.ts))
 - **PWA**: `vite-plugin-pwa` with Workbox service worker
+- **Routing**: react-router-dom
+- **Charts**: recharts
 - **Linting**: Biome (NOT ESLint/Prettier)
 
 ## Commands
@@ -28,7 +30,7 @@ npm run format   # Auto-fix lint/format issues
 
 ### Key Types ([src/hooks/useUserData.tsx](src/hooks/useUserData.tsx))
 - `Activity` = `Cardio | Strength` (discriminated union on `type`)
-- `ActivityType` enum: `RoadRun`, `TreadmillRun`, `StrengthTrainingLegs`, etc.
+- `ActivityType` const object: `RoadRun`, `TreadmillRun`, `PoolSwim`, `SeaSwim`, `RoadCycle`, `IndoorCycle`, `StrengthTrainingLegs`, `StrengthTrainingArms`, `StrengthTrainingCore`, `StrengthTrainingShoulders`, `StrengthTrainingBack`, `StrengthTrainingChest`
 - `UserStatsEntry`: daily weight/body fat
 - `DietEntry`: daily calorie intake
 
@@ -47,10 +49,11 @@ npm run format   # Auto-fix lint/format issues
 ### File Organization
 ```
 src/
-  hooks/       # Data layer: db.ts, useUserData.tsx, useBackup.ts
-  pages/       # Route components: HomePage, TrainingSessionPage, etc.
+  hooks/       # Data layer: db.ts, useUserData.tsx, useBackup.ts, usePWAInstall.tsx, useTour.tsx
+  pages/       # Route components: HomePage, TrainingSessionPage, SettingsPage, RegistrationPage
   components/  # Reusable UI: Panel, Button, Modal, *Panel components
-  data/        # Pure functions: pace calculations, BMI formulas
+  data/        # Pure functions: pace calculations, BMI formulas, effort zones, volume planning
+  types/       # TypeScript type definitions (e.g., file-system-access.d.ts)
 ```
 
 ### Naming
@@ -66,7 +69,7 @@ src/
 ## Common Patterns
 
 ### Adding a new activity type
-1. Add to `ActivityType` enum in [src/hooks/useUserData.tsx](src/hooks/useUserData.tsx)
+1. Add to `ActivityType` const object in [src/hooks/useUserData.tsx](src/hooks/useUserData.tsx)
 2. Add label in `ACTIVITY_LABELS` map in [TrainingSessionPage.tsx](src/pages/TrainingSessionPage.tsx)
 3. For strength: add exercises to `getRepetitionsForActivityType()`
 
