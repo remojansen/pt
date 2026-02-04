@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
 	Bar,
 	BarChart,
@@ -82,8 +82,17 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
 }
 
 export function TrainingConsistencyPanel() {
-	const { userProfile, activities, isLoading } = useUserData();
+	const { userProfile, activityCount, isLoading, loadAllUserActivities } =
+		useUserData();
+	const [allActivities, setAllActivities] = useState<Activity[]>([]);
 	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
+
+	// Load all activities for charting (beyond default pagination)
+	// Re-run when activityCount changes (new activity added/deleted)
+	// biome-ignore lint/correctness/useExhaustiveDependencies: activityCount triggers reload when data changes
+	useEffect(() => {
+		loadAllUserActivities().then(setAllActivities);
+	}, [loadAllUserActivities, activityCount]);
 
 	const selectedDays = useMemo(() => {
 		const days: DayData[] = [];
@@ -106,7 +115,7 @@ export function TrainingConsistencyPanel() {
 	// Map: dateStr -> array of activities for that day
 	const activitiesMap = useMemo(() => {
 		const map = new Map<string, Activity[]>();
-		for (const activity of activities) {
+		for (const activity of allActivities) {
 			const dateKey = activity.date;
 			if (!map.has(dateKey)) {
 				map.set(dateKey, []);
@@ -114,12 +123,12 @@ export function TrainingConsistencyPanel() {
 			map.get(dateKey)?.push(activity);
 		}
 		return map;
-	}, [activities]);
+	}, [allActivities]);
 
 	// Map: dateStr -> set of completed activity types
 	const completedTypesMap = useMemo(() => {
 		const map = new Map<string, Set<ActivityTypeKey>>();
-		for (const activity of activities) {
+		for (const activity of allActivities) {
 			const dateKey = activity.date;
 			if (!map.has(dateKey)) {
 				map.set(dateKey, new Set());
@@ -127,7 +136,7 @@ export function TrainingConsistencyPanel() {
 			map.get(dateKey)?.add(activity.type);
 		}
 		return map;
-	}, [activities]);
+	}, [allActivities]);
 
 	const scheduledActivityTypes = useMemo(() => {
 		const types = new Set<ActivityTypeKey>();
@@ -191,7 +200,7 @@ export function TrainingConsistencyPanel() {
 
 	const selectedDaysStats = useMemo(() => {
 		const dateStrSet = new Set(selectedDays.map((d) => d.dateStr));
-		const selectedDaysActivities = activities.filter((a) =>
+		const selectedDaysActivities = allActivities.filter((a) =>
 			dateStrSet.has(a.date),
 		);
 
@@ -218,7 +227,7 @@ export function TrainingConsistencyPanel() {
 		);
 
 		return { distanceRunKm, distanceCycledKm, exerciseMinutes };
-	}, [activities, selectedDays]);
+	}, [allActivities, selectedDays]);
 
 	// Build chart data: minutes per day with completion status
 	const chartData = useMemo(() => {

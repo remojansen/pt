@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
 	CartesianGrid,
 	Legend,
@@ -11,6 +11,7 @@ import {
 	YAxis,
 } from 'recharts';
 import {
+	type Activity,
 	ActivityType,
 	type Cardio,
 	type RaceGoal,
@@ -130,8 +131,17 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
 }
 
 export function RunningPaceEvolutionPanel() {
-	const { activities, isLoading, userProfile } = useUserData();
+	const { activityCount, isLoading, userProfile, loadAllUserActivities } =
+		useUserData();
+	const [allActivities, setAllActivities] = useState<Activity[]>([]);
 	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
+
+	// Load all activities for charting (beyond default pagination)
+	// Re-run when activityCount changes (new activity added/deleted)
+	// biome-ignore lint/correctness/useExhaustiveDependencies: activityCount triggers reload when data changes
+	useEffect(() => {
+		loadAllUserActivities().then(setAllActivities);
+	}, [loadAllUserActivities, activityCount]);
 
 	const avgPaceLast30Days = useMemo(() => {
 		const today = new Date();
@@ -139,7 +149,7 @@ export function RunningPaceEvolutionPanel() {
 		const thirtyDaysAgo = new Date(today);
 		thirtyDaysAgo.setDate(today.getDate() - 30);
 
-		const recentRunningActivities = activities.filter(
+		const recentRunningActivities = allActivities.filter(
 			(a): a is Cardio =>
 				(a.type === ActivityType.RoadRun ||
 					a.type === ActivityType.TreadmillRun) &&
@@ -156,7 +166,7 @@ export function RunningPaceEvolutionPanel() {
 		);
 
 		return totalPace / recentRunningActivities.length;
-	}, [activities]);
+	}, [allActivities]);
 
 	const chartData = useMemo(() => {
 		// Filter by time range
@@ -167,7 +177,7 @@ export function RunningPaceEvolutionPanel() {
 		cutoffDate.setDate(today.getDate() - numDays);
 
 		// Filter running activities
-		const runningActivities = activities.filter(
+		const runningActivities = allActivities.filter(
 			(a): a is Cardio =>
 				(a.type === ActivityType.RoadRun ||
 					a.type === ActivityType.TreadmillRun) &&
@@ -241,7 +251,7 @@ export function RunningPaceEvolutionPanel() {
 		return data.sort(
 			(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
 		);
-	}, [activities, selectedRange]);
+	}, [allActivities, selectedRange]);
 
 	const targetPace = useMemo(() => {
 		if (!userProfile.raceGoal || !userProfile.raceTimeGoal) return null;

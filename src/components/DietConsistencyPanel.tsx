@@ -11,6 +11,7 @@ import {
 import {
 	type DietEntry,
 	type MealType,
+	type UserStatsEntry,
 	useUserData,
 } from '../hooks/useUserData';
 import { Button } from './Button';
@@ -150,15 +151,37 @@ function getLocalDateString() {
 }
 
 export function DietConsistencyPanel() {
-	const { userProfile, statsEntries, dietEntries, isLoading, addDietEntry } =
-		useUserData();
+	const {
+		userProfile,
+		statsEntryCount,
+		dietEntries,
+		dietEntryCount,
+		isLoading,
+		addDietEntry,
+		loadAllUserDietEntries,
+		loadAllUserStatsEntries,
+	} = useUserData();
 
+	const [allDietEntries, setAllDietEntries] = useState<DietEntry[]>([]);
+	const [allStatsEntries, setAllStatsEntries] = useState<UserStatsEntry[]>([]);
 	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
 	const [showReminderModal, setShowReminderModal] = useState(false);
 	const [reminderMealType, setReminderMealType] = useState<MealType | null>(
 		null,
 	);
 	const [showLogMealModal, setShowLogMealModal] = useState(false);
+
+	// Load all entries for charting (beyond default pagination)
+	// Re-run when entry counts change (new entry added/deleted)
+	// biome-ignore lint/correctness/useExhaustiveDependencies: dietEntryCount triggers reload when data changes
+	useEffect(() => {
+		loadAllUserDietEntries().then(setAllDietEntries);
+	}, [loadAllUserDietEntries, dietEntryCount]);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: statsEntryCount triggers reload when data changes
+	useEffect(() => {
+		loadAllUserStatsEntries().then(setAllStatsEntries);
+	}, [loadAllUserStatsEntries, statsEntryCount]);
 
 	// Log Meal state
 
@@ -257,15 +280,15 @@ export function DietConsistencyPanel() {
 	// Create a map of diet entries by date
 	const dietEntriesMap = useMemo(() => {
 		const map = new Map<string, DietEntry>();
-		for (const entry of dietEntries) {
+		for (const entry of allDietEntries) {
 			map.set(entry.date, entry);
 		}
 		return map;
-	}, [dietEntries]);
+	}, [allDietEntries]);
 
 	// Calculate streaks based on ALL available data, not filtered by time range
 	const streaks = useMemo(() => {
-		const latestStats = statsEntries.length > 0 ? statsEntries[0] : null;
+		const latestStats = allStatsEntries.length > 0 ? allStatsEntries[0] : null;
 		const currentWeightKg = latestStats?.weightKg;
 
 		const {
@@ -348,12 +371,12 @@ export function DietConsistencyPanel() {
 		}
 
 		return { currentStreak, longestStreak };
-	}, [statsEntries, userProfile, dietEntriesMap]);
+	}, [allStatsEntries, userProfile, dietEntriesMap]);
 
 	// Calculate calorie limit and chart data for selected time range
 	const calorieData = useMemo(() => {
 		// Get current weight from latest stats entry
-		const latestStats = statsEntries.length > 0 ? statsEntries[0] : null;
+		const latestStats = allStatsEntries.length > 0 ? allStatsEntries[0] : null;
 		const currentWeightKg = latestStats?.weightKg;
 
 		const {
@@ -410,7 +433,7 @@ export function DietConsistencyPanel() {
 			currentWeightKg,
 			targetWeightKg,
 		};
-	}, [statsEntries, userProfile, selectedDays, dietEntriesMap]);
+	}, [allStatsEntries, userProfile, selectedDays, dietEntriesMap]);
 
 	const timeRangeFilter = (
 		<TimeframeFilter

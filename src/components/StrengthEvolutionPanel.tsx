@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
 	CartesianGrid,
 	Legend,
@@ -10,6 +10,7 @@ import {
 	YAxis,
 } from 'recharts';
 import {
+	type Activity,
 	ActivityType,
 	type RepetitionKey,
 	RepetitionType,
@@ -158,8 +159,16 @@ function isStrengthActivity(activity: { type: string }): activity is Strength {
 }
 
 export function StrengthEvolutionPanel() {
-	const { activities, isLoading } = useUserData();
+	const { activityCount, isLoading, loadAllUserActivities } = useUserData();
+	const [allActivities, setAllActivities] = useState<Activity[]>([]);
 	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
+
+	// Load all activities for charting (beyond default pagination)
+	// Re-run when activityCount changes (new activity added/deleted)
+	// biome-ignore lint/correctness/useExhaustiveDependencies: activityCount triggers reload when data changes
+	useEffect(() => {
+		loadAllUserActivities().then(setAllActivities);
+	}, [loadAllUserActivities, activityCount]);
 
 	const chartData = useMemo(() => {
 		// Filter by time range
@@ -170,7 +179,7 @@ export function StrengthEvolutionPanel() {
 		cutoffDate.setDate(today.getDate() - numDays);
 
 		// Filter strength activities
-		const strengthActivities = activities.filter(
+		const strengthActivities = allActivities.filter(
 			(a) => isStrengthActivity(a) && new Date(a.date) >= cutoffDate,
 		);
 
@@ -232,7 +241,7 @@ export function StrengthEvolutionPanel() {
 		return data.sort(
 			(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
 		);
-	}, [activities, selectedRange]);
+	}, [allActivities, selectedRange]);
 
 	// Determine which repetition types have data
 	const activeRepetitionTypes = useMemo(() => {
@@ -243,7 +252,7 @@ export function StrengthEvolutionPanel() {
 
 	// Calculate muscle group gains (first day vs last day)
 	const muscleGroupGains = useMemo((): MuscleGroupGain[] => {
-		const strengthActivities = activities.filter(isStrengthActivity);
+		const strengthActivities = allActivities.filter(isStrengthActivity);
 
 		const strengthTypes: StrengthActivityType[] = [
 			ActivityType.StrengthTrainingLegs,
@@ -306,7 +315,7 @@ export function StrengthEvolutionPanel() {
 				lastWeight,
 			};
 		});
-	}, [activities]);
+	}, [allActivities]);
 
 	const timeRangeFilter = (
 		<TimeframeFilter

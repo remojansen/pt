@@ -10,7 +10,7 @@ import {
 	YAxis,
 } from 'recharts';
 import { maleBodyFatData } from '../data/body-fat';
-import { useUserData } from '../hooks/useUserData';
+import { type UserStatsEntry, useUserData } from '../hooks/useUserData';
 import { Button } from './Button';
 import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
@@ -197,7 +197,14 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
 }
 
 export function WeightEvolutionPanel() {
-	const { statsEntries, userProfile, isLoading, addStatsEntry } = useUserData();
+	const {
+		statsEntryCount,
+		userProfile,
+		isLoading,
+		addStatsEntry,
+		loadAllUserStatsEntries,
+	} = useUserData();
+	const [allStatsEntries, setAllStatsEntries] = useState<UserStatsEntry[]>([]);
 	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
 	const [isCalculating, setIsCalculating] = useState(false);
 	const [showReminderModal, setShowReminderModal] = useState(false);
@@ -210,9 +217,16 @@ export function WeightEvolutionPanel() {
 	const [weightError, setWeightError] = useState<string | null>(null);
 	const [bodyFatError, setBodyFatError] = useState<string | null>(null);
 
+	// Load all stats entries for charting (beyond default pagination)
+	// Re-run when statsEntryCount changes (new entry added/deleted)
+	// biome-ignore lint/correctness/useExhaustiveDependencies: statsEntryCount triggers reload when data changes
+	useEffect(() => {
+		loadAllUserStatsEntries().then(setAllStatsEntries);
+	}, [loadAllUserStatsEntries, statsEntryCount]);
+
 	const daysSinceLastStat = useMemo(() => {
-		if (statsEntries.length === 0) return null;
-		const sortedEntries = [...statsEntries].sort(
+		if (allStatsEntries.length === 0) return null;
+		const sortedEntries = [...allStatsEntries].sort(
 			(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
 		);
 		const lastStatDate = new Date(sortedEntries[0].date);
@@ -220,7 +234,7 @@ export function WeightEvolutionPanel() {
 		const diffTime = today.getTime() - lastStatDate.getTime();
 		const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 		return diffDays;
-	}, [statsEntries]);
+	}, [allStatsEntries]);
 
 	// Show weight reminder (only if enabled in settings)
 	useEffect(() => {
@@ -305,7 +319,7 @@ export function WeightEvolutionPanel() {
 		const heightCm = userProfile.heightCm;
 		const sex = userProfile.sex;
 
-		const filteredData = statsEntries
+		const filteredData = allStatsEntries
 			.filter((entry) => new Date(entry.date) >= cutoffDate)
 			.map((entry) => {
 				const bmi = calculateBMI(entry.weightKg, heightCm);
@@ -331,7 +345,7 @@ export function WeightEvolutionPanel() {
 			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 		setIsCalculating(false);
 		return filteredData;
-	}, [statsEntries, userProfile, selectedRange]);
+	}, [allStatsEntries, userProfile, selectedRange]);
 
 	const weightAxisMax = useMemo(() => {
 		if (chartData.length === 0) return 100;

@@ -1,0 +1,6075 @@
+{
+  "version": 1,
+  "lastModified": "2026-02-04T07:08:50.792Z",
+  "data": {
+    "userProfile": {
+      "name": "John Doe",
+      "heightCm": 180,
+      "dateOfBirth": "1990-02-15",
+      "sex": "male",
+      "targetWeightKg": 68,
+      "targetWeightLossPerWeekKg": 0.5,
+      "strengthTrainingRepetitions": 12,
+      "strengthTrainingSets": 3,
+      "raceGoal": "FullMarathon",
+      "raceTimeGoal": "03:30:00",
+      "raceDate": "2026-04-15",
+      "schedule": {
+        "monday": [
+          "RoadRun",
+          "StrengthTrainingLegs"
+        ],
+        "tuesday": [
+          "RoadRun"
+        ],
+        "wednesday": [
+          "StrengthTrainingChest",
+          "StrengthTrainingBack"
+        ],
+        "thursday": [
+          "RoadRun"
+        ],
+        "friday": [
+          "StrengthTrainingArms",
+          "StrengthTrainingShoulders"
+        ],
+        "saturday": [
+          "RoadRun"
+        ],
+        "sunday": [
+          "RoadRun"
+        ]
+      },
+      "calorieReminderEnabled": true,
+      "weightReminderEnabled": true
+    },
+    "activities": [
+      {
+        "id": "1770188930790-2utms0b",
+        "date": "2026-02-03",
+        "type": "RoadRun",
+        "distanceInKm": 10.5,
+        "durationInSeconds": 3090,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930790-5aet7b6",
+        "date": "2026-02-02",
+        "type": "RoadRun",
+        "distanceInKm": 9.6,
+        "durationInSeconds": 3025,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930790-qb7r3sq",
+        "date": "2026-02-02",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 2880,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 51.9
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 38.9
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 32.4
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.9
+          }
+        ]
+      },
+      {
+        "id": "1770188930790-qxzlich",
+        "date": "2026-02-01",
+        "type": "RoadRun",
+        "distanceInKm": 10.1,
+        "durationInSeconds": 3156,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930790-ek7q69r",
+        "date": "2026-01-31",
+        "type": "RoadRun",
+        "distanceInKm": 30.1,
+        "durationInSeconds": 8722,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930790-ewm0kz6",
+        "date": "2026-01-29",
+        "type": "RoadRun",
+        "distanceInKm": 10.4,
+        "durationInSeconds": 3108,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930790-o8qeuxe",
+        "date": "2026-01-28",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.8
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 15.5
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 23.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930790-9i72sqj",
+        "date": "2026-01-28",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 2700,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 58
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 51.5
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.9
+          }
+        ]
+      },
+      {
+        "id": "1770188930790-mkghabg",
+        "date": "2026-01-26",
+        "type": "RoadRun",
+        "distanceInKm": 10.6,
+        "durationInSeconds": 3363,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930790-6pfhm9y",
+        "date": "2026-01-26",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 2760,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 51.4
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 38.6
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 32.1
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930790-aedmdfr",
+        "date": "2026-01-25",
+        "type": "RoadRun",
+        "distanceInKm": 10,
+        "durationInSeconds": 3237,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930790-he3a3hq",
+        "date": "2026-01-24",
+        "type": "RoadRun",
+        "distanceInKm": 30.7,
+        "durationInSeconds": 8744,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930790-f5mfg9m",
+        "date": "2026-01-23",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3000,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.8
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 32
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.8
+          }
+        ]
+      },
+      {
+        "id": "1770188930790-7efisim",
+        "date": "2026-01-23",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 15.4
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.2
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930790-i9yswjg",
+        "date": "2026-01-22",
+        "type": "RoadRun",
+        "distanceInKm": 11.1,
+        "durationInSeconds": 2955,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930790-v4y4bm1",
+        "date": "2026-01-21",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3360,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.5
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 15.3
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 23
+          }
+        ]
+      },
+      {
+        "id": "1770188930790-x26kcs1",
+        "date": "2026-01-21",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 2760,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 57.5
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 51.1
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.8
+          }
+        ]
+      },
+      {
+        "id": "1770188930790-rkrxbru",
+        "date": "2026-01-19",
+        "type": "RoadRun",
+        "distanceInKm": 10.5,
+        "durationInSeconds": 3504,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930790-2h18y3m",
+        "date": "2026-01-19",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3420,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 51
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 38.2
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 31.8
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930790-7kowaki",
+        "date": "2026-01-18",
+        "type": "RoadRun",
+        "distanceInKm": 10.3,
+        "durationInSeconds": 3384,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-moxjb3h",
+        "date": "2026-01-17",
+        "type": "RoadRun",
+        "distanceInKm": 28,
+        "durationInSeconds": 8095,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-ka0jiit",
+        "date": "2026-01-16",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.7
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 31.7
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-2uo3elv",
+        "date": "2026-01-16",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 2820,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 15.2
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.2
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-kcqb5hy",
+        "date": "2026-01-15",
+        "type": "RoadRun",
+        "distanceInKm": 10.3,
+        "durationInSeconds": 2975,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-23zzn2y",
+        "date": "2026-01-14",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.3
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 15.2
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.8
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-k46lrok",
+        "date": "2026-01-14",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3180,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 57
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 50.6
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-fzqxva5",
+        "date": "2026-01-13",
+        "type": "RoadRun",
+        "distanceInKm": 9.3,
+        "durationInSeconds": 2765,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-8y235mh",
+        "date": "2026-01-12",
+        "type": "RoadRun",
+        "distanceInKm": 10.2,
+        "durationInSeconds": 3270,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-m5w2krv",
+        "date": "2026-01-12",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3360,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 50.5
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 37.9
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 31.6
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-h1tt3sr",
+        "date": "2026-01-11",
+        "type": "RoadRun",
+        "distanceInKm": 9,
+        "durationInSeconds": 2872,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-inop3m3",
+        "date": "2026-01-10",
+        "type": "RoadRun",
+        "distanceInKm": 26.5,
+        "durationInSeconds": 8077,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-m3aomu4",
+        "date": "2026-01-09",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3120,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.6
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 31.4
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.6
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-10ro549",
+        "date": "2026-01-09",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3000,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 15.1
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.1
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-l8ve23a",
+        "date": "2026-01-08",
+        "type": "RoadRun",
+        "distanceInKm": 8.8,
+        "durationInSeconds": 2668,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-1amyfdv",
+        "date": "2026-01-07",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 2940,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.1
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 15.1
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.6
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-e4gfce8",
+        "date": "2026-01-07",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3540,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 56.4
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 50.2
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-lvitsp6",
+        "date": "2026-01-06",
+        "type": "RoadRun",
+        "distanceInKm": 11.9,
+        "durationInSeconds": 3233,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-j1xxy44",
+        "date": "2026-01-05",
+        "type": "RoadRun",
+        "distanceInKm": 8.7,
+        "durationInSeconds": 2945,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-fc4elp3",
+        "date": "2026-01-05",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3000,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 50
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 37.5
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 31.3
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-f10eucm",
+        "date": "2026-01-04",
+        "type": "RoadRun",
+        "distanceInKm": 9.3,
+        "durationInSeconds": 3133,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-w19p8nx",
+        "date": "2026-01-03",
+        "type": "RoadRun",
+        "distanceInKm": 25.5,
+        "durationInSeconds": 7811,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-86klakr",
+        "date": "2026-01-02",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 2700,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.5
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 31.2
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-ezo0o9l",
+        "date": "2026-01-02",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3060,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 15
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-l385qif",
+        "date": "2026-01-01",
+        "type": "RoadRun",
+        "distanceInKm": 8.7,
+        "durationInSeconds": 2623,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-0m9xmv1",
+        "date": "2025-12-31",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3360,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 24.9
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14.9
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.4
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-f1fiqum",
+        "date": "2025-12-31",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3540,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 55.9
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 49.7
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.4
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-wnc7y82",
+        "date": "2025-12-30",
+        "type": "RoadRun",
+        "distanceInKm": 11,
+        "durationInSeconds": 3008,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-t31i0wt",
+        "date": "2025-12-29",
+        "type": "RoadRun",
+        "distanceInKm": 9.6,
+        "durationInSeconds": 3265,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-ozjz6bi",
+        "date": "2025-12-29",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 2820,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 49.6
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 37.2
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 31
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 24.8
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-5a3lmod",
+        "date": "2025-12-28",
+        "type": "RoadRun",
+        "distanceInKm": 8.7,
+        "durationInSeconds": 2932,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-9idrr42",
+        "date": "2025-12-27",
+        "type": "RoadRun",
+        "distanceInKm": 26.2,
+        "durationInSeconds": 7984,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-v5tgleb",
+        "date": "2025-12-26",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.3
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 30.9
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-24pvgli",
+        "date": "2025-12-26",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 2940,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14.8
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.9
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.9
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-yn9ilon",
+        "date": "2025-12-25",
+        "type": "RoadRun",
+        "distanceInKm": 11.5,
+        "durationInSeconds": 3242,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-90a6ewh",
+        "date": "2025-12-24",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 2940,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 24.6
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14.8
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-ebtt5ju",
+        "date": "2025-12-24",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 55.4
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 49.3
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-buxs65f",
+        "date": "2025-12-23",
+        "type": "RoadRun",
+        "distanceInKm": 11.5,
+        "durationInSeconds": 3239,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-7yb0kcy",
+        "date": "2025-12-22",
+        "type": "RoadRun",
+        "distanceInKm": 8.6,
+        "durationInSeconds": 2833,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-h8ty9h6",
+        "date": "2025-12-22",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3240,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 49.1
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 36.8
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 30.7
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 24.6
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-aw4qc5e",
+        "date": "2025-12-21",
+        "type": "RoadRun",
+        "distanceInKm": 8.4,
+        "durationInSeconds": 2876,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-rkli6mk",
+        "date": "2025-12-20",
+        "type": "RoadRun",
+        "distanceInKm": 24.9,
+        "durationInSeconds": 7685,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-o15jp0v",
+        "date": "2025-12-19",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3000,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.2
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 30.6
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-lw3hl45",
+        "date": "2025-12-19",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 2820,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14.7
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.8
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.8
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-qbc0neo",
+        "date": "2025-12-18",
+        "type": "RoadRun",
+        "distanceInKm": 10.4,
+        "durationInSeconds": 2868,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-bfrazda",
+        "date": "2025-12-17",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 2760,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 24.4
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14.6
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-63fb4ds",
+        "date": "2025-12-17",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3180,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 54.9
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 48.8
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-23zz6qt",
+        "date": "2025-12-16",
+        "type": "RoadRun",
+        "distanceInKm": 11.5,
+        "durationInSeconds": 3342,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-jv5oeax",
+        "date": "2025-12-15",
+        "type": "RoadRun",
+        "distanceInKm": 8,
+        "durationInSeconds": 2736,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-9y8o10s",
+        "date": "2025-12-15",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 2820,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 48.7
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 36.5
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 30.4
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 24.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-8kvufoi",
+        "date": "2025-12-14",
+        "type": "RoadRun",
+        "distanceInKm": 8.4,
+        "durationInSeconds": 2912,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-alf16jc",
+        "date": "2025-12-13",
+        "type": "RoadRun",
+        "distanceInKm": 26.5,
+        "durationInSeconds": 8347,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-jl2m595",
+        "date": "2025-12-12",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3300,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.1
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 30.3
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-o9c6h5k",
+        "date": "2025-12-12",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 2760,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14.5
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.7
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-4xok46l",
+        "date": "2025-12-11",
+        "type": "RoadRun",
+        "distanceInKm": 9.2,
+        "durationInSeconds": 2857,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-57bjuuk",
+        "date": "2025-12-10",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3300,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 24.2
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14.5
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 21.8
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-oiv0apa",
+        "date": "2025-12-10",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3060,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 54.4
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 48.4
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-6an1zrr",
+        "date": "2025-12-09",
+        "type": "RoadRun",
+        "distanceInKm": 9.5,
+        "durationInSeconds": 2960,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-xj5hz2g",
+        "date": "2025-12-08",
+        "type": "RoadRun",
+        "distanceInKm": 8.9,
+        "durationInSeconds": 3002,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-kj39wlz",
+        "date": "2025-12-08",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3300,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 48.2
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 36.2
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 30.1
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 24.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-e8bvl28",
+        "date": "2025-12-07",
+        "type": "RoadRun",
+        "distanceInKm": 8.1,
+        "durationInSeconds": 2725,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-vtgfkcu",
+        "date": "2025-12-06",
+        "type": "RoadRun",
+        "distanceInKm": 24.1,
+        "durationInSeconds": 7667,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-wfwu6zb",
+        "date": "2025-12-05",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3360,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 30
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-tzr92xf",
+        "date": "2025-12-05",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14.4
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.6
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.6
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-hhpd5ij",
+        "date": "2025-12-04",
+        "type": "RoadRun",
+        "distanceInKm": 9.8,
+        "durationInSeconds": 2763,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-3rl5a0z",
+        "date": "2025-12-03",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 2760,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 23.9
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14.4
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 21.6
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-lrc1v12",
+        "date": "2025-12-03",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3300,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 53.9
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 47.9
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-d23pi9y",
+        "date": "2025-12-02",
+        "type": "RoadRun",
+        "distanceInKm": 10.9,
+        "durationInSeconds": 3118,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-d5fnjab",
+        "date": "2025-12-01",
+        "type": "RoadRun",
+        "distanceInKm": 9.5,
+        "durationInSeconds": 3212,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-z4oyrsm",
+        "date": "2025-12-01",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 2700,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 47.8
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 35.8
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 29.9
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 23.9
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-wac2t0t",
+        "date": "2025-11-30",
+        "type": "RoadRun",
+        "distanceInKm": 8.7,
+        "durationInSeconds": 3024,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-uew0hen",
+        "date": "2025-11-29",
+        "type": "RoadRun",
+        "distanceInKm": 22.7,
+        "durationInSeconds": 7131,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-0nqt5pd",
+        "date": "2025-11-28",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 2700,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.9
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 29.7
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.9
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-fa0c3et",
+        "date": "2025-11-28",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3420,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14.3
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.5
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-22ibrzo",
+        "date": "2025-11-27",
+        "type": "RoadRun",
+        "distanceInKm": 9.1,
+        "durationInSeconds": 2887,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-phwniuh",
+        "date": "2025-11-25",
+        "type": "RoadRun",
+        "distanceInKm": 9.6,
+        "durationInSeconds": 2777,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-hoy0ete",
+        "date": "2025-11-23",
+        "type": "RoadRun",
+        "distanceInKm": 8.9,
+        "durationInSeconds": 3027,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-835dkvh",
+        "date": "2025-11-22",
+        "type": "RoadRun",
+        "distanceInKm": 25.6,
+        "durationInSeconds": 7979,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-gtc5pbu",
+        "date": "2025-11-20",
+        "type": "RoadRun",
+        "distanceInKm": 10.1,
+        "durationInSeconds": 2928,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-17clnet",
+        "date": "2025-11-19",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3240,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 23.5
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14.1
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 21.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-watkabc",
+        "date": "2025-11-19",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 2820,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 52.9
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 47
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-bdwn2zq",
+        "date": "2025-11-18",
+        "type": "RoadRun",
+        "distanceInKm": 9.9,
+        "durationInSeconds": 2938,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-bekbdbb",
+        "date": "2025-11-17",
+        "type": "RoadRun",
+        "distanceInKm": 8.2,
+        "durationInSeconds": 2798,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-edn6lpq",
+        "date": "2025-11-17",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3180,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 46.9
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 35.1
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 29.3
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 23.4
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-m8s6rf5",
+        "date": "2025-11-16",
+        "type": "RoadRun",
+        "distanceInKm": 9.2,
+        "durationInSeconds": 3188,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-xcvm11r",
+        "date": "2025-11-15",
+        "type": "RoadRun",
+        "distanceInKm": 22.3,
+        "durationInSeconds": 7176,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-6yfrg8z",
+        "date": "2025-11-14",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3120,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.7
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 29.2
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-toq4f2i",
+        "date": "2025-11-14",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3360,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 14
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.3
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-yc4vryk",
+        "date": "2025-11-13",
+        "type": "RoadRun",
+        "distanceInKm": 10.2,
+        "durationInSeconds": 3085,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-a1u92mv",
+        "date": "2025-11-11",
+        "type": "RoadRun",
+        "distanceInKm": 7.4,
+        "durationInSeconds": 2410,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-4a29j1j",
+        "date": "2025-11-10",
+        "type": "RoadRun",
+        "distanceInKm": 8.8,
+        "durationInSeconds": 3082,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-3kl4rdr",
+        "date": "2025-11-10",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 2700,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 46.4
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 34.8
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 29
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 23.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-5dvem1u",
+        "date": "2025-11-09",
+        "type": "RoadRun",
+        "distanceInKm": 7.7,
+        "durationInSeconds": 2711,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-m3jmcmz",
+        "date": "2025-11-08",
+        "type": "RoadRun",
+        "distanceInKm": 23.3,
+        "durationInSeconds": 7491,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-stxnmw6",
+        "date": "2025-11-07",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 2700,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.5
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 28.9
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-cuaarlj",
+        "date": "2025-11-07",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3300,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.9
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.2
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-3t0we81",
+        "date": "2025-11-06",
+        "type": "RoadRun",
+        "distanceInKm": 8.6,
+        "durationInSeconds": 2760,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-a8jjdcm",
+        "date": "2025-11-05",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3060,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 23
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.8
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-zxqwte5",
+        "date": "2025-11-05",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 2880,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 51.8
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 46.1
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-phht3qh",
+        "date": "2025-11-04",
+        "type": "RoadRun",
+        "distanceInKm": 8,
+        "durationInSeconds": 2654,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-jpxaq9l",
+        "date": "2025-11-03",
+        "type": "RoadRun",
+        "distanceInKm": 7.8,
+        "durationInSeconds": 2836,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-aimmiqe",
+        "date": "2025-11-03",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3180,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 45.9
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 34.5
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 28.7
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 23
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-u08882k",
+        "date": "2025-11-02",
+        "type": "RoadRun",
+        "distanceInKm": 7.5,
+        "durationInSeconds": 2675,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-3q3iygz",
+        "date": "2025-11-01",
+        "type": "RoadRun",
+        "distanceInKm": 22.6,
+        "durationInSeconds": 7236,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-e0nmd24",
+        "date": "2025-10-31",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3300,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.4
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 28.6
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.4
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-li5b4i7",
+        "date": "2025-10-31",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 2940,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.7
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.1
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-3jifom9",
+        "date": "2025-10-30",
+        "type": "RoadRun",
+        "distanceInKm": 9.8,
+        "durationInSeconds": 2884,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-mniz8tw",
+        "date": "2025-10-29",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3540,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.8
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.7
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-zrbgu0g",
+        "date": "2025-10-29",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3360,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 51.3
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 45.6
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.4
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-3d9gxiz",
+        "date": "2025-10-28",
+        "type": "RoadRun",
+        "distanceInKm": 9.6,
+        "durationInSeconds": 2818,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-3qsoitq",
+        "date": "2025-10-27",
+        "type": "RoadRun",
+        "distanceInKm": 7.4,
+        "durationInSeconds": 2611,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-zw7ixbw",
+        "date": "2025-10-27",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3300,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 45.5
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 34.1
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 28.4
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-zivga5n",
+        "date": "2025-10-26",
+        "type": "RoadRun",
+        "distanceInKm": 7.4,
+        "durationInSeconds": 2599,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-ygpy7hk",
+        "date": "2025-10-25",
+        "type": "RoadRun",
+        "distanceInKm": 20.1,
+        "durationInSeconds": 6760,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-ubbjeou",
+        "date": "2025-10-24",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3240,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.3
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 28.3
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-z78rops",
+        "date": "2025-10-24",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3300,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.6
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.1
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-6j69e0e",
+        "date": "2025-10-23",
+        "type": "RoadRun",
+        "distanceInKm": 9.4,
+        "durationInSeconds": 2822,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-3tszhij",
+        "date": "2025-10-22",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3540,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.6
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.5
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-uglaq98",
+        "date": "2025-10-22",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3420,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 50.8
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 45.2
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-taawhen",
+        "date": "2025-10-21",
+        "type": "RoadRun",
+        "distanceInKm": 8,
+        "durationInSeconds": 2653,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-ve7dcae",
+        "date": "2025-10-20",
+        "type": "RoadRun",
+        "distanceInKm": 7.6,
+        "durationInSeconds": 2793,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-0aqck4s",
+        "date": "2025-10-20",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3120,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 45
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 33.8
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 28.1
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-7mdlpxq",
+        "date": "2025-10-19",
+        "type": "RoadRun",
+        "distanceInKm": 8.2,
+        "durationInSeconds": 2993,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-lcgfpv4",
+        "date": "2025-10-18",
+        "type": "RoadRun",
+        "distanceInKm": 20.7,
+        "durationInSeconds": 6970,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-sgkauph",
+        "date": "2025-10-17",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 2880,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.2
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 28
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-wwpn80o",
+        "date": "2025-10-17",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3000,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.4
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 9
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-bxmib2f",
+        "date": "2025-10-16",
+        "type": "RoadRun",
+        "distanceInKm": 10.3,
+        "durationInSeconds": 3052,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-v3yvx77",
+        "date": "2025-10-15",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3420,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.3
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.4
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-ap04716",
+        "date": "2025-10-15",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3300,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 50.3
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 44.7
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-6m2mr8c",
+        "date": "2025-10-14",
+        "type": "RoadRun",
+        "distanceInKm": 8.5,
+        "durationInSeconds": 2762,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-3z2rrdd",
+        "date": "2025-10-13",
+        "type": "RoadRun",
+        "distanceInKm": 7.7,
+        "durationInSeconds": 2808,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-zoc0y0x",
+        "date": "2025-10-13",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 2760,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 44.6
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 33.4
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 27.9
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-rslx8v2",
+        "date": "2025-10-12",
+        "type": "RoadRun",
+        "distanceInKm": 7.5,
+        "durationInSeconds": 2747,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-gmqyapq",
+        "date": "2025-10-11",
+        "type": "RoadRun",
+        "distanceInKm": 20.5,
+        "durationInSeconds": 6842,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-d8q9idz",
+        "date": "2025-10-10",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3360,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.1
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 27.7
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-66tvkhl",
+        "date": "2025-10-10",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 2820,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.3
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.9
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.9
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-bmzko8h",
+        "date": "2025-10-09",
+        "type": "RoadRun",
+        "distanceInKm": 7.9,
+        "durationInSeconds": 2691,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-on4pnhd",
+        "date": "2025-10-08",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.1
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.3
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 19.9
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-tzj25lh",
+        "date": "2025-10-08",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3180,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 49.8
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 44.2
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-3023v6j",
+        "date": "2025-10-07",
+        "type": "RoadRun",
+        "distanceInKm": 7,
+        "durationInSeconds": 2397,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-x22wh7t",
+        "date": "2025-10-06",
+        "type": "RoadRun",
+        "distanceInKm": 8,
+        "durationInSeconds": 2967,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-f3q2bgw",
+        "date": "2025-10-06",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 2880,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 44.1
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 33.1
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 27.6
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 22.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-t0x7n44",
+        "date": "2025-10-05",
+        "type": "RoadRun",
+        "distanceInKm": 7.1,
+        "durationInSeconds": 2613,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-gzcdvc2",
+        "date": "2025-10-03",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3360,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 27.4
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 11
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-flzapc4",
+        "date": "2025-10-03",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3120,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.2
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.8
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.8
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-wvpx2w3",
+        "date": "2025-10-02",
+        "type": "RoadRun",
+        "distanceInKm": 8.4,
+        "durationInSeconds": 2693,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-niyofh2",
+        "date": "2025-10-01",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 2820,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 21.9
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13.1
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 19.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-33yzcdx",
+        "date": "2025-10-01",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 49.3
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 43.8
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.9
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-0aw1j3b",
+        "date": "2025-09-29",
+        "type": "RoadRun",
+        "distanceInKm": 6.4,
+        "durationInSeconds": 2307,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-0sa3f3l",
+        "date": "2025-09-29",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3000,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 43.7
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 32.7
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 27.3
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 21.8
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-l0amu7r",
+        "date": "2025-09-27",
+        "type": "RoadRun",
+        "distanceInKm": 17.8,
+        "durationInSeconds": 5944,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-h91mnu9",
+        "date": "2025-09-26",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3060,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.9
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 27.2
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.9
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-y3ey88v",
+        "date": "2025-09-26",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.7
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-2qag2u0",
+        "date": "2025-09-25",
+        "type": "RoadRun",
+        "distanceInKm": 7.3,
+        "durationInSeconds": 2499,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-rhbv5je",
+        "date": "2025-09-24",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3180,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 21.7
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 13
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 19.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-mdzqsnl",
+        "date": "2025-09-24",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 2760,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 48.7
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 43.3
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.8
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-smucefd",
+        "date": "2025-09-22",
+        "type": "RoadRun",
+        "distanceInKm": 7.7,
+        "durationInSeconds": 2926,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-kz9hy6j",
+        "date": "2025-09-22",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3180,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 43.2
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 32.4
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 27
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 21.6
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-4tozoyt",
+        "date": "2025-09-21",
+        "type": "RoadRun",
+        "distanceInKm": 7.9,
+        "durationInSeconds": 2887,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-ong1iqh",
+        "date": "2025-09-20",
+        "type": "RoadRun",
+        "distanceInKm": 20.5,
+        "durationInSeconds": 7153,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-aazgm6k",
+        "date": "2025-09-18",
+        "type": "RoadRun",
+        "distanceInKm": 6.5,
+        "durationInSeconds": 2275,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-upjd2ro",
+        "date": "2025-09-17",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3120,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 21.4
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.9
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 19.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-5g8kwji",
+        "date": "2025-09-17",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3240,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 48.2
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 42.9
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-1dmru84",
+        "date": "2025-09-16",
+        "type": "RoadRun",
+        "distanceInKm": 7.8,
+        "durationInSeconds": 2694,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-0llvgzq",
+        "date": "2025-09-14",
+        "type": "RoadRun",
+        "distanceInKm": 6,
+        "durationInSeconds": 2234,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-1cn6j8h",
+        "date": "2025-09-12",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 2820,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.6
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 26.6
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.6
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-ud7ny5o",
+        "date": "2025-09-12",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 2700,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.8
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.5
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-gfuyrdv",
+        "date": "2025-09-11",
+        "type": "RoadRun",
+        "distanceInKm": 8.4,
+        "durationInSeconds": 2607,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-6bdjcxk",
+        "date": "2025-09-10",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3420,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 21.2
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.7
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 19.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-rycq7uz",
+        "date": "2025-09-10",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 47.7
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 42.4
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.6
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-z4i3jfa",
+        "date": "2025-09-09",
+        "type": "RoadRun",
+        "distanceInKm": 6.5,
+        "durationInSeconds": 2219,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-7xkip91",
+        "date": "2025-09-08",
+        "type": "RoadRun",
+        "distanceInKm": 7.6,
+        "durationInSeconds": 2893,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-x8k9gfs",
+        "date": "2025-09-08",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3420,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 42.3
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 31.7
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 26.4
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 21.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-u32do5v",
+        "date": "2025-09-07",
+        "type": "RoadRun",
+        "distanceInKm": 7.7,
+        "durationInSeconds": 2937,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-5uz05eu",
+        "date": "2025-09-06",
+        "type": "RoadRun",
+        "distanceInKm": 19.6,
+        "durationInSeconds": 6624,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-2e2ml6r",
+        "date": "2025-09-05",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.5
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 26.3
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-z7kdbre",
+        "date": "2025-09-05",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3240,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.6
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.4
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.4
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-ycpo9er",
+        "date": "2025-09-04",
+        "type": "RoadRun",
+        "distanceInKm": 5.8,
+        "durationInSeconds": 2018,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-w7wligh",
+        "date": "2025-09-03",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3000,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 21
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.6
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 18.9
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-i7on81n",
+        "date": "2025-09-03",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3180,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 47.2
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 42
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-wekwn77",
+        "date": "2025-09-02",
+        "type": "RoadRun",
+        "distanceInKm": 9.4,
+        "durationInSeconds": 3002,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-7kxvfqb",
+        "date": "2025-09-01",
+        "type": "RoadRun",
+        "distanceInKm": 7.2,
+        "durationInSeconds": 2750,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-vzcmwgr",
+        "date": "2025-09-01",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3000,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 41.8
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 31.4
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 26.1
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.9
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-7i56bm8",
+        "date": "2025-08-31",
+        "type": "RoadRun",
+        "distanceInKm": 7.6,
+        "durationInSeconds": 2953,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-3t03275",
+        "date": "2025-08-30",
+        "type": "RoadRun",
+        "distanceInKm": 16,
+        "durationInSeconds": 5498,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-7bngdrj",
+        "date": "2025-08-29",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3540,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.4
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 26
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.4
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-fz33vb6",
+        "date": "2025-08-29",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 3120,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.5
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.3
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-1z085p3",
+        "date": "2025-08-28",
+        "type": "RoadRun",
+        "distanceInKm": 7.3,
+        "durationInSeconds": 2521,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930789-6m0foa9",
+        "date": "2025-08-27",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3060,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.8
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.5
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 18.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-vkiul45",
+        "date": "2025-08-27",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3300,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 46.7
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 41.5
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.4
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-29hzmf8",
+        "date": "2025-08-26",
+        "type": "RoadRun",
+        "distanceInKm": 9,
+        "durationInSeconds": 2968,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930789-0pdjyh4",
+        "date": "2025-08-25",
+        "type": "RoadRun",
+        "distanceInKm": 5.8,
+        "durationInSeconds": 2214,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930789-rolhp5n",
+        "date": "2025-08-25",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3120,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 41.4
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 31
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.9
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.7
+          }
+        ]
+      },
+      {
+        "id": "1770188930789-u946t01",
+        "date": "2025-08-24",
+        "type": "RoadRun",
+        "distanceInKm": 6.6,
+        "durationInSeconds": 2500,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930788-daoequx",
+        "date": "2025-08-23",
+        "type": "RoadRun",
+        "distanceInKm": 16.4,
+        "durationInSeconds": 5646,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930788-7e7okgf",
+        "date": "2025-08-22",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3300,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.3
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.7
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-1v5bmtm",
+        "date": "2025-08-22",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 2940,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.4
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.2
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-gkj91ga",
+        "date": "2025-08-21",
+        "type": "RoadRun",
+        "distanceInKm": 9.3,
+        "durationInSeconds": 3083,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930788-cxga3n7",
+        "date": "2025-08-20",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 3540,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.5
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.3
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 18.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-wwf3gr3",
+        "date": "2025-08-20",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3480,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 46.2
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 41
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-cveb4ho",
+        "date": "2025-08-19",
+        "type": "RoadRun",
+        "distanceInKm": 6.7,
+        "durationInSeconds": 2338,
+        "effort": "moderate"
+      },
+      {
+        "id": "1770188930788-1b6p0ga",
+        "date": "2025-08-18",
+        "type": "RoadRun",
+        "distanceInKm": 6.7,
+        "durationInSeconds": 2582,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930788-js9k3jq",
+        "date": "2025-08-18",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 2940,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 40.9
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 30.7
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.6
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.5
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-xqserpv",
+        "date": "2025-08-17",
+        "type": "RoadRun",
+        "distanceInKm": 5.6,
+        "durationInSeconds": 2176,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930788-kyb7zzu",
+        "date": "2025-08-15",
+        "type": "StrengthTrainingArms",
+        "durationInSeconds": 3420,
+        "repetitions": [
+          {
+            "type": "BicepCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.2
+          },
+          {
+            "type": "CableTricepPushdown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.4
+          },
+          {
+            "type": "HammerCurls",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-ta2qufw",
+        "date": "2025-08-15",
+        "type": "StrengthTrainingShoulders",
+        "durationInSeconds": 2760,
+        "repetitions": [
+          {
+            "type": "ShoulderPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.2
+          },
+          {
+            "type": "LateralRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.1
+          },
+          {
+            "type": "FrontRaise",
+            "count": 12,
+            "series": 3,
+            "weightKg": 8.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-y7blnet",
+        "date": "2025-08-14",
+        "type": "RoadRun",
+        "distanceInKm": 7.4,
+        "durationInSeconds": 2362,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930788-ixbcxcq",
+        "date": "2025-08-13",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 2700,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.3
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12.2
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 18.3
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-eh9ih74",
+        "date": "2025-08-13",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 2940,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 45.7
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 40.6
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-cmqhyuj",
+        "date": "2025-08-12",
+        "type": "RoadRun",
+        "distanceInKm": 8.6,
+        "durationInSeconds": 2858,
+        "effort": "hard"
+      },
+      {
+        "id": "1770188930788-02ew1n2",
+        "date": "2025-08-11",
+        "type": "RoadRun",
+        "distanceInKm": 5.9,
+        "durationInSeconds": 2319,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930788-k7wqv1p",
+        "date": "2025-08-11",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 3360,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 40.5
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 30.3
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25.3
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.2
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-h10ojh1",
+        "date": "2025-08-10",
+        "type": "RoadRun",
+        "distanceInKm": 5.4,
+        "durationInSeconds": 2042,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930788-4gtq8kj",
+        "date": "2025-08-06",
+        "type": "StrengthTrainingChest",
+        "durationInSeconds": 2700,
+        "repetitions": [
+          {
+            "type": "DumbbellBenchPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20.1
+          },
+          {
+            "type": "Flys",
+            "count": 12,
+            "series": 3,
+            "weightKg": 12
+          },
+          {
+            "type": "InclineDumbbellPress",
+            "count": 12,
+            "series": 3,
+            "weightKg": 18.1
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-a0tu1ks",
+        "date": "2025-08-06",
+        "type": "StrengthTrainingBack",
+        "durationInSeconds": 3000,
+        "repetitions": [
+          {
+            "type": "CableLatPulldown",
+            "count": 12,
+            "series": 3,
+            "weightKg": 45.1
+          },
+          {
+            "type": "CableRow",
+            "count": 12,
+            "series": 3,
+            "weightKg": 40.1
+          },
+          {
+            "type": "BackExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 10
+          }
+        ]
+      },
+      {
+        "id": "1770188930788-h85tyjo",
+        "date": "2025-08-04",
+        "type": "RoadRun",
+        "distanceInKm": 6.8,
+        "durationInSeconds": 2701,
+        "effort": "easy"
+      },
+      {
+        "id": "1770188930788-8v7tevk",
+        "date": "2025-08-04",
+        "type": "StrengthTrainingLegs",
+        "durationInSeconds": 2880,
+        "repetitions": [
+          {
+            "type": "BarbellSquats",
+            "count": 12,
+            "series": 3,
+            "weightKg": 40
+          },
+          {
+            "type": "LegExtension",
+            "count": 12,
+            "series": 3,
+            "weightKg": 30
+          },
+          {
+            "type": "LyingLegCurl",
+            "count": 12,
+            "series": 3,
+            "weightKg": 25
+          },
+          {
+            "type": "CableHipAdduction",
+            "count": 12,
+            "series": 3,
+            "weightKg": 20
+          }
+        ]
+      }
+    ],
+    "statsEntries": [
+      {
+        "id": "1770188930791-4qjl6fb",
+        "date": "2026-02-03",
+        "weightKg": 69.1,
+        "bodyFatPercentage": 15.3
+      },
+      {
+        "id": "1770188930791-efzo045",
+        "date": "2026-02-02",
+        "weightKg": 69.1,
+        "bodyFatPercentage": 15.2
+      },
+      {
+        "id": "1770188930791-f7lzo19",
+        "date": "2026-02-01",
+        "weightKg": 69.2,
+        "bodyFatPercentage": 14.7
+      },
+      {
+        "id": "1770188930791-ra6aio0",
+        "date": "2026-01-31",
+        "weightKg": 69.3,
+        "bodyFatPercentage": 15.4
+      },
+      {
+        "id": "1770188930791-ke1h5ah",
+        "date": "2026-01-30",
+        "weightKg": 69.7,
+        "bodyFatPercentage": 15.4
+      },
+      {
+        "id": "1770188930791-a2l1dhb",
+        "date": "2026-01-29",
+        "weightKg": 69.6,
+        "bodyFatPercentage": 15.3
+      },
+      {
+        "id": "1770188930791-yz1a8z1",
+        "date": "2026-01-27",
+        "weightKg": 70.2,
+        "bodyFatPercentage": 15
+      },
+      {
+        "id": "1770188930791-p5zm8iz",
+        "date": "2026-01-26",
+        "weightKg": 70.3,
+        "bodyFatPercentage": 15.5
+      },
+      {
+        "id": "1770188930791-kqg504j",
+        "date": "2026-01-25",
+        "weightKg": 70.4,
+        "bodyFatPercentage": 15.1
+      },
+      {
+        "id": "1770188930791-byziaq8",
+        "date": "2026-01-24",
+        "weightKg": 70.6,
+        "bodyFatPercentage": 15.2
+      },
+      {
+        "id": "1770188930791-aimzgyl",
+        "date": "2026-01-23",
+        "weightKg": 70.6,
+        "bodyFatPercentage": 15.7
+      },
+      {
+        "id": "1770188930791-5wji5t3",
+        "date": "2026-01-22",
+        "weightKg": 70.6,
+        "bodyFatPercentage": 15
+      },
+      {
+        "id": "1770188930791-j2fx6ra",
+        "date": "2026-01-21",
+        "weightKg": 71,
+        "bodyFatPercentage": 15.5
+      },
+      {
+        "id": "1770188930791-qpbo07a",
+        "date": "2026-01-20",
+        "weightKg": 70.9,
+        "bodyFatPercentage": 15.6
+      },
+      {
+        "id": "1770188930791-633988k",
+        "date": "2026-01-19",
+        "weightKg": 71.1,
+        "bodyFatPercentage": 15.1
+      },
+      {
+        "id": "1770188930791-fixxcsg",
+        "date": "2026-01-18",
+        "weightKg": 71.1,
+        "bodyFatPercentage": 15.5
+      },
+      {
+        "id": "1770188930791-qo2l6yg",
+        "date": "2026-01-17",
+        "weightKg": 71.1,
+        "bodyFatPercentage": 15.6
+      },
+      {
+        "id": "1770188930791-tc2nvac",
+        "date": "2026-01-16",
+        "weightKg": 71.2,
+        "bodyFatPercentage": 15
+      },
+      {
+        "id": "1770188930791-roqhetx",
+        "date": "2026-01-15",
+        "weightKg": 71.6,
+        "bodyFatPercentage": 15.1
+      },
+      {
+        "id": "1770188930791-gjyu615",
+        "date": "2026-01-14",
+        "weightKg": 71.9,
+        "bodyFatPercentage": 15.5
+      },
+      {
+        "id": "1770188930791-jjq4s8g",
+        "date": "2026-01-13",
+        "weightKg": 71.8,
+        "bodyFatPercentage": 15.7
+      },
+      {
+        "id": "1770188930791-scajvrt",
+        "date": "2026-01-12",
+        "weightKg": 71.8,
+        "bodyFatPercentage": 15.9
+      },
+      {
+        "id": "1770188930791-uvpisdh",
+        "date": "2026-01-11",
+        "weightKg": 72,
+        "bodyFatPercentage": 15.3
+      },
+      {
+        "id": "1770188930791-4geuuy8",
+        "date": "2026-01-10",
+        "weightKg": 72.4,
+        "bodyFatPercentage": 15.2
+      },
+      {
+        "id": "1770188930791-m23mxa9",
+        "date": "2026-01-09",
+        "weightKg": 72.6,
+        "bodyFatPercentage": 15.8
+      },
+      {
+        "id": "1770188930791-i8825d6",
+        "date": "2026-01-08",
+        "weightKg": 72.5,
+        "bodyFatPercentage": 15.5
+      },
+      {
+        "id": "1770188930791-h6235s5",
+        "date": "2026-01-07",
+        "weightKg": 72.6,
+        "bodyFatPercentage": 15.8
+      },
+      {
+        "id": "1770188930791-d5xx5xi",
+        "date": "2026-01-06",
+        "weightKg": 72.8,
+        "bodyFatPercentage": 15.4
+      },
+      {
+        "id": "1770188930791-wbugv6f",
+        "date": "2026-01-04",
+        "weightKg": 73.1,
+        "bodyFatPercentage": 15.6
+      },
+      {
+        "id": "1770188930791-4uvw9h1",
+        "date": "2026-01-03",
+        "weightKg": 72.8,
+        "bodyFatPercentage": 15.3
+      },
+      {
+        "id": "1770188930791-touquht",
+        "date": "2026-01-02",
+        "weightKg": 73.3,
+        "bodyFatPercentage": 15.4
+      },
+      {
+        "id": "1770188930791-nqjiuoi",
+        "date": "2026-01-01",
+        "weightKg": 73.7,
+        "bodyFatPercentage": 16.2
+      },
+      {
+        "id": "1770188930791-3x6ylzk",
+        "date": "2025-12-31",
+        "weightKg": 73.3,
+        "bodyFatPercentage": 15.4
+      },
+      {
+        "id": "1770188930791-7772zdj",
+        "date": "2025-12-30",
+        "weightKg": 73.9,
+        "bodyFatPercentage": 15.6
+      },
+      {
+        "id": "1770188930791-jcwp8b4",
+        "date": "2025-12-29",
+        "weightKg": 74,
+        "bodyFatPercentage": 16.2
+      },
+      {
+        "id": "1770188930791-y70qmgv",
+        "date": "2025-12-28",
+        "weightKg": 74.1,
+        "bodyFatPercentage": 15.5
+      },
+      {
+        "id": "1770188930791-md2f3g2",
+        "date": "2025-12-27",
+        "weightKg": 74.1,
+        "bodyFatPercentage": 15.9
+      },
+      {
+        "id": "1770188930791-gtpf8gp",
+        "date": "2025-12-26",
+        "weightKg": 74.2,
+        "bodyFatPercentage": 16.1
+      },
+      {
+        "id": "1770188930791-q1wym0a",
+        "date": "2025-12-25",
+        "weightKg": 74.1,
+        "bodyFatPercentage": 16
+      },
+      {
+        "id": "1770188930791-36g4owi",
+        "date": "2025-12-24",
+        "weightKg": 74.6,
+        "bodyFatPercentage": 15.8
+      },
+      {
+        "id": "1770188930791-214sd38",
+        "date": "2025-12-23",
+        "weightKg": 74.4,
+        "bodyFatPercentage": 15.9
+      },
+      {
+        "id": "1770188930791-zzaxt7x",
+        "date": "2025-12-22",
+        "weightKg": 74.6,
+        "bodyFatPercentage": 16
+      },
+      {
+        "id": "1770188930791-dv2v9zf",
+        "date": "2025-12-21",
+        "weightKg": 74.8,
+        "bodyFatPercentage": 16.3
+      },
+      {
+        "id": "1770188930791-nl6d7ad",
+        "date": "2025-12-20",
+        "weightKg": 74.7,
+        "bodyFatPercentage": 15.7
+      },
+      {
+        "id": "1770188930791-xe7lgti",
+        "date": "2025-12-19",
+        "weightKg": 75.4,
+        "bodyFatPercentage": 16.4
+      },
+      {
+        "id": "1770188930791-gy6ho1x",
+        "date": "2025-12-17",
+        "weightKg": 75.4,
+        "bodyFatPercentage": 15.7
+      },
+      {
+        "id": "1770188930791-jfppaxz",
+        "date": "2025-12-16",
+        "weightKg": 75.4,
+        "bodyFatPercentage": 16
+      },
+      {
+        "id": "1770188930791-jbrql8c",
+        "date": "2025-12-15",
+        "weightKg": 75.6,
+        "bodyFatPercentage": 15.8
+      },
+      {
+        "id": "1770188930791-wir9plb",
+        "date": "2025-12-14",
+        "weightKg": 76.1,
+        "bodyFatPercentage": 16.6
+      },
+      {
+        "id": "1770188930791-ru7cvbd",
+        "date": "2025-12-13",
+        "weightKg": 75.7,
+        "bodyFatPercentage": 16.2
+      },
+      {
+        "id": "1770188930791-njvgn0w",
+        "date": "2025-12-12",
+        "weightKg": 76.2,
+        "bodyFatPercentage": 16.2
+      },
+      {
+        "id": "1770188930791-gguv6nq",
+        "date": "2025-12-11",
+        "weightKg": 76.2,
+        "bodyFatPercentage": 15.8
+      },
+      {
+        "id": "1770188930791-att29sf",
+        "date": "2025-12-10",
+        "weightKg": 76.2,
+        "bodyFatPercentage": 16.1
+      },
+      {
+        "id": "1770188930791-d39b4de",
+        "date": "2025-12-09",
+        "weightKg": 76.6,
+        "bodyFatPercentage": 16.5
+      },
+      {
+        "id": "1770188930791-4uzqxr4",
+        "date": "2025-12-08",
+        "weightKg": 76.5,
+        "bodyFatPercentage": 16.6
+      },
+      {
+        "id": "1770188930791-wxranve",
+        "date": "2025-12-07",
+        "weightKg": 76.5,
+        "bodyFatPercentage": 16.6
+      },
+      {
+        "id": "1770188930791-00f4u95",
+        "date": "2025-12-06",
+        "weightKg": 76.9,
+        "bodyFatPercentage": 16.6
+      },
+      {
+        "id": "1770188930791-oyjq3jz",
+        "date": "2025-12-05",
+        "weightKg": 77,
+        "bodyFatPercentage": 16.3
+      },
+      {
+        "id": "1770188930791-oof00jq",
+        "date": "2025-12-04",
+        "weightKg": 77.2,
+        "bodyFatPercentage": 16.9
+      },
+      {
+        "id": "1770188930791-zzmdot2",
+        "date": "2025-12-03",
+        "weightKg": 77.2,
+        "bodyFatPercentage": 16.5
+      },
+      {
+        "id": "1770188930791-1a4fawy",
+        "date": "2025-12-01",
+        "weightKg": 77.5,
+        "bodyFatPercentage": 16
+      },
+      {
+        "id": "1770188930791-pyalfhj",
+        "date": "2025-11-30",
+        "weightKg": 77.8,
+        "bodyFatPercentage": 16.8
+      },
+      {
+        "id": "1770188930791-hwyjmio",
+        "date": "2025-11-29",
+        "weightKg": 77.8,
+        "bodyFatPercentage": 16.7
+      },
+      {
+        "id": "1770188930791-stwuym0",
+        "date": "2025-11-28",
+        "weightKg": 78.1,
+        "bodyFatPercentage": 16.4
+      },
+      {
+        "id": "1770188930791-q42uq5f",
+        "date": "2025-11-27",
+        "weightKg": 78,
+        "bodyFatPercentage": 16.2
+      },
+      {
+        "id": "1770188930791-h3gqias",
+        "date": "2025-11-26",
+        "weightKg": 78.3,
+        "bodyFatPercentage": 16.8
+      },
+      {
+        "id": "1770188930791-50tryjd",
+        "date": "2025-11-25",
+        "weightKg": 78.1,
+        "bodyFatPercentage": 16.3
+      },
+      {
+        "id": "1770188930791-8rxjja5",
+        "date": "2025-11-24",
+        "weightKg": 78.7,
+        "bodyFatPercentage": 16.6
+      },
+      {
+        "id": "1770188930790-20vw9n3",
+        "date": "2025-11-23",
+        "weightKg": 78.4,
+        "bodyFatPercentage": 16.7
+      },
+      {
+        "id": "1770188930790-mqyz29b",
+        "date": "2025-11-22",
+        "weightKg": 79.1,
+        "bodyFatPercentage": 17.1
+      },
+      {
+        "id": "1770188930790-t3f2nv6",
+        "date": "2025-11-20",
+        "weightKg": 79.2,
+        "bodyFatPercentage": 16.3
+      },
+      {
+        "id": "1770188930790-gffhrog",
+        "date": "2025-11-19",
+        "weightKg": 79.5,
+        "bodyFatPercentage": 17.1
+      },
+      {
+        "id": "1770188930790-jt21ac7",
+        "date": "2025-11-18",
+        "weightKg": 79.4,
+        "bodyFatPercentage": 16.6
+      },
+      {
+        "id": "1770188930790-2lv78zx",
+        "date": "2025-11-16",
+        "weightKg": 79.6,
+        "bodyFatPercentage": 17
+      },
+      {
+        "id": "1770188930790-cp3tba4",
+        "date": "2025-11-15",
+        "weightKg": 79.5,
+        "bodyFatPercentage": 17.3
+      },
+      {
+        "id": "1770188930790-q96oq2h",
+        "date": "2025-11-14",
+        "weightKg": 79.9,
+        "bodyFatPercentage": 17
+      },
+      {
+        "id": "1770188930790-xfow675",
+        "date": "2025-11-12",
+        "weightKg": 80.1,
+        "bodyFatPercentage": 16.6
+      },
+      {
+        "id": "1770188930790-3pzb1pr",
+        "date": "2025-11-11",
+        "weightKg": 80.1,
+        "bodyFatPercentage": 16.7
+      },
+      {
+        "id": "1770188930790-6k2zos7",
+        "date": "2025-11-09",
+        "weightKg": 80.4,
+        "bodyFatPercentage": 17.3
+      },
+      {
+        "id": "1770188930790-ulwdgtx",
+        "date": "2025-11-07",
+        "weightKg": 81.1,
+        "bodyFatPercentage": 17.5
+      },
+      {
+        "id": "1770188930790-w6qoqf9",
+        "date": "2025-11-06",
+        "weightKg": 80.8,
+        "bodyFatPercentage": 16.8
+      },
+      {
+        "id": "1770188930790-fhxrham",
+        "date": "2025-11-05",
+        "weightKg": 81,
+        "bodyFatPercentage": 17.2
+      },
+      {
+        "id": "1770188930790-56joni3",
+        "date": "2025-11-04",
+        "weightKg": 81.6,
+        "bodyFatPercentage": 16.6
+      },
+      {
+        "id": "1770188930790-qefs7qd",
+        "date": "2025-11-03",
+        "weightKg": 81.2,
+        "bodyFatPercentage": 16.8
+      },
+      {
+        "id": "1770188930790-rnhn11l",
+        "date": "2025-11-02",
+        "weightKg": 81.6,
+        "bodyFatPercentage": 17.4
+      },
+      {
+        "id": "1770188930790-kji8mzo",
+        "date": "2025-10-31",
+        "weightKg": 81.6,
+        "bodyFatPercentage": 17.7
+      },
+      {
+        "id": "1770188930790-rw8tdj3",
+        "date": "2025-10-30",
+        "weightKg": 82,
+        "bodyFatPercentage": 17.4
+      },
+      {
+        "id": "1770188930790-734y94l",
+        "date": "2025-10-29",
+        "weightKg": 82,
+        "bodyFatPercentage": 17.4
+      },
+      {
+        "id": "1770188930790-wwnvtax",
+        "date": "2025-10-28",
+        "weightKg": 82.5,
+        "bodyFatPercentage": 17.4
+      },
+      {
+        "id": "1770188930790-b52dbn7",
+        "date": "2025-10-27",
+        "weightKg": 82.6,
+        "bodyFatPercentage": 17.3
+      },
+      {
+        "id": "1770188930790-5b1p1bg",
+        "date": "2025-10-26",
+        "weightKg": 82.4,
+        "bodyFatPercentage": 17.7
+      },
+      {
+        "id": "1770188930790-2cr6xz0",
+        "date": "2025-10-24",
+        "weightKg": 83.1,
+        "bodyFatPercentage": 17.9
+      },
+      {
+        "id": "1770188930790-77br362",
+        "date": "2025-10-23",
+        "weightKg": 83.2,
+        "bodyFatPercentage": 17.5
+      },
+      {
+        "id": "1770188930790-aue9bma",
+        "date": "2025-10-22",
+        "weightKg": 83,
+        "bodyFatPercentage": 17.2
+      },
+      {
+        "id": "1770188930790-zf5rxmx",
+        "date": "2025-10-21",
+        "weightKg": 83.6,
+        "bodyFatPercentage": 17.8
+      },
+      {
+        "id": "1770188930790-oymxlfu",
+        "date": "2025-10-20",
+        "weightKg": 83.4,
+        "bodyFatPercentage": 17.7
+      },
+      {
+        "id": "1770188930790-6wzts42",
+        "date": "2025-10-19",
+        "weightKg": 84,
+        "bodyFatPercentage": 17.9
+      },
+      {
+        "id": "1770188930790-iic0qi1",
+        "date": "2025-10-17",
+        "weightKg": 83.8,
+        "bodyFatPercentage": 17.2
+      },
+      {
+        "id": "1770188930790-4dx75wf",
+        "date": "2025-10-15",
+        "weightKg": 84.6,
+        "bodyFatPercentage": 17.6
+      },
+      {
+        "id": "1770188930790-bdos1n8",
+        "date": "2025-10-14",
+        "weightKg": 84.6,
+        "bodyFatPercentage": 17.6
+      },
+      {
+        "id": "1770188930790-8zrv2m6",
+        "date": "2025-10-13",
+        "weightKg": 84.8,
+        "bodyFatPercentage": 18.1
+      },
+      {
+        "id": "1770188930790-0co16d6",
+        "date": "2025-10-12",
+        "weightKg": 84.6,
+        "bodyFatPercentage": 17.2
+      },
+      {
+        "id": "1770188930790-lo5h8fs",
+        "date": "2025-10-11",
+        "weightKg": 84.8,
+        "bodyFatPercentage": 18
+      },
+      {
+        "id": "1770188930790-w3uubzw",
+        "date": "2025-10-10",
+        "weightKg": 85,
+        "bodyFatPercentage": 17.6
+      },
+      {
+        "id": "1770188930790-zzefuig",
+        "date": "2025-10-09",
+        "weightKg": 85.1,
+        "bodyFatPercentage": 17.5
+      },
+      {
+        "id": "1770188930790-efoqaxe",
+        "date": "2025-10-08",
+        "weightKg": 85.2,
+        "bodyFatPercentage": 17.4
+      },
+      {
+        "id": "1770188930790-m627ee7",
+        "date": "2025-10-07",
+        "weightKg": 85.3,
+        "bodyFatPercentage": 18.2
+      },
+      {
+        "id": "1770188930790-tcj6yb3",
+        "date": "2025-10-06",
+        "weightKg": 85.4,
+        "bodyFatPercentage": 17.6
+      },
+      {
+        "id": "1770188930790-d8nx805",
+        "date": "2025-10-05",
+        "weightKg": 86,
+        "bodyFatPercentage": 18.1
+      },
+      {
+        "id": "1770188930790-qk36wbv",
+        "date": "2025-10-04",
+        "weightKg": 85.8,
+        "bodyFatPercentage": 17.8
+      },
+      {
+        "id": "1770188930790-zbn35ow",
+        "date": "2025-10-03",
+        "weightKg": 86.3,
+        "bodyFatPercentage": 18
+      },
+      {
+        "id": "1770188930790-jqz7uqy",
+        "date": "2025-10-02",
+        "weightKg": 86.1,
+        "bodyFatPercentage": 17.8
+      },
+      {
+        "id": "1770188930790-nnw20yz",
+        "date": "2025-10-01",
+        "weightKg": 86.4,
+        "bodyFatPercentage": 17.7
+      },
+      {
+        "id": "1770188930790-zs8to7z",
+        "date": "2025-09-30",
+        "weightKg": 86.7,
+        "bodyFatPercentage": 18
+      },
+      {
+        "id": "1770188930790-jn9pvsg",
+        "date": "2025-09-29",
+        "weightKg": 87.1,
+        "bodyFatPercentage": 17.9
+      },
+      {
+        "id": "1770188930790-cplko91",
+        "date": "2025-09-28",
+        "weightKg": 87,
+        "bodyFatPercentage": 17.7
+      },
+      {
+        "id": "1770188930790-8f8c9b7",
+        "date": "2025-09-27",
+        "weightKg": 87.3,
+        "bodyFatPercentage": 18.5
+      },
+      {
+        "id": "1770188930790-9kt2u9j",
+        "date": "2025-09-26",
+        "weightKg": 87.3,
+        "bodyFatPercentage": 18.6
+      },
+      {
+        "id": "1770188930790-fu731xc",
+        "date": "2025-09-25",
+        "weightKg": 87.2,
+        "bodyFatPercentage": 17.7
+      },
+      {
+        "id": "1770188930790-j3x7l8p",
+        "date": "2025-09-24",
+        "weightKg": 87.7,
+        "bodyFatPercentage": 17.8
+      },
+      {
+        "id": "1770188930790-s1g9bhe",
+        "date": "2025-09-23",
+        "weightKg": 87.8,
+        "bodyFatPercentage": 18.3
+      },
+      {
+        "id": "1770188930790-my2ugdm",
+        "date": "2025-09-22",
+        "weightKg": 88.2,
+        "bodyFatPercentage": 18.3
+      },
+      {
+        "id": "1770188930790-n1x01e0",
+        "date": "2025-09-21",
+        "weightKg": 88.3,
+        "bodyFatPercentage": 18.6
+      },
+      {
+        "id": "1770188930790-lgjwnpu",
+        "date": "2025-09-20",
+        "weightKg": 88.4,
+        "bodyFatPercentage": 18.5
+      },
+      {
+        "id": "1770188930790-80wh9lm",
+        "date": "2025-09-19",
+        "weightKg": 88.4,
+        "bodyFatPercentage": 18.4
+      },
+      {
+        "id": "1770188930790-r6kufpx",
+        "date": "2025-09-18",
+        "weightKg": 88.4,
+        "bodyFatPercentage": 18.8
+      },
+      {
+        "id": "1770188930790-25bsmxr",
+        "date": "2025-09-17",
+        "weightKg": 88.7,
+        "bodyFatPercentage": 18.2
+      },
+      {
+        "id": "1770188930790-ozvxdhn",
+        "date": "2025-09-16",
+        "weightKg": 89,
+        "bodyFatPercentage": 18.7
+      },
+      {
+        "id": "1770188930790-d94saa4",
+        "date": "2025-09-15",
+        "weightKg": 88.8,
+        "bodyFatPercentage": 18.4
+      },
+      {
+        "id": "1770188930790-k5lvgw1",
+        "date": "2025-09-14",
+        "weightKg": 89,
+        "bodyFatPercentage": 18.7
+      },
+      {
+        "id": "1770188930790-kszjrsk",
+        "date": "2025-09-13",
+        "weightKg": 89.5,
+        "bodyFatPercentage": 19
+      },
+      {
+        "id": "1770188930790-wdfhnu8",
+        "date": "2025-09-12",
+        "weightKg": 89.4,
+        "bodyFatPercentage": 18.4
+      },
+      {
+        "id": "1770188930790-fmv59gd",
+        "date": "2025-09-11",
+        "weightKg": 89.8,
+        "bodyFatPercentage": 18.7
+      },
+      {
+        "id": "1770188930790-bldzi95",
+        "date": "2025-09-10",
+        "weightKg": 90.2,
+        "bodyFatPercentage": 18.5
+      },
+      {
+        "id": "1770188930790-49ay7ho",
+        "date": "2025-09-09",
+        "weightKg": 90.4,
+        "bodyFatPercentage": 18.9
+      },
+      {
+        "id": "1770188930790-hxeh47z",
+        "date": "2025-09-08",
+        "weightKg": 90.4,
+        "bodyFatPercentage": 18.5
+      },
+      {
+        "id": "1770188930790-lxk6skp",
+        "date": "2025-09-07",
+        "weightKg": 90.3,
+        "bodyFatPercentage": 19.1
+      },
+      {
+        "id": "1770188930790-qy2pgcs",
+        "date": "2025-09-06",
+        "weightKg": 90.8,
+        "bodyFatPercentage": 18.6
+      },
+      {
+        "id": "1770188930790-dzel53w",
+        "date": "2025-09-05",
+        "weightKg": 90.7,
+        "bodyFatPercentage": 19.1
+      },
+      {
+        "id": "1770188930790-p2v5hxn",
+        "date": "2025-09-04",
+        "weightKg": 90.8,
+        "bodyFatPercentage": 18.6
+      },
+      {
+        "id": "1770188930790-z1t09yd",
+        "date": "2025-09-02",
+        "weightKg": 91.3,
+        "bodyFatPercentage": 19.3
+      },
+      {
+        "id": "1770188930790-rx54pxy",
+        "date": "2025-09-01",
+        "weightKg": 91.5,
+        "bodyFatPercentage": 19.4
+      },
+      {
+        "id": "1770188930790-asvuh1w",
+        "date": "2025-08-29",
+        "weightKg": 92.3,
+        "bodyFatPercentage": 19.2
+      },
+      {
+        "id": "1770188930790-nzmikl0",
+        "date": "2025-08-28",
+        "weightKg": 92.2,
+        "bodyFatPercentage": 18.7
+      },
+      {
+        "id": "1770188930790-sx7qtuw",
+        "date": "2025-08-27",
+        "weightKg": 92.3,
+        "bodyFatPercentage": 19.2
+      },
+      {
+        "id": "1770188930790-ddoxag0",
+        "date": "2025-08-26",
+        "weightKg": 92.9,
+        "bodyFatPercentage": 18.9
+      },
+      {
+        "id": "1770188930790-f36dfzi",
+        "date": "2025-08-25",
+        "weightKg": 92.9,
+        "bodyFatPercentage": 18.9
+      },
+      {
+        "id": "1770188930790-lplw8mh",
+        "date": "2025-08-24",
+        "weightKg": 92.9,
+        "bodyFatPercentage": 18.7
+      },
+      {
+        "id": "1770188930790-hs8vkyh",
+        "date": "2025-08-23",
+        "weightKg": 93.1,
+        "bodyFatPercentage": 19.5
+      },
+      {
+        "id": "1770188930790-s38h5ol",
+        "date": "2025-08-22",
+        "weightKg": 93.5,
+        "bodyFatPercentage": 19.5
+      },
+      {
+        "id": "1770188930790-i03oekf",
+        "date": "2025-08-21",
+        "weightKg": 93.8,
+        "bodyFatPercentage": 19.2
+      },
+      {
+        "id": "1770188930790-exiq7ny",
+        "date": "2025-08-20",
+        "weightKg": 94,
+        "bodyFatPercentage": 19.1
+      },
+      {
+        "id": "1770188930790-tpvpiu7",
+        "date": "2025-08-19",
+        "weightKg": 94.4,
+        "bodyFatPercentage": 18.9
+      },
+      {
+        "id": "1770188930790-qcrpvbq",
+        "date": "2025-08-18",
+        "weightKg": 94.5,
+        "bodyFatPercentage": 19.2
+      },
+      {
+        "id": "1770188930790-zr8ng57",
+        "date": "2025-08-17",
+        "weightKg": 94.5,
+        "bodyFatPercentage": 19.7
+      },
+      {
+        "id": "1770188930790-t9rzmv1",
+        "date": "2025-08-16",
+        "weightKg": 94.5,
+        "bodyFatPercentage": 19.6
+      },
+      {
+        "id": "1770188930790-c485jt0",
+        "date": "2025-08-15",
+        "weightKg": 95.1,
+        "bodyFatPercentage": 19
+      },
+      {
+        "id": "1770188930790-lahm0f8",
+        "date": "2025-08-14",
+        "weightKg": 95,
+        "bodyFatPercentage": 19.7
+      },
+      {
+        "id": "1770188930790-suuzpae",
+        "date": "2025-08-13",
+        "weightKg": 95.7,
+        "bodyFatPercentage": 20
+      },
+      {
+        "id": "1770188930790-b022hi8",
+        "date": "2025-08-12",
+        "weightKg": 95.8,
+        "bodyFatPercentage": 19.3
+      },
+      {
+        "id": "1770188930790-i0r1ebq",
+        "date": "2025-08-11",
+        "weightKg": 96.1,
+        "bodyFatPercentage": 20
+      },
+      {
+        "id": "1770188930790-7rzpkd7",
+        "date": "2025-08-10",
+        "weightKg": 96.4,
+        "bodyFatPercentage": 19.9
+      },
+      {
+        "id": "1770188930790-p1jd8fb",
+        "date": "2025-08-09",
+        "weightKg": 96.4,
+        "bodyFatPercentage": 19.3
+      },
+      {
+        "id": "1770188930790-arr4dxl",
+        "date": "2025-08-08",
+        "weightKg": 96.7,
+        "bodyFatPercentage": 19.4
+      },
+      {
+        "id": "1770188930790-6ip50q7",
+        "date": "2025-08-07",
+        "weightKg": 97.2,
+        "bodyFatPercentage": 19.3
+      },
+      {
+        "id": "1770188930790-2z3ivkz",
+        "date": "2025-08-06",
+        "weightKg": 97.4,
+        "bodyFatPercentage": 19.4
+      },
+      {
+        "id": "1770188930790-gw6oare",
+        "date": "2025-08-05",
+        "weightKg": 97.5,
+        "bodyFatPercentage": 19.8
+      },
+      {
+        "id": "1770188930790-4xztvqu",
+        "date": "2025-08-04",
+        "weightKg": 97.9,
+        "bodyFatPercentage": 20.3
+      }
+    ],
+    "dietEntries": [
+      {
+        "id": "1770188930792-3dlkw43",
+        "date": "2026-02-03",
+        "calories": 2049
+      },
+      {
+        "id": "1770188930792-m7iab3w",
+        "date": "2026-02-02",
+        "calories": 1869
+      },
+      {
+        "id": "1770188930792-j75odju",
+        "date": "2026-02-01",
+        "calories": 1673
+      },
+      {
+        "id": "1770188930792-ttlv8mc",
+        "date": "2026-01-31",
+        "calories": 2300
+      },
+      {
+        "id": "1770188930792-saz1nnh",
+        "date": "2026-01-30",
+        "calories": 1630
+      },
+      {
+        "id": "1770188930792-pd8gmdw",
+        "date": "2026-01-29",
+        "calories": 1611
+      },
+      {
+        "id": "1770188930792-7km2llh",
+        "date": "2026-01-28",
+        "calories": 1814
+      },
+      {
+        "id": "1770188930792-iuxgwcy",
+        "date": "2026-01-27",
+        "calories": 1751
+      },
+      {
+        "id": "1770188930792-fckdp9z",
+        "date": "2026-01-26",
+        "calories": 2132
+      },
+      {
+        "id": "1770188930792-dlks82l",
+        "date": "2026-01-25",
+        "calories": 1641
+      },
+      {
+        "id": "1770188930792-krmmo1k",
+        "date": "2026-01-24",
+        "calories": 1867
+      },
+      {
+        "id": "1770188930792-6gahord",
+        "date": "2026-01-23",
+        "calories": 1765
+      },
+      {
+        "id": "1770188930792-lo5gagx",
+        "date": "2026-01-21",
+        "calories": 2279
+      },
+      {
+        "id": "1770188930792-qbeaoo3",
+        "date": "2026-01-20",
+        "calories": 1777
+      },
+      {
+        "id": "1770188930792-lh5tt9y",
+        "date": "2026-01-19",
+        "calories": 1880
+      },
+      {
+        "id": "1770188930792-iezwd1d",
+        "date": "2026-01-18",
+        "calories": 1770
+      },
+      {
+        "id": "1770188930792-dl74xkm",
+        "date": "2026-01-17",
+        "calories": 1793
+      },
+      {
+        "id": "1770188930792-rq97rch",
+        "date": "2026-01-16",
+        "calories": 1643
+      },
+      {
+        "id": "1770188930792-6at8huw",
+        "date": "2026-01-15",
+        "calories": 1922
+      },
+      {
+        "id": "1770188930792-nhkwj3s",
+        "date": "2026-01-14",
+        "calories": 1632
+      },
+      {
+        "id": "1770188930792-v5h1z30",
+        "date": "2026-01-13",
+        "calories": 1835
+      },
+      {
+        "id": "1770188930792-uis7ig8",
+        "date": "2026-01-11",
+        "calories": 1830
+      },
+      {
+        "id": "1770188930792-xwatyey",
+        "date": "2026-01-10",
+        "calories": 1776
+      },
+      {
+        "id": "1770188930792-g24df4e",
+        "date": "2026-01-09",
+        "calories": 1873
+      },
+      {
+        "id": "1770188930792-e7p5lav",
+        "date": "2026-01-08",
+        "calories": 1846
+      },
+      {
+        "id": "1770188930792-u7q4bt6",
+        "date": "2026-01-07",
+        "calories": 2246
+      },
+      {
+        "id": "1770188930792-nig72o0",
+        "date": "2026-01-06",
+        "calories": 1839
+      },
+      {
+        "id": "1770188930792-g28ad8w",
+        "date": "2026-01-05",
+        "calories": 1781
+      },
+      {
+        "id": "1770188930792-f9a477d",
+        "date": "2026-01-04",
+        "calories": 1826
+      },
+      {
+        "id": "1770188930792-m0bwz8j",
+        "date": "2026-01-03",
+        "calories": 2164
+      },
+      {
+        "id": "1770188930792-ueu2ajj",
+        "date": "2026-01-02",
+        "calories": 2144
+      },
+      {
+        "id": "1770188930792-6t2lgvi",
+        "date": "2026-01-01",
+        "calories": 2268
+      },
+      {
+        "id": "1770188930792-xxxqlf4",
+        "date": "2025-12-31",
+        "calories": 1685
+      },
+      {
+        "id": "1770188930792-yo5gy3f",
+        "date": "2025-12-30",
+        "calories": 1619
+      },
+      {
+        "id": "1770188930792-aznzr3s",
+        "date": "2025-12-29",
+        "calories": 2026
+      },
+      {
+        "id": "1770188930792-2x4c60m",
+        "date": "2025-12-28",
+        "calories": 1816
+      },
+      {
+        "id": "1770188930792-x55l63u",
+        "date": "2025-12-27",
+        "calories": 1855
+      },
+      {
+        "id": "1770188930792-fssrmcd",
+        "date": "2025-12-26",
+        "calories": 1703
+      },
+      {
+        "id": "1770188930792-dxcahk3",
+        "date": "2025-12-25",
+        "calories": 1612
+      },
+      {
+        "id": "1770188930792-d2e2wle",
+        "date": "2025-12-24",
+        "calories": 1843
+      },
+      {
+        "id": "1770188930792-kq5wawm",
+        "date": "2025-12-23",
+        "calories": 1686
+      },
+      {
+        "id": "1770188930792-s8on8nq",
+        "date": "2025-12-22",
+        "calories": 2214
+      },
+      {
+        "id": "1770188930792-h0i0bbe",
+        "date": "2025-12-21",
+        "calories": 1723
+      },
+      {
+        "id": "1770188930792-79plbiu",
+        "date": "2025-12-19",
+        "calories": 1768
+      },
+      {
+        "id": "1770188930792-gmifkaf",
+        "date": "2025-12-18",
+        "calories": 1707
+      },
+      {
+        "id": "1770188930792-ozsyvnm",
+        "date": "2025-12-17",
+        "calories": 1846
+      },
+      {
+        "id": "1770188930792-qaw87hq",
+        "date": "2025-12-16",
+        "calories": 1888
+      },
+      {
+        "id": "1770188930791-3pnat06",
+        "date": "2025-12-15",
+        "calories": 2239
+      },
+      {
+        "id": "1770188930791-deyoje8",
+        "date": "2025-12-14",
+        "calories": 1649
+      },
+      {
+        "id": "1770188930791-r91872s",
+        "date": "2025-12-13",
+        "calories": 1801
+      },
+      {
+        "id": "1770188930791-5xwunef",
+        "date": "2025-12-12",
+        "calories": 1706
+      },
+      {
+        "id": "1770188930791-bnls05w",
+        "date": "2025-12-11",
+        "calories": 1773
+      },
+      {
+        "id": "1770188930791-mcadwq3",
+        "date": "2025-12-10",
+        "calories": 1878
+      },
+      {
+        "id": "1770188930791-7hlx0t0",
+        "date": "2025-12-09",
+        "calories": 2063
+      },
+      {
+        "id": "1770188930791-0e8xhc1",
+        "date": "2025-12-08",
+        "calories": 2185
+      },
+      {
+        "id": "1770188930791-dp5thwc",
+        "date": "2025-12-05",
+        "calories": 1908
+      },
+      {
+        "id": "1770188930791-t58bm32",
+        "date": "2025-12-04",
+        "calories": 1622
+      },
+      {
+        "id": "1770188930791-ctm2trg",
+        "date": "2025-12-03",
+        "calories": 1636
+      },
+      {
+        "id": "1770188930791-frs9h15",
+        "date": "2025-12-02",
+        "calories": 1770
+      },
+      {
+        "id": "1770188930791-1vwdctz",
+        "date": "2025-12-01",
+        "calories": 1628
+      },
+      {
+        "id": "1770188930791-n3va62q",
+        "date": "2025-11-30",
+        "calories": 1795
+      },
+      {
+        "id": "1770188930791-74n9624",
+        "date": "2025-11-29",
+        "calories": 1759
+      },
+      {
+        "id": "1770188930791-8vm775j",
+        "date": "2025-11-28",
+        "calories": 1733
+      },
+      {
+        "id": "1770188930791-w3hyc4j",
+        "date": "2025-11-27",
+        "calories": 2139
+      },
+      {
+        "id": "1770188930791-h5io2fg",
+        "date": "2025-11-26",
+        "calories": 1746
+      },
+      {
+        "id": "1770188930791-cxg9gy2",
+        "date": "2025-11-25",
+        "calories": 1971
+      },
+      {
+        "id": "1770188930791-4xsio69",
+        "date": "2025-11-24",
+        "calories": 1612
+      },
+      {
+        "id": "1770188930791-8rmdei9",
+        "date": "2025-11-23",
+        "calories": 1671
+      },
+      {
+        "id": "1770188930791-o40xcnc",
+        "date": "2025-11-22",
+        "calories": 1947
+      },
+      {
+        "id": "1770188930791-gmj14is",
+        "date": "2025-11-21",
+        "calories": 1704
+      },
+      {
+        "id": "1770188930791-dstcou9",
+        "date": "2025-11-20",
+        "calories": 1852
+      },
+      {
+        "id": "1770188930791-tjgkpv5",
+        "date": "2025-11-19",
+        "calories": 1766
+      },
+      {
+        "id": "1770188930791-af5l2x1",
+        "date": "2025-11-18",
+        "calories": 1625
+      },
+      {
+        "id": "1770188930791-9nsibjh",
+        "date": "2025-11-17",
+        "calories": 1772
+      },
+      {
+        "id": "1770188930791-qo455bd",
+        "date": "2025-11-16",
+        "calories": 1741
+      },
+      {
+        "id": "1770188930791-rcit38i",
+        "date": "2025-11-15",
+        "calories": 1926
+      },
+      {
+        "id": "1770188930791-nkde3m9",
+        "date": "2025-11-14",
+        "calories": 2092
+      },
+      {
+        "id": "1770188930791-twqor5w",
+        "date": "2025-11-13",
+        "calories": 1774
+      },
+      {
+        "id": "1770188930791-yzrt868",
+        "date": "2025-11-12",
+        "calories": 1690
+      },
+      {
+        "id": "1770188930791-epy5sor",
+        "date": "2025-11-11",
+        "calories": 1770
+      },
+      {
+        "id": "1770188930791-ba1dcn2",
+        "date": "2025-11-10",
+        "calories": 2126
+      },
+      {
+        "id": "1770188930791-7hyra0d",
+        "date": "2025-11-09",
+        "calories": 1717
+      },
+      {
+        "id": "1770188930791-b1t5c5y",
+        "date": "2025-11-08",
+        "calories": 1822
+      },
+      {
+        "id": "1770188930791-wvq1aa8",
+        "date": "2025-11-07",
+        "calories": 1698
+      },
+      {
+        "id": "1770188930791-1ygjyck",
+        "date": "2025-11-06",
+        "calories": 1846
+      },
+      {
+        "id": "1770188930791-nyqhorg",
+        "date": "2025-11-05",
+        "calories": 1902
+      },
+      {
+        "id": "1770188930791-pi7exu1",
+        "date": "2025-11-04",
+        "calories": 1720
+      },
+      {
+        "id": "1770188930791-clk9mat",
+        "date": "2025-11-03",
+        "calories": 1861
+      },
+      {
+        "id": "1770188930791-uidtj0q",
+        "date": "2025-11-02",
+        "calories": 1810
+      },
+      {
+        "id": "1770188930791-h6f6cz6",
+        "date": "2025-11-01",
+        "calories": 1759
+      },
+      {
+        "id": "1770188930791-ddxdm4n",
+        "date": "2025-10-30",
+        "calories": 1689
+      },
+      {
+        "id": "1770188930791-g8gjokc",
+        "date": "2025-10-29",
+        "calories": 1897
+      },
+      {
+        "id": "1770188930791-xe5gw0h",
+        "date": "2025-10-28",
+        "calories": 1833
+      },
+      {
+        "id": "1770188930791-xjn4662",
+        "date": "2025-10-27",
+        "calories": 1772
+      },
+      {
+        "id": "1770188930791-p7w3vhq",
+        "date": "2025-10-26",
+        "calories": 1880
+      },
+      {
+        "id": "1770188930791-tf9q8ql",
+        "date": "2025-10-25",
+        "calories": 1867
+      },
+      {
+        "id": "1770188930791-4aa1ajp",
+        "date": "2025-10-23",
+        "calories": 1677
+      },
+      {
+        "id": "1770188930791-q1en1xe",
+        "date": "2025-10-22",
+        "calories": 1638
+      },
+      {
+        "id": "1770188930791-jwjxyyr",
+        "date": "2025-10-21",
+        "calories": 1858
+      },
+      {
+        "id": "1770188930791-spfghzm",
+        "date": "2025-10-20",
+        "calories": 1769
+      },
+      {
+        "id": "1770188930791-lofqabm",
+        "date": "2025-10-19",
+        "calories": 1997
+      },
+      {
+        "id": "1770188930791-abkicdt",
+        "date": "2025-10-18",
+        "calories": 1746
+      },
+      {
+        "id": "1770188930791-q494chw",
+        "date": "2025-10-17",
+        "calories": 1684
+      },
+      {
+        "id": "1770188930791-bigq5mj",
+        "date": "2025-10-16",
+        "calories": 1900
+      },
+      {
+        "id": "1770188930791-kk0it7f",
+        "date": "2025-10-15",
+        "calories": 1795
+      },
+      {
+        "id": "1770188930791-lc3m9w3",
+        "date": "2025-10-14",
+        "calories": 1812
+      },
+      {
+        "id": "1770188930791-l8a3yuh",
+        "date": "2025-10-13",
+        "calories": 1859
+      },
+      {
+        "id": "1770188930791-l7g8vbi",
+        "date": "2025-10-12",
+        "calories": 1685
+      },
+      {
+        "id": "1770188930791-th3pm34",
+        "date": "2025-10-11",
+        "calories": 1924
+      },
+      {
+        "id": "1770188930791-jmezsgj",
+        "date": "2025-10-10",
+        "calories": 2066
+      },
+      {
+        "id": "1770188930791-393yt6x",
+        "date": "2025-10-09",
+        "calories": 1685
+      },
+      {
+        "id": "1770188930791-mfqbivm",
+        "date": "2025-10-08",
+        "calories": 1734
+      },
+      {
+        "id": "1770188930791-7m3uh9d",
+        "date": "2025-10-07",
+        "calories": 1666
+      },
+      {
+        "id": "1770188930791-vt1bnyn",
+        "date": "2025-10-06",
+        "calories": 2136
+      },
+      {
+        "id": "1770188930791-s4lboxo",
+        "date": "2025-10-05",
+        "calories": 2264
+      },
+      {
+        "id": "1770188930791-k3dagkj",
+        "date": "2025-10-04",
+        "calories": 1942
+      },
+      {
+        "id": "1770188930791-gctc4dk",
+        "date": "2025-10-03",
+        "calories": 1775
+      },
+      {
+        "id": "1770188930791-i30j8dz",
+        "date": "2025-10-01",
+        "calories": 1877
+      },
+      {
+        "id": "1770188930791-u7ph9oy",
+        "date": "2025-09-30",
+        "calories": 1874
+      },
+      {
+        "id": "1770188930791-pt752db",
+        "date": "2025-09-29",
+        "calories": 1896
+      },
+      {
+        "id": "1770188930791-0yp3alf",
+        "date": "2025-09-28",
+        "calories": 1776
+      },
+      {
+        "id": "1770188930791-gkx2unf",
+        "date": "2025-09-26",
+        "calories": 1898
+      },
+      {
+        "id": "1770188930791-yjnx9ev",
+        "date": "2025-09-25",
+        "calories": 2242
+      },
+      {
+        "id": "1770188930791-708soo7",
+        "date": "2025-09-24",
+        "calories": 1697
+      },
+      {
+        "id": "1770188930791-cu50si1",
+        "date": "2025-09-23",
+        "calories": 2275
+      },
+      {
+        "id": "1770188930791-ays50oj",
+        "date": "2025-09-22",
+        "calories": 1879
+      },
+      {
+        "id": "1770188930791-eeojscz",
+        "date": "2025-09-21",
+        "calories": 1848
+      },
+      {
+        "id": "1770188930791-xyjbx3g",
+        "date": "2025-09-20",
+        "calories": 1742
+      },
+      {
+        "id": "1770188930791-c8lfh1m",
+        "date": "2025-09-19",
+        "calories": 2106
+      },
+      {
+        "id": "1770188930791-0xmzzi3",
+        "date": "2025-09-18",
+        "calories": 1676
+      },
+      {
+        "id": "1770188930791-z0d4yi6",
+        "date": "2025-09-17",
+        "calories": 1630
+      },
+      {
+        "id": "1770188930791-9y61jkc",
+        "date": "2025-09-16",
+        "calories": 2008
+      },
+      {
+        "id": "1770188930791-1gvzimj",
+        "date": "2025-09-15",
+        "calories": 1772
+      },
+      {
+        "id": "1770188930791-ghup03m",
+        "date": "2025-09-14",
+        "calories": 1851
+      },
+      {
+        "id": "1770188930791-i6ah8es",
+        "date": "2025-09-13",
+        "calories": 1844
+      },
+      {
+        "id": "1770188930791-my21ess",
+        "date": "2025-09-11",
+        "calories": 2120
+      },
+      {
+        "id": "1770188930791-imqg311",
+        "date": "2025-09-10",
+        "calories": 1972
+      },
+      {
+        "id": "1770188930791-myv2plu",
+        "date": "2025-09-09",
+        "calories": 1713
+      },
+      {
+        "id": "1770188930791-883t90j",
+        "date": "2025-09-08",
+        "calories": 1811
+      },
+      {
+        "id": "1770188930791-cf93k53",
+        "date": "2025-09-07",
+        "calories": 1641
+      },
+      {
+        "id": "1770188930791-70h4soo",
+        "date": "2025-09-06",
+        "calories": 1967
+      },
+      {
+        "id": "1770188930791-noq0n2c",
+        "date": "2025-09-05",
+        "calories": 1643
+      },
+      {
+        "id": "1770188930791-0nu25qq",
+        "date": "2025-09-04",
+        "calories": 1647
+      },
+      {
+        "id": "1770188930791-72riep3",
+        "date": "2025-09-03",
+        "calories": 1619
+      },
+      {
+        "id": "1770188930791-mm34v72",
+        "date": "2025-09-02",
+        "calories": 1635
+      },
+      {
+        "id": "1770188930791-o245wzq",
+        "date": "2025-09-01",
+        "calories": 1637
+      },
+      {
+        "id": "1770188930791-zhr5cxu",
+        "date": "2025-08-31",
+        "calories": 1722
+      },
+      {
+        "id": "1770188930791-uojwclu",
+        "date": "2025-08-30",
+        "calories": 1862
+      },
+      {
+        "id": "1770188930791-9tc7tno",
+        "date": "2025-08-29",
+        "calories": 1758
+      },
+      {
+        "id": "1770188930791-dvo1qij",
+        "date": "2025-08-28",
+        "calories": 1845
+      },
+      {
+        "id": "1770188930791-dllqfxp",
+        "date": "2025-08-27",
+        "calories": 1820
+      },
+      {
+        "id": "1770188930791-r72xbp7",
+        "date": "2025-08-26",
+        "calories": 1640
+      },
+      {
+        "id": "1770188930791-f1ja6iy",
+        "date": "2025-08-25",
+        "calories": 2138
+      },
+      {
+        "id": "1770188930791-0txcltr",
+        "date": "2025-08-24",
+        "calories": 1773
+      },
+      {
+        "id": "1770188930791-fvlkwrw",
+        "date": "2025-08-23",
+        "calories": 2181
+      },
+      {
+        "id": "1770188930791-n3r9m0p",
+        "date": "2025-08-22",
+        "calories": 1635
+      },
+      {
+        "id": "1770188930791-684hygq",
+        "date": "2025-08-21",
+        "calories": 2031
+      },
+      {
+        "id": "1770188930791-yrc9a6t",
+        "date": "2025-08-20",
+        "calories": 1835
+      },
+      {
+        "id": "1770188930791-i5e9zcw",
+        "date": "2025-08-19",
+        "calories": 1936
+      },
+      {
+        "id": "1770188930791-qaayvoy",
+        "date": "2025-08-18",
+        "calories": 1899
+      },
+      {
+        "id": "1770188930791-u8ci6c3",
+        "date": "2025-08-17",
+        "calories": 1670
+      },
+      {
+        "id": "1770188930791-s8wnhyu",
+        "date": "2025-08-16",
+        "calories": 1710
+      },
+      {
+        "id": "1770188930791-ay3iyn1",
+        "date": "2025-08-15",
+        "calories": 2280
+      },
+      {
+        "id": "1770188930791-tp8kfa8",
+        "date": "2025-08-14",
+        "calories": 1881
+      },
+      {
+        "id": "1770188930791-mgza61n",
+        "date": "2025-08-13",
+        "calories": 1986
+      },
+      {
+        "id": "1770188930791-l52mr1w",
+        "date": "2025-08-12",
+        "calories": 2002
+      },
+      {
+        "id": "1770188930791-q1a3j9q",
+        "date": "2025-08-11",
+        "calories": 1862
+      },
+      {
+        "id": "1770188930791-fki7tts",
+        "date": "2025-08-10",
+        "calories": 1661
+      },
+      {
+        "id": "1770188930791-ltn9lsu",
+        "date": "2025-08-09",
+        "calories": 1732
+      },
+      {
+        "id": "1770188930791-435k5xv",
+        "date": "2025-08-08",
+        "calories": 1628
+      },
+      {
+        "id": "1770188930791-w9zlvj6",
+        "date": "2025-08-07",
+        "calories": 1735
+      },
+      {
+        "id": "1770188930791-0oca73g",
+        "date": "2025-08-06",
+        "calories": 1707
+      },
+      {
+        "id": "1770188930791-lo96qqz",
+        "date": "2025-08-05",
+        "calories": 1818
+      },
+      {
+        "id": "1770188930791-3qf05h9",
+        "date": "2025-08-04",
+        "calories": 1622
+      }
+    ]
+  }
+}
