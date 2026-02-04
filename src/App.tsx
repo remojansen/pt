@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { AppTour } from './components/AppTour';
 import { InstallPrompt } from './components/InstallPrompt';
 import { Layout } from './components/Layout';
 import { useBackup } from './hooks/useBackup';
+import { TourProvider } from './hooks/useTour';
 import { useUserData } from './hooks/useUserData';
 import { HomePage } from './pages/HomePage';
 import { RegistrationPage } from './pages/RegistrationPage';
@@ -48,15 +50,18 @@ function App() {
 	}
 
 	return (
-		<Layout>
-			<AutoBackupSync />
-			<Routes>
-				<Route path="/" element={<HomePage />} />
-				<Route path="/settings" element={<SettingsPage />} />
-				<Route path="/training-session" element={<TrainingSessionPage />} />
-			</Routes>
-			<InstallPrompt />
-		</Layout>
+		<TourProvider>
+			<Layout>
+				<AutoBackupSync />
+				<Routes>
+					<Route path="/" element={<HomePage />} />
+					<Route path="/settings" element={<SettingsPage />} />
+					<Route path="/training-session" element={<TrainingSessionPage />} />
+				</Routes>
+				<InstallPrompt />
+				<AppTour />
+			</Layout>
+		</TourProvider>
 	);
 }
 

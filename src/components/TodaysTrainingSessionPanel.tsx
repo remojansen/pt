@@ -80,7 +80,7 @@ export function TodaysTrainingSessionPanel() {
 
 	if (isLoading) {
 		return (
-			<Panel title="Today's Training">
+			<Panel title="Today's Training" dataTour="todays-training">
 				<div className="h-32 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -90,7 +90,7 @@ export function TodaysTrainingSessionPanel() {
 
 	if (scheduledActivities.length === 0) {
 		return (
-			<Panel title="Today's Training">
+			<Panel title="Today's Training" dataTour="todays-training">
 				<div className="text-center py-6">
 					<div className="text-4xl mb-4">🎉</div>
 					<p className="text-gray-300 text-lg">
@@ -102,7 +102,7 @@ export function TodaysTrainingSessionPanel() {
 	}
 
 	return (
-		<Panel title="Today's Training">
+		<Panel title="Today's Training" dataTour="todays-training">
 			<div className="text-center py-4">
 				{isSessionComplete ? (
 					<>

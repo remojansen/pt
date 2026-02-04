@@ -261,7 +261,11 @@ export function RunningPaceEvolutionPanel() {
 
 	if (isLoading) {
 		return (
-			<Panel title="Running Evolution" headerActions={timeRangeFilter}>
+			<Panel
+				title="Running Evolution"
+				headerActions={timeRangeFilter}
+				dataTour="pace-evolution"
+			>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -271,7 +275,11 @@ export function RunningPaceEvolutionPanel() {
 
 	if (chartData.length === 0) {
 		return (
-			<Panel title="Running Evolution" headerActions={timeRangeFilter}>
+			<Panel
+				title="Running Evolution"
+				headerActions={timeRangeFilter}
+				dataTour="pace-evolution"
+			>
 				<HighlightGroup>
 					<Highlight value="N/A" label="Average pace (km)" />
 					<Highlight
@@ -292,7 +300,11 @@ export function RunningPaceEvolutionPanel() {
 	}
 
 	return (
-		<Panel title="Running Evolution" headerActions={timeRangeFilter}>
+		<Panel
+			title="Running Evolution"
+			headerActions={timeRangeFilter}
+			dataTour="pace-evolution"
+		>
 			{avgPaceLast30Days !== null && (
 				<HighlightGroup>
 					<Highlight

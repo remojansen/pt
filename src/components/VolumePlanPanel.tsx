@@ -139,7 +139,7 @@ export function VolumePlanPanel() {
 
 	if (isLoading) {
 		return (
-			<Panel title="Volume Training Plan">
+			<Panel title="Volume Training Plan" dataTour="volume-plan">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -149,7 +149,7 @@ export function VolumePlanPanel() {
 
 	if (!userProfile.raceGoal || !userProfile.raceDate) {
 		return (
-			<Panel title="Volume Training Plan">
+			<Panel title="Volume Training Plan" dataTour="volume-plan">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					<div className="text-center">
 						<p className="mb-2">No race goal configured</p>
@@ -164,7 +164,7 @@ export function VolumePlanPanel() {
 
 	if (!trainingPlan || trainingPlan.length === 0) {
 		return (
-			<Panel title="Volume Training Plan">
+			<Panel title="Volume Training Plan" dataTour="volume-plan">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					<div className="text-center">
 						<p className="mb-2">Race date is in the past</p>
@@ -176,7 +176,7 @@ export function VolumePlanPanel() {
 	}
 
 	return (
-		<Panel title="Volume Training Plan">
+		<Panel title="Volume Training Plan" dataTour="volume-plan">
 			{summaryStats && (
 				<HighlightGroup>
 					<Highlight

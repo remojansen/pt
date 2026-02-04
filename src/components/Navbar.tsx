@@ -127,7 +127,10 @@ export function Navbar() {
 
 	return (
 		<>
-			<nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900 shadow-md">
+			<nav
+				className="fixed top-0 left-0 right-0 z-50 bg-gray-900 shadow-md"
+				data-tour="navbar"
+			>
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex items-center justify-between h-16">
 						<Link to="/" className="flex items-center gap-2">
@@ -142,6 +145,7 @@ export function Navbar() {
 									type="button"
 									onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 									className="flex items-center justify-center h-6 w-6 text-gray-300 hover:text-white"
+									data-tour="add-button"
 								>
 									<IoAddCircleSharp className="h-6 w-6" />
 								</button>
@@ -167,6 +171,7 @@ export function Navbar() {
 							<Link
 								to="/settings"
 								className="flex items-center justify-center h-6 w-6 text-gray-300 hover:text-white"
+								data-tour="settings-link"
 							>
 								<IoSettingsSharp className="h-6 w-6" />
 							</Link>

@@ -262,7 +262,11 @@ export function TrainingConsistencyPanel() {
 
 	if (isLoading) {
 		return (
-			<Panel title="Training Consistency" headerActions={timeRangeFilter}>
+			<Panel
+				title="Training Consistency"
+				headerActions={timeRangeFilter}
+				dataTour="training-consistency"
+			>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -272,7 +276,11 @@ export function TrainingConsistencyPanel() {
 
 	if (scheduledActivityTypes.length === 0) {
 		return (
-			<Panel title="Training Consistency" headerActions={timeRangeFilter}>
+			<Panel
+				title="Training Consistency"
+				headerActions={timeRangeFilter}
+				dataTour="training-consistency"
+			>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Set up your training schedule in Settings to track consistency
 				</div>
@@ -281,7 +289,11 @@ export function TrainingConsistencyPanel() {
 	}
 
 	return (
-		<Panel title="Training Consistency" headerActions={timeRangeFilter}>
+		<Panel
+			title="Training Consistency"
+			headerActions={timeRangeFilter}
+			dataTour="training-consistency"
+		>
 			<HighlightGroup>
 				<Highlight value={streaks.currentStreak} label="Current Streak" />
 				<Highlight value={streaks.longestStreak} label="Longest Streak" />

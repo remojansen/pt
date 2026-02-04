@@ -318,7 +318,11 @@ export function StrengthEvolutionPanel() {
 
 	if (isLoading) {
 		return (
-			<Panel title="Strength Evolution" headerActions={timeRangeFilter}>
+			<Panel
+				title="Strength Evolution"
+				headerActions={timeRangeFilter}
+				dataTour="strength-evolution"
+			>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -328,7 +332,11 @@ export function StrengthEvolutionPanel() {
 
 	if (chartData.length === 0) {
 		return (
-			<Panel title="Strength Evolution" headerActions={timeRangeFilter}>
+			<Panel
+				title="Strength Evolution"
+				headerActions={timeRangeFilter}
+				dataTour="strength-evolution"
+			>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					No strength training activities yet
 				</div>
@@ -337,7 +345,11 @@ export function StrengthEvolutionPanel() {
 	}
 
 	return (
-		<Panel title="Strength Evolution" headerActions={timeRangeFilter}>
+		<Panel
+			title="Strength Evolution"
+			headerActions={timeRangeFilter}
+			dataTour="strength-evolution"
+		>
 			<HighlightGroup>
 				{muscleGroupGains.map((gain) => (
 					<Highlight

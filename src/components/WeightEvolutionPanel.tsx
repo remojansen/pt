@@ -461,7 +461,11 @@ export function WeightEvolutionPanel() {
 
 	if (isLoading) {
 		return (
-			<Panel title="Weight Evolution" headerActions={headerActions}>
+			<Panel
+				title="Weight Evolution"
+				headerActions={headerActions}
+				dataTour="weight-evolution"
+			>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -471,7 +475,11 @@ export function WeightEvolutionPanel() {
 
 	if (!userProfile.heightCm || !userProfile.dateOfBirth || !userProfile.sex) {
 		return (
-			<Panel title="Weight Evolution" headerActions={headerActions}>
+			<Panel
+				title="Weight Evolution"
+				headerActions={headerActions}
+				dataTour="weight-evolution"
+			>
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Complete your profile to see stats chart
 				</div>
@@ -560,7 +568,11 @@ export function WeightEvolutionPanel() {
 						</div>
 					</div>
 				</Modal>
-				<Panel title="Weight Evolution" headerActions={headerActions}>
+				<Panel
+					title="Weight Evolution"
+					headerActions={headerActions}
+					dataTour="weight-evolution"
+				>
 					<div className="h-64 flex items-center justify-center text-gray-400">
 						No stats entries yet
 					</div>
@@ -670,7 +682,11 @@ export function WeightEvolutionPanel() {
 					</div>
 				</div>
 			</Modal>
-			<Panel title="Weight Evolution" headerActions={headerActions}>
+			<Panel
+				title="Weight Evolution"
+				headerActions={headerActions}
+				dataTour="weight-evolution"
+			>
 				<HighlightGroup>
 					<Highlight
 						value={
