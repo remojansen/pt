@@ -80,9 +80,9 @@ export function SettingsPage() {
 						<div className="flex items-start gap-3">
 							<span className="text-xl">💡</span>
 							<p className="text-sm text-gray-400">
-								<span className="text-gray-300 font-medium">Tip:</span> Your data
-								is only stored on this device. Remember to back it up periodically
-								using the cloud sync feature below.
+								<span className="text-gray-300 font-medium">Tip:</span> Your
+								data is only stored on this device. Remember to back it up
+								periodically using the cloud sync feature below.
 							</p>
 						</div>
 					</div>

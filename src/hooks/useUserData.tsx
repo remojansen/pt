@@ -211,10 +211,13 @@ export interface UserStatsEntry {
 	bodyFatPercentage: number | null;
 }
 
+export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+
 export interface DietEntry {
 	id: string;
 	date: string;
 	calories: number;
+	mealType?: MealType;
 }
 
 interface UserData {

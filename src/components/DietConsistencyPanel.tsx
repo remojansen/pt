@@ -8,7 +8,11 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
-import { type DietEntry, useUserData } from '../hooks/useUserData';
+import {
+	type DietEntry,
+	type MealType,
+	useUserData,
+} from '../hooks/useUserData';
 import { Button } from './Button';
 import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
@@ -136,56 +140,67 @@ function calculateDailyCalorieLimit(
 	return { dailyLimit, deficit };
 }
 
+// Utility function to get the current local date as YYYY-MM-DD string
+function getLocalDateString() {
+	const now = new Date();
+	const year = now.getFullYear();
+	const month = String(now.getMonth() + 1).padStart(2, '0');
+	const day = String(now.getDate()).padStart(2, '0');
+	return `${year}-${month}-${day}`;
+}
+
 export function DietConsistencyPanel() {
 	const { userProfile, statsEntries, dietEntries, isLoading, addDietEntry } =
 		useUserData();
 
 	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
 	const [showReminderModal, setShowReminderModal] = useState(false);
+	const [reminderMealType, setReminderMealType] = useState<MealType | null>(
+		null,
+	);
 	const [showLogMealModal, setShowLogMealModal] = useState(false);
 
 	// Log Meal state
-	const getLocalDateString = () => {
-		const now = new Date();
-		const year = now.getFullYear();
-		const month = String(now.getMonth() + 1).padStart(2, '0');
-		const day = String(now.getDate()).padStart(2, '0');
-		return `${year}-${month}-${day}`;
-	};
 
 	const [mealDate, setMealDate] = useState(getLocalDateString);
 	const [mealCalories, setMealCalories] = useState('');
-	const [mealType, setMealType] = useState<
-		'breakfast' | 'lunch' | 'dinner' | 'snack' | null
-	>(null);
+	const [mealType, setMealType] = useState<MealType | null>(null);
 	const [caloriesError, setCaloriesError] = useState<string | null>(null);
 
-	// Calculate hours since last meal was logged
-	const hoursSinceLastMeal = useMemo(() => {
-		if (dietEntries.length === 0) return null;
-		const sortedEntries = [...dietEntries].sort(
-			(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-		);
-		const lastMealDate = new Date(sortedEntries[0].date);
-		// Set to end of day since we only have date, not time
-		lastMealDate.setHours(23, 59, 59, 999);
-		const now = new Date();
-		const diffTime = now.getTime() - lastMealDate.getTime();
-		const diffHours = diffTime / (1000 * 60 * 60);
-		return diffHours;
+	// Check which meals are logged for today
+	const todaysMeals = useMemo(() => {
+		const today = getLocalDateString();
+		const todaysEntries = dietEntries.filter((entry) => entry.date === today);
+		return {
+			breakfast: todaysEntries.some((entry) => entry.mealType === 'breakfast'),
+			lunch: todaysEntries.some((entry) => entry.mealType === 'lunch'),
+			dinner: todaysEntries.some((entry) => entry.mealType === 'dinner'),
+		};
 	}, [dietEntries]);
 
-	// Show reminder if no meal logged in 24 hours
+	// Show time-based meal reminders
 	useEffect(() => {
-		if (hoursSinceLastMeal !== null && hoursSinceLastMeal > 24) {
+		const now = new Date();
+		const currentHour = now.getHours();
+
+		// Check dinner first (21:00+), then lunch (13:00+), then breakfast (5:00+)
+		// This ensures we show the most relevant reminder
+		if (currentHour >= 21 && !todaysMeals.dinner) {
+			setReminderMealType('dinner');
+			setShowReminderModal(true);
+		} else if (currentHour >= 13 && !todaysMeals.lunch) {
+			setReminderMealType('lunch');
+			setShowReminderModal(true);
+		} else if (currentHour >= 5 && !todaysMeals.breakfast) {
+			setReminderMealType('breakfast');
 			setShowReminderModal(true);
 		}
-	}, [hoursSinceLastMeal]);
+	}, [todaysMeals]);
 
-	const openLogMealModal = () => {
+	const openLogMealModal = (preselectedMealType?: MealType) => {
 		setMealDate(getLocalDateString());
 		setMealCalories('');
-		setMealType(null);
+		setMealType(preselectedMealType ?? null);
 		setCaloriesError(null);
 		setShowLogMealModal(true);
 	};
@@ -207,10 +222,12 @@ export function DietConsistencyPanel() {
 			id: crypto.randomUUID(),
 			date: mealDate,
 			calories,
+			mealType: mealType ?? undefined,
 		});
 
 		setShowLogMealModal(false);
 		setShowReminderModal(false);
+		setReminderMealType(null);
 	};
 
 	const selectedDays = useMemo(() => {
@@ -433,21 +450,32 @@ export function DietConsistencyPanel() {
 		<>
 			<Modal
 				isOpen={showReminderModal}
-				onClose={() => setShowReminderModal(false)}
-				title="Time to Log Your Meals"
+				onClose={() => {
+					setShowReminderModal(false);
+					setReminderMealType(null);
+				}}
+				title={`Time to Log Your ${reminderMealType ? reminderMealType.charAt(0).toUpperCase() + reminderMealType.slice(1) : 'Meal'}`}
 				primaryAction={{
-					label: 'Log Meal',
-					onClick: openLogMealModal,
+					label: `Log ${reminderMealType ? reminderMealType.charAt(0).toUpperCase() + reminderMealType.slice(1) : 'Meal'}`,
+					onClick: () => openLogMealModal(reminderMealType ?? undefined),
 				}}
 				secondaryAction={{
 					label: 'Skip',
-					onClick: () => setShowReminderModal(false),
+					onClick: () => {
+						setShowReminderModal(false);
+						setReminderMealType(null);
+					},
 				}}
 			>
 				<p>
-					It has been more than 24 hours since your last meal was logged.
-					Tracking your calorie intake consistently helps you reach your fitness
-					goals.
+					{reminderMealType === 'breakfast' &&
+						"Good morning! You haven't logged your breakfast yet today. Track your morning meal to stay on top of your nutrition goals."}
+					{reminderMealType === 'lunch' &&
+						"It's past lunchtime and you haven't logged your lunch yet. Don't forget to track your midday meal!"}
+					{reminderMealType === 'dinner' &&
+						"Evening reminder: You haven't logged your dinner yet today. Complete your daily food log before bed!"}
+					{!reminderMealType &&
+						'Tracking your calorie intake consistently helps you reach your fitness goals.'}
 				</p>
 			</Modal>
 
