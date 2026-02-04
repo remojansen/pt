@@ -9,6 +9,7 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
+import { getDaysForTimeRange, useTimeframe } from '../hooks/useTimeframe';
 import {
 	type Activity,
 	ActivityType,
@@ -20,11 +21,6 @@ import {
 import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
 import { Panel } from './Panel';
-import {
-	getDaysForTimeRange,
-	TimeframeFilter,
-	type TimeRange,
-} from './TimeframeFilter';
 
 const REPETITION_LABELS: Record<RepetitionKey, string> = {
 	[RepetitionType.BicepCurl]: 'Bicep Curl',
@@ -160,8 +156,8 @@ function isStrengthActivity(activity: { type: string }): activity is Strength {
 
 export function StrengthEvolutionPanel() {
 	const { activityCount, isLoading, loadAllUserActivities } = useUserData();
+	const { timeRange } = useTimeframe();
 	const [allActivities, setAllActivities] = useState<Activity[]>([]);
-	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
 
 	// Load all activities for charting (beyond default pagination)
 	// Re-run when activityCount changes (new activity added/deleted)
@@ -174,7 +170,7 @@ export function StrengthEvolutionPanel() {
 		// Filter by time range
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
-		const numDays = getDaysForTimeRange(selectedRange);
+		const numDays = getDaysForTimeRange(timeRange);
 		const cutoffDate = new Date(today);
 		cutoffDate.setDate(today.getDate() - numDays);
 
@@ -241,7 +237,7 @@ export function StrengthEvolutionPanel() {
 		return data.sort(
 			(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
 		);
-	}, [allActivities, selectedRange]);
+	}, [allActivities, timeRange]);
 
 	// Determine which repetition types have data
 	const activeRepetitionTypes = useMemo(() => {
@@ -317,21 +313,9 @@ export function StrengthEvolutionPanel() {
 		});
 	}, [allActivities]);
 
-	const timeRangeFilter = (
-		<TimeframeFilter
-			value={selectedRange}
-			onChange={setSelectedRange}
-			disabled={isLoading}
-		/>
-	);
-
 	if (isLoading) {
 		return (
-			<Panel
-				title="Strength Evolution"
-				headerActions={timeRangeFilter}
-				dataTour="strength-evolution"
-			>
+			<Panel title="Strength Evolution" dataTour="strength-evolution">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -341,11 +325,7 @@ export function StrengthEvolutionPanel() {
 
 	if (chartData.length === 0) {
 		return (
-			<Panel
-				title="Strength Evolution"
-				headerActions={timeRangeFilter}
-				dataTour="strength-evolution"
-			>
+			<Panel title="Strength Evolution" dataTour="strength-evolution">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					No strength training activities yet
 				</div>
@@ -354,11 +334,7 @@ export function StrengthEvolutionPanel() {
 	}
 
 	return (
-		<Panel
-			title="Strength Evolution"
-			headerActions={timeRangeFilter}
-			dataTour="strength-evolution"
-		>
+		<Panel title="Strength Evolution" dataTour="strength-evolution">
 			<HighlightGroup>
 				{muscleGroupGains.map((gain) => (
 					<Highlight

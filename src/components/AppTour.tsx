@@ -29,6 +29,12 @@ const tourSteps: Step[] = [
 		placement: 'bottom',
 	},
 	{
+		target: '[data-tour="timeframe-filter"]',
+		content:
+			'Use this chart icon to change the time range for all charts. Select 1 month, 3 months, 6 months, or 1 year to see your progress over different periods.',
+		placement: 'bottom',
+	},
+	{
 		target: '[data-tour="todays-training"]',
 		content:
 			"This panel shows today's training session based on your schedule. When you're ready, click 'Start Training' to begin!",

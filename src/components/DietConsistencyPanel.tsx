@@ -8,6 +8,8 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
+import { getDaysForTimeRange, useTimeframe } from '../hooks/useTimeframe';
+import { useTour } from '../hooks/useTour';
 import {
 	type DietEntry,
 	type MealType,
@@ -19,11 +21,6 @@ import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
 import { Modal } from './Modal';
 import { Panel } from './Panel';
-import {
-	getDaysForTimeRange,
-	TimeframeFilter,
-	type TimeRange,
-} from './TimeframeFilter';
 
 interface DayData {
 	date: Date;
@@ -164,7 +161,7 @@ export function DietConsistencyPanel() {
 
 	const [allDietEntries, setAllDietEntries] = useState<DietEntry[]>([]);
 	const [allStatsEntries, setAllStatsEntries] = useState<UserStatsEntry[]>([]);
-	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
+	const { timeRange } = useTimeframe();
 	const [showReminderModal, setShowReminderModal] = useState(false);
 	const [reminderMealType, setReminderMealType] = useState<MealType | null>(
 		null,
@@ -201,10 +198,22 @@ export function DietConsistencyPanel() {
 		};
 	}, [dietEntries]);
 
-	// Show time-based meal reminders (only if enabled in settings)
+	const { runTour } = useTour();
+
+	// Close reminder modal when tour starts
+	useEffect(() => {
+		if (runTour) {
+			setShowReminderModal(false);
+			setReminderMealType(null);
+		}
+	}, [runTour]);
+
+	// Show time-based meal reminders (only if enabled in settings and not during tour)
 	useEffect(() => {
 		// Default to true if not set (for backwards compatibility)
 		if (userProfile.calorieReminderEnabled === false) return;
+		// Don't show reminders during the tour
+		if (runTour) return;
 
 		const now = new Date();
 		const currentHour = now.getHours();
@@ -221,7 +230,7 @@ export function DietConsistencyPanel() {
 			setReminderMealType('breakfast');
 			setShowReminderModal(true);
 		}
-	}, [todaysMeals, userProfile.calorieReminderEnabled]);
+	}, [todaysMeals, userProfile.calorieReminderEnabled, runTour]);
 
 	const openLogMealModal = (preselectedMealType?: MealType) => {
 		setMealDate(getLocalDateString());
@@ -260,7 +269,7 @@ export function DietConsistencyPanel() {
 		const days: DayData[] = [];
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
-		const numDays = getDaysForTimeRange(selectedRange);
+		const numDays = getDaysForTimeRange(timeRange);
 
 		for (let i = numDays - 1; i >= 0; i--) {
 			const date = new Date(today);
@@ -275,7 +284,7 @@ export function DietConsistencyPanel() {
 			});
 		}
 		return days;
-	}, [selectedRange]);
+	}, [timeRange]);
 
 	// Create a map of diet entries by date
 	const dietEntriesMap = useMemo(() => {
@@ -435,21 +444,9 @@ export function DietConsistencyPanel() {
 		};
 	}, [allStatsEntries, userProfile, selectedDays, dietEntriesMap]);
 
-	const timeRangeFilter = (
-		<TimeframeFilter
-			value={selectedRange}
-			onChange={setSelectedRange}
-			disabled={isLoading}
-		/>
-	);
-
 	if (isLoading) {
 		return (
-			<Panel
-				title="Diet Consistency"
-				headerActions={timeRangeFilter}
-				dataTour="diet-consistency"
-			>
+			<Panel title="Diet Consistency" dataTour="diet-consistency">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -459,11 +456,7 @@ export function DietConsistencyPanel() {
 
 	if (!calorieData) {
 		return (
-			<Panel
-				title="Diet Consistency"
-				headerActions={timeRangeFilter}
-				dataTour="diet-consistency"
-			>
+			<Panel title="Diet Consistency" dataTour="diet-consistency">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Set your target weight and target weight loss per week in Settings,
 					and add weight measurements to track calorie intake.
@@ -601,11 +594,7 @@ export function DietConsistencyPanel() {
 				</div>
 			</Modal>
 
-			<Panel
-				title="Diet Consistency"
-				headerActions={timeRangeFilter}
-				dataTour="diet-consistency"
-			>
+			<Panel title="Diet Consistency" dataTour="diet-consistency">
 				<HighlightGroup>
 					<Highlight
 						value={`${calorieData.dailyLimit} kcal`}

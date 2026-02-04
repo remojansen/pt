@@ -4,6 +4,7 @@ import { AppTour } from './components/AppTour';
 import { InstallPrompt } from './components/InstallPrompt';
 import { Layout } from './components/Layout';
 import { useBackup } from './hooks/useBackup';
+import { TimeframeProvider } from './hooks/useTimeframe';
 import { TourProvider } from './hooks/useTour';
 import { useUserData } from './hooks/useUserData';
 import { HomePage } from './pages/HomePage';
@@ -51,16 +52,18 @@ function App() {
 
 	return (
 		<TourProvider>
-			<Layout>
-				<AutoBackupSync />
-				<Routes>
-					<Route path="/" element={<HomePage />} />
-					<Route path="/settings" element={<SettingsPage />} />
-					<Route path="/training-session" element={<TrainingSessionPage />} />
-				</Routes>
-				<InstallPrompt />
-				<AppTour />
-			</Layout>
+			<TimeframeProvider>
+				<Layout>
+					<AutoBackupSync />
+					<Routes>
+						<Route path="/" element={<HomePage />} />
+						<Route path="/settings" element={<SettingsPage />} />
+						<Route path="/training-session" element={<TrainingSessionPage />} />
+					</Routes>
+					<InstallPrompt />
+					<AppTour />
+				</Layout>
+			</TimeframeProvider>
 		</TourProvider>
 	);
 }

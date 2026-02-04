@@ -9,6 +9,7 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
+import { getDaysForTimeRange, useTimeframe } from '../hooks/useTimeframe';
 import {
 	type Activity,
 	ActivityType,
@@ -19,11 +20,6 @@ import {
 import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
 import { Panel } from './Panel';
-import {
-	getDaysForTimeRange,
-	TimeframeFilter,
-	type TimeRange,
-} from './TimeframeFilter';
 
 const DAYS_OF_WEEK = [
 	'sunday',
@@ -84,8 +80,8 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
 export function TrainingConsistencyPanel() {
 	const { userProfile, activityCount, isLoading, loadAllUserActivities } =
 		useUserData();
+	const { timeRange } = useTimeframe();
 	const [allActivities, setAllActivities] = useState<Activity[]>([]);
-	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
 
 	// Load all activities for charting (beyond default pagination)
 	// Re-run when activityCount changes (new activity added/deleted)
@@ -98,7 +94,7 @@ export function TrainingConsistencyPanel() {
 		const days: DayData[] = [];
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
-		const numDays = getDaysForTimeRange(selectedRange);
+		const numDays = getDaysForTimeRange(timeRange);
 
 		for (let i = numDays - 1; i >= 0; i--) {
 			const date = new Date(today);
@@ -110,7 +106,7 @@ export function TrainingConsistencyPanel() {
 			});
 		}
 		return days;
-	}, [selectedRange]);
+	}, [timeRange]);
 
 	// Map: dateStr -> array of activities for that day
 	const activitiesMap = useMemo(() => {
@@ -261,21 +257,9 @@ export function TrainingConsistencyPanel() {
 		});
 	}, [selectedDays, activitiesMap, completedTypesMap, userProfile.schedule]);
 
-	const timeRangeFilter = (
-		<TimeframeFilter
-			value={selectedRange}
-			onChange={setSelectedRange}
-			disabled={isLoading}
-		/>
-	);
-
 	if (isLoading) {
 		return (
-			<Panel
-				title="Training Consistency"
-				headerActions={timeRangeFilter}
-				dataTour="training-consistency"
-			>
+			<Panel title="Training Consistency" dataTour="training-consistency">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -285,11 +269,7 @@ export function TrainingConsistencyPanel() {
 
 	if (scheduledActivityTypes.length === 0) {
 		return (
-			<Panel
-				title="Training Consistency"
-				headerActions={timeRangeFilter}
-				dataTour="training-consistency"
-			>
+			<Panel title="Training Consistency" dataTour="training-consistency">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Set up your training schedule in Settings to track consistency
 				</div>
@@ -298,11 +278,7 @@ export function TrainingConsistencyPanel() {
 	}
 
 	return (
-		<Panel
-			title="Training Consistency"
-			headerActions={timeRangeFilter}
-			dataTour="training-consistency"
-		>
+		<Panel title="Training Consistency" dataTour="training-consistency">
 			<HighlightGroup>
 				<Highlight value={streaks.currentStreak} label="Current Streak" />
 				<Highlight value={streaks.longestStreak} label="Longest Streak" />

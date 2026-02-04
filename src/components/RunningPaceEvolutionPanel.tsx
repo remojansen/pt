@@ -10,6 +10,7 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
+import { getDaysForTimeRange, useTimeframe } from '../hooks/useTimeframe';
 import {
 	type Activity,
 	ActivityType,
@@ -20,11 +21,6 @@ import {
 import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
 import { Panel } from './Panel';
-import {
-	getDaysForTimeRange,
-	TimeframeFilter,
-	type TimeRange,
-} from './TimeframeFilter';
 
 interface ChartDataPoint {
 	date: string;
@@ -133,8 +129,8 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
 export function RunningPaceEvolutionPanel() {
 	const { activityCount, isLoading, userProfile, loadAllUserActivities } =
 		useUserData();
+	const { timeRange } = useTimeframe();
 	const [allActivities, setAllActivities] = useState<Activity[]>([]);
-	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
 
 	// Load all activities for charting (beyond default pagination)
 	// Re-run when activityCount changes (new activity added/deleted)
@@ -172,7 +168,7 @@ export function RunningPaceEvolutionPanel() {
 		// Filter by time range
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
-		const numDays = getDaysForTimeRange(selectedRange);
+		const numDays = getDaysForTimeRange(timeRange);
 		const cutoffDate = new Date(today);
 		cutoffDate.setDate(today.getDate() - numDays);
 
@@ -251,7 +247,7 @@ export function RunningPaceEvolutionPanel() {
 		return data.sort(
 			(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
 		);
-	}, [allActivities, selectedRange]);
+	}, [allActivities, timeRange]);
 
 	const targetPace = useMemo(() => {
 		if (!userProfile.raceGoal || !userProfile.raceTimeGoal) return null;
@@ -261,21 +257,9 @@ export function RunningPaceEvolutionPanel() {
 		return totalMinutes / distanceKm;
 	}, [userProfile.raceGoal, userProfile.raceTimeGoal]);
 
-	const timeRangeFilter = (
-		<TimeframeFilter
-			value={selectedRange}
-			onChange={setSelectedRange}
-			disabled={isLoading}
-		/>
-	);
-
 	if (isLoading) {
 		return (
-			<Panel
-				title="Running Evolution"
-				headerActions={timeRangeFilter}
-				dataTour="pace-evolution"
-			>
+			<Panel title="Running Evolution" dataTour="pace-evolution">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -285,11 +269,7 @@ export function RunningPaceEvolutionPanel() {
 
 	if (chartData.length === 0) {
 		return (
-			<Panel
-				title="Running Evolution"
-				headerActions={timeRangeFilter}
-				dataTour="pace-evolution"
-			>
+			<Panel title="Running Evolution" dataTour="pace-evolution">
 				<HighlightGroup>
 					<Highlight value="N/A" label="Average pace (km)" />
 					<Highlight
@@ -310,11 +290,7 @@ export function RunningPaceEvolutionPanel() {
 	}
 
 	return (
-		<Panel
-			title="Running Evolution"
-			headerActions={timeRangeFilter}
-			dataTour="pace-evolution"
-		>
+		<Panel title="Running Evolution" dataTour="pace-evolution">
 			{avgPaceLast30Days !== null && (
 				<HighlightGroup>
 					<Highlight

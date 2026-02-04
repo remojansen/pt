@@ -10,17 +10,14 @@ import {
 	YAxis,
 } from 'recharts';
 import { maleBodyFatData } from '../data/body-fat';
+import { useTour } from '../hooks/useTour';
+import { getDaysForTimeRange, useTimeframe } from '../hooks/useTimeframe';
 import { type UserStatsEntry, useUserData } from '../hooks/useUserData';
 import { Button } from './Button';
 import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
 import { Modal } from './Modal';
 import { Panel } from './Panel';
-import {
-	getDaysForTimeRange,
-	TimeframeFilter,
-	type TimeRange,
-} from './TimeframeFilter';
 
 type BMICategory =
 	| 'underweight'
@@ -204,9 +201,9 @@ export function WeightEvolutionPanel() {
 		addStatsEntry,
 		loadAllUserStatsEntries,
 	} = useUserData();
+	const { timeRange } = useTimeframe();
 	const [allStatsEntries, setAllStatsEntries] = useState<UserStatsEntry[]>([]);
-	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
-	const [isCalculating, setIsCalculating] = useState(false);
+	const [_isCalculating, setIsCalculating] = useState(false);
 	const [showReminderModal, setShowReminderModal] = useState(false);
 	const [showLogWeightModal, setShowLogWeightModal] = useState(false);
 	const [newWeight, setNewWeight] = useState<string>('');
@@ -236,15 +233,26 @@ export function WeightEvolutionPanel() {
 		return diffDays;
 	}, [allStatsEntries]);
 
-	// Show weight reminder (only if enabled in settings)
+	const { runTour } = useTour();
+
+	// Close reminder modal when tour starts
+	useEffect(() => {
+		if (runTour) {
+			setShowReminderModal(false);
+		}
+	}, [runTour]);
+
+	// Show weight reminder (only if enabled in settings and not during tour)
 	useEffect(() => {
 		// Default to true if not set (for backwards compatibility)
 		if (userProfile.weightReminderEnabled === false) return;
+		// Don't show reminders during the tour
+		if (runTour) return;
 
 		if (daysSinceLastStat !== null && daysSinceLastStat > 7) {
 			setShowReminderModal(true);
 		}
-	}, [daysSinceLastStat, userProfile.weightReminderEnabled]);
+	}, [daysSinceLastStat, userProfile.weightReminderEnabled, runTour]);
 
 	const handleLogWeight = async () => {
 		setWeightError(null);
@@ -293,14 +301,6 @@ export function WeightEvolutionPanel() {
 		setShowLogWeightModal(false);
 	};
 
-	const headerActions = (
-		<TimeframeFilter
-			value={selectedRange}
-			onChange={setSelectedRange}
-			disabled={isLoading || isCalculating}
-		/>
-	);
-
 	const chartData = useMemo(() => {
 		setIsCalculating(true);
 		if (!userProfile.heightCm || !userProfile.dateOfBirth || !userProfile.sex) {
@@ -311,7 +311,7 @@ export function WeightEvolutionPanel() {
 		// Filter by time range
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
-		const numDays = getDaysForTimeRange(selectedRange);
+		const numDays = getDaysForTimeRange(timeRange);
 		const cutoffDate = new Date(today);
 		cutoffDate.setDate(today.getDate() - numDays);
 
@@ -345,7 +345,7 @@ export function WeightEvolutionPanel() {
 			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 		setIsCalculating(false);
 		return filteredData;
-	}, [allStatsEntries, userProfile, selectedRange]);
+	}, [allStatsEntries, userProfile, timeRange]);
 
 	const weightAxisMax = useMemo(() => {
 		if (chartData.length === 0) return 100;
@@ -479,11 +479,7 @@ export function WeightEvolutionPanel() {
 
 	if (isLoading) {
 		return (
-			<Panel
-				title="Weight Evolution"
-				headerActions={headerActions}
-				dataTour="weight-evolution"
-			>
+			<Panel title="Weight Evolution" dataTour="weight-evolution">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -493,11 +489,7 @@ export function WeightEvolutionPanel() {
 
 	if (!userProfile.heightCm || !userProfile.dateOfBirth || !userProfile.sex) {
 		return (
-			<Panel
-				title="Weight Evolution"
-				headerActions={headerActions}
-				dataTour="weight-evolution"
-			>
+			<Panel title="Weight Evolution" dataTour="weight-evolution">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Complete your profile to see stats chart
 				</div>
@@ -586,11 +578,7 @@ export function WeightEvolutionPanel() {
 						</div>
 					</div>
 				</Modal>
-				<Panel
-					title="Weight Evolution"
-					headerActions={headerActions}
-					dataTour="weight-evolution"
-				>
+				<Panel title="Weight Evolution" dataTour="weight-evolution">
 					<div className="h-64 flex items-center justify-center text-gray-400">
 						No stats entries yet
 					</div>
@@ -700,11 +688,7 @@ export function WeightEvolutionPanel() {
 					</div>
 				</div>
 			</Modal>
-			<Panel
-				title="Weight Evolution"
-				headerActions={headerActions}
-				dataTour="weight-evolution"
-			>
+			<Panel title="Weight Evolution" dataTour="weight-evolution">
 				<HighlightGroup>
 					<Highlight
 						value={

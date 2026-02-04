@@ -1,16 +1,28 @@
 import { useEffect, useRef, useState } from 'react';
-import { IoAddCircleSharp, IoSettingsSharp } from 'react-icons/io5';
+import {
+	IoAddCircleSharp,
+	IoSettingsSharp,
+	IoStatsChartSharp,
+} from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import {
+	TIME_RANGE_LABELS,
+	type TimeRange,
+	useTimeframe,
+} from '../hooks/useTimeframe';
 import { useUserData } from '../hooks/useUserData';
 import { Button } from './Button';
 import { Modal } from './Modal';
 
 export function Navbar() {
 	const { addStatsEntry, addDietEntry } = useUserData();
+	const { timeRange, setTimeRange } = useTimeframe();
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const [isTimeframeDropdownOpen, setIsTimeframeDropdownOpen] = useState(false);
 	const [showLogWeightModal, setShowLogWeightModal] = useState(false);
 	const [showLogMealModal, setShowLogMealModal] = useState(false);
 	const dropdownRef = useRef<HTMLDivElement>(null);
+	const timeframeDropdownRef = useRef<HTMLDivElement>(null);
 
 	// Log Weight state
 	const [newWeight, setNewWeight] = useState('');
@@ -45,6 +57,12 @@ export function Navbar() {
 				!dropdownRef.current.contains(event.target as Node)
 			) {
 				setIsDropdownOpen(false);
+			}
+			if (
+				timeframeDropdownRef.current &&
+				!timeframeDropdownRef.current.contains(event.target as Node)
+			) {
+				setIsTimeframeDropdownOpen(false);
 			}
 		}
 		document.addEventListener('mousedown', handleClickOutside);
@@ -165,6 +183,41 @@ export function Navbar() {
 										>
 											Log Meal
 										</button>
+									</div>
+								)}
+							</div>
+							<div className="relative" ref={timeframeDropdownRef}>
+								<button
+									type="button"
+									onClick={() =>
+										setIsTimeframeDropdownOpen(!isTimeframeDropdownOpen)
+									}
+									className="flex items-center justify-center h-6 w-6 text-gray-300 hover:text-white"
+									data-tour="timeframe-filter"
+								>
+									<IoStatsChartSharp className="h-6 w-6" />
+								</button>
+								{isTimeframeDropdownOpen && (
+									<div className="absolute right-0 mt-2 w-32 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-50">
+										{(Object.keys(TIME_RANGE_LABELS) as TimeRange[]).map(
+											(range) => (
+												<button
+													key={range}
+													type="button"
+													onClick={() => {
+														setTimeRange(range);
+														setIsTimeframeDropdownOpen(false);
+													}}
+													className={`w-full px-4 py-2 text-left hover:bg-gray-700 hover:text-white ${
+														timeRange === range
+															? 'bg-purple-600 text-white'
+															: 'text-gray-300'
+													}`}
+												>
+													{TIME_RANGE_LABELS[range]}
+												</button>
+											),
+										)}
 									</div>
 								)}
 							</div>
