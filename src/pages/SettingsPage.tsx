@@ -76,6 +76,16 @@ export function SettingsPage() {
 					<h2 className="text-xl font-semibold text-white mb-4">
 						Backup & Sync
 					</h2>
+					<div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-4">
+						<div className="flex items-start gap-3">
+							<span className="text-xl">💡</span>
+							<p className="text-sm text-gray-400">
+								<span className="text-gray-300 font-medium">Tip:</span> Your data
+								is only stored on this device. Remember to back it up periodically
+								using the cloud sync feature below.
+							</p>
+						</div>
+					</div>
 					<BackupSettingsPanel onDataRestored={handleDataRestored} />
 				</div>
 			</div>

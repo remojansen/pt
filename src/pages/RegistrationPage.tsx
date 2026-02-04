@@ -44,6 +44,22 @@ export function RegistrationPage() {
 					</p>
 				</div>
 
+				<div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-6">
+					<div className="flex items-start gap-3">
+						<span className="text-xl">🔒</span>
+						<div>
+							<p className="text-sm text-gray-300 font-medium mb-1">
+								Your privacy is protected
+							</p>
+							<p className="text-xs text-gray-400">
+								Your information stays on your device only. Nothing is sent to
+								the internet or stored on any external server. Your data belongs
+								to you and you alone.
+							</p>
+						</div>
+					</div>
+				</div>
+
 				<form onSubmit={handleSubmit}>
 					<UserProfileForm
 						userProfile={localUserProfile}
