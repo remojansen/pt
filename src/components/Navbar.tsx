@@ -21,10 +21,17 @@ export function Navbar() {
 	const [weightError, setWeightError] = useState<string | null>(null);
 	const [bodyFatError, setBodyFatError] = useState<string | null>(null);
 
+	// Helper to get local date string (YYYY-MM-DD)
+	const getLocalDateString = () => {
+		const now = new Date();
+		const year = now.getFullYear();
+		const month = String(now.getMonth() + 1).padStart(2, '0');
+		const day = String(now.getDate()).padStart(2, '0');
+		return `${year}-${month}-${day}`;
+	};
+
 	// Log Meal state
-	const [mealDate, setMealDate] = useState(
-		() => new Date().toISOString().split('T')[0],
-	);
+	const [mealDate, setMealDate] = useState(getLocalDateString);
 	const [mealCalories, setMealCalories] = useState('');
 	const [mealType, setMealType] = useState<
 		'breakfast' | 'lunch' | 'dinner' | 'snack' | null
@@ -55,7 +62,7 @@ export function Navbar() {
 	};
 
 	const openLogMealModal = () => {
-		setMealDate(new Date().toISOString().split('T')[0]);
+		setMealDate(getLocalDateString());
 		setMealCalories('');
 		setMealType(null);
 		setIsDropdownOpen(false);
@@ -95,7 +102,7 @@ export function Navbar() {
 			return;
 		}
 
-		const today = new Date().toISOString().split('T')[0];
+		const today = getLocalDateString();
 		await addStatsEntry({
 			id: crypto.randomUUID(),
 			date: today,

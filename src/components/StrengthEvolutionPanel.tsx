@@ -41,6 +41,19 @@ const REPETITION_LABELS: Record<RepetitionKey, string> = {
 	[RepetitionType.CableHipAdduction]: 'Cable Hip Adduction',
 	[RepetitionType.LegExtension]: 'Leg Extension',
 	[RepetitionType.LyingLegCurl]: 'Lying Leg Curl',
+	[RepetitionType.PullUps]: 'Pull Ups',
+	[RepetitionType.CableCrunch]: 'Cable Crunch',
+	[RepetitionType.Crunches]: 'Crunches',
+	[RepetitionType.HangingKneeRaise]: 'Hanging Knee Raise',
+	[RepetitionType.ReverseCrunches]: 'Reverse Crunches',
+	[RepetitionType.SitUps]: 'Sit Ups',
+	[RepetitionType.InclineDumbbellFly]: 'Incline Dumbbell Fly',
+	[RepetitionType.InclineDumbbellPress]: 'Incline Dumbbell Press',
+	[RepetitionType.ConcentrationCurls]: 'Concentration Curls',
+	[RepetitionType.HammerCurls]: 'Hammer Curls',
+	[RepetitionType.CableDonkeyKickback]: 'Cable Donkey Kickback',
+	[RepetitionType.BandCalfRaise]: 'Band Calf Raise',
+	[RepetitionType.CableWristCurls]: 'Cable Wrist Curls',
 };
 
 const REPETITION_COLORS: Record<RepetitionKey, string> = {
@@ -59,6 +72,19 @@ const REPETITION_COLORS: Record<RepetitionKey, string> = {
 	[RepetitionType.CableHipAdduction]: '#d946ef', // fuchsia
 	[RepetitionType.LegExtension]: '#eab308', // yellow
 	[RepetitionType.LyingLegCurl]: '#10b981', // emerald
+	[RepetitionType.PullUps]: '#0ea5e9', // sky
+	[RepetitionType.CableCrunch]: '#f43f5e', // rose
+	[RepetitionType.Crunches]: '#7c3aed', // purple-600
+	[RepetitionType.HangingKneeRaise]: '#0d9488', // teal-600
+	[RepetitionType.ReverseCrunches]: '#c026d3', // fuchsia-600
+	[RepetitionType.SitUps]: '#ea580c', // orange-600
+	[RepetitionType.InclineDumbbellFly]: '#fb7185', // rose-400
+	[RepetitionType.InclineDumbbellPress]: '#2dd4bf', // teal-400
+	[RepetitionType.ConcentrationCurls]: '#a78bfa', // violet-400
+	[RepetitionType.HammerCurls]: '#fbbf24', // amber-400
+	[RepetitionType.CableDonkeyKickback]: '#34d399', // emerald-400
+	[RepetitionType.BandCalfRaise]: '#f472b6', // pink-400
+	[RepetitionType.CableWristCurls]: '#60a5fa', // blue-400
 };
 
 type StrengthActivityType =

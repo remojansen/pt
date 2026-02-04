@@ -111,6 +111,19 @@ export const RepetitionType = {
 	CableHipAdduction: 'CableHipAdduction',
 	LegExtension: 'LegExtension',
 	LyingLegCurl: 'LyingLegCurl',
+	PullUps: 'PullUps',
+	CableCrunch: 'CableCrunch',
+	Crunches: 'Crunches',
+	HangingKneeRaise: 'HangingKneeRaise',
+	ReverseCrunches: 'ReverseCrunches',
+	SitUps: 'SitUps',
+	InclineDumbbellFly: 'InclineDumbbellFly',
+	InclineDumbbellPress: 'InclineDumbbellPress',
+	ConcentrationCurls: 'ConcentrationCurls',
+	HammerCurls: 'HammerCurls',
+	CableDonkeyKickback: 'CableDonkeyKickback',
+	BandCalfRaise: 'BandCalfRaise',
+	CableWristCurls: 'CableWristCurls',
 } as const;
 
 export type RepetitionKey =
@@ -121,31 +134,51 @@ export function getRepetitionsForActivityType(
 ): RepetitionKey[] {
 	switch (activityType) {
 		case ActivityType.StrengthTrainingArms:
-			return [RepetitionType.BicepCurl, RepetitionType.CableTricepPushdown];
+			return [
+				RepetitionType.BicepCurl,
+				RepetitionType.CableTricepPushdown,
+				RepetitionType.ConcentrationCurls,
+				RepetitionType.HammerCurls,
+				RepetitionType.CableWristCurls,
+			];
 		case ActivityType.StrengthTrainingShoulders:
 			return [
 				RepetitionType.FrontRaise,
 				RepetitionType.LateralRaise,
 				RepetitionType.ShoulderPress,
+				RepetitionType.Shrugs,
 			];
 		case ActivityType.StrengthTrainingBack:
 			return [
 				RepetitionType.BackExtension,
 				RepetitionType.CableLatPulldown,
 				RepetitionType.CableRow,
-				RepetitionType.Shrugs,
+				RepetitionType.PullUps,
 			];
 		case ActivityType.StrengthTrainingChest:
-			return [RepetitionType.DumbbellBenchPress, RepetitionType.Flys];
+			return [
+				RepetitionType.DumbbellBenchPress,
+				RepetitionType.Flys,
+				RepetitionType.InclineDumbbellFly,
+				RepetitionType.InclineDumbbellPress,
+			];
 		case ActivityType.StrengthTrainingLegs:
 			return [
 				RepetitionType.BarbellSquats,
 				RepetitionType.CableHipAdduction,
 				RepetitionType.LegExtension,
 				RepetitionType.LyingLegCurl,
+				RepetitionType.CableDonkeyKickback,
+				RepetitionType.BandCalfRaise,
 			];
 		case ActivityType.StrengthTrainingCore:
-			return [];
+			return [
+				RepetitionType.CableCrunch,
+				RepetitionType.Crunches,
+				RepetitionType.HangingKneeRaise,
+				RepetitionType.ReverseCrunches,
+				RepetitionType.SitUps,
+			];
 		default:
 			return [];
 	}
@@ -405,16 +438,26 @@ export function UserDataProvider({ children }: UserDataProviderProps) {
 		return loadAllDietEntries();
 	}, []);
 
-	// Add single diet entry (or update if entry for date already exists)
+	// Add single diet entry (adds calories to existing entry for same date)
 	const addDietEntry = useCallback(async (entry: DietEntry) => {
 		const existingEntry = await loadDietEntryByDate(entry.date);
 		if (existingEntry) {
-			// Update existing entry, keeping the original id
-			const updatedEntry = { ...entry, id: existingEntry.id };
+			// Add new calories to existing entry for the same date
+			const updatedEntry = {
+				...existingEntry,
+				calories: existingEntry.calories + entry.calories,
+			};
 			await saveDietEntry(updatedEntry);
-			setDietEntriesState((prev) =>
-				prev.map((e) => (e.id === existingEntry.id ? updatedEntry : e)),
-			);
+			setDietEntriesState((prev) => {
+				const exists = prev.some((e) => e.id === existingEntry.id);
+				if (exists) {
+					return prev.map((e) =>
+						e.id === existingEntry.id ? updatedEntry : e,
+					);
+				}
+				// Entry exists in DB but not in paginated state - add it
+				return [updatedEntry, ...prev];
+			});
 		} else {
 			await saveDietEntry(entry);
 			setDietEntriesState((prev) => [entry, ...prev]); // newest first

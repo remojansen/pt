@@ -1,5 +1,16 @@
 import { useMemo, useState } from 'react';
 import {
+	Bar,
+	BarChart,
+	CartesianGrid,
+	Cell,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+	YAxis,
+} from 'recharts';
+import {
+	type Activity,
 	ActivityType,
 	type ActivityTypeKey,
 	type Schedule,
@@ -24,21 +35,6 @@ const DAYS_OF_WEEK = [
 	'saturday',
 ] as const;
 
-const ACTIVITY_LABELS: Record<ActivityTypeKey, string> = {
-	[ActivityType.RoadRun]: 'Road Run',
-	[ActivityType.TreadmillRun]: 'Treadmill',
-	[ActivityType.PoolSwim]: 'Pool Swim',
-	[ActivityType.SeaSwim]: 'Sea Swim',
-	[ActivityType.RoadCycle]: 'Road Cycle',
-	[ActivityType.IndoorCycle]: 'Indoor Cycle',
-	[ActivityType.StrengthTrainingLegs]: 'Legs',
-	[ActivityType.StrengthTrainingArms]: 'Arms',
-	[ActivityType.StrengthTrainingCore]: 'Core',
-	[ActivityType.StrengthTrainingShoulders]: 'Shoulders',
-	[ActivityType.StrengthTrainingBack]: 'Back',
-	[ActivityType.StrengthTrainingChest]: 'Chest',
-};
-
 function getDayKey(date: Date): keyof Schedule {
 	const dayIndex = date.getDay();
 	return DAYS_OF_WEEK[dayIndex] as keyof Schedule;
@@ -50,10 +46,44 @@ interface DayData {
 	dayKey: keyof Schedule;
 }
 
+interface ChartDataPoint {
+	date: string;
+	formattedDate: string;
+	minutes: number;
+	allCompleted: boolean;
+}
+
+interface CustomTooltipProps {
+	active?: boolean;
+	payload?: Array<{
+		payload: ChartDataPoint;
+	}>;
+}
+
+function CustomTooltip({ active, payload }: CustomTooltipProps) {
+	if (!active || !payload || payload.length === 0) return null;
+
+	const data = payload[0].payload;
+
+	return (
+		<div className="bg-gray-800 border border-gray-700 rounded-lg p-3 shadow-lg">
+			<p className="text-gray-300 text-sm mb-2">{data.formattedDate}</p>
+			<p className="text-white">
+				Exercise: <span className="text-purple-400">{data.minutes} min</span>
+			</p>
+			<p className="text-white">
+				Status:{' '}
+				<span className={data.allCompleted ? 'text-green-400' : 'text-red-400'}>
+					{data.allCompleted ? 'Plan completed' : 'Plan incomplete'}
+				</span>
+			</p>
+		</div>
+	);
+}
+
 export function TrainingConsistencyPanel() {
 	const { userProfile, activities, isLoading } = useUserData();
 	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
-	const [isCalculating, setIsCalculating] = useState(false);
 
 	const selectedDays = useMemo(() => {
 		const days: DayData[] = [];
@@ -73,7 +103,21 @@ export function TrainingConsistencyPanel() {
 		return days;
 	}, [selectedRange]);
 
+	// Map: dateStr -> array of activities for that day
 	const activitiesMap = useMemo(() => {
+		const map = new Map<string, Activity[]>();
+		for (const activity of activities) {
+			const dateKey = activity.date;
+			if (!map.has(dateKey)) {
+				map.set(dateKey, []);
+			}
+			map.get(dateKey)?.push(activity);
+		}
+		return map;
+	}, [activities]);
+
+	// Map: dateStr -> set of completed activity types
+	const completedTypesMap = useMemo(() => {
 		const map = new Map<string, Set<ActivityTypeKey>>();
 		for (const activity of activities) {
 			const dateKey = activity.date;
@@ -98,13 +142,8 @@ export function TrainingConsistencyPanel() {
 
 	// Calculate streaks based on ALL available data, not filtered by time range
 	const streaks = useMemo(() => {
-		// Get all days from earliest activity or 1 year ago to today
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
-
-		// Start from 1 year ago or earliest activity date
-		const oneYearAgo = new Date(today);
-		oneYearAgo.setFullYear(today.getFullYear() - 1);
 
 		const allDays: DayData[] = [];
 		for (let i = 365; i >= 0; i--) {
@@ -122,17 +161,15 @@ export function TrainingConsistencyPanel() {
 		let tempStreak = 0;
 		let streakBroken = false;
 
-		// Iterate from most recent to oldest
 		for (let i = allDays.length - 1; i >= 0; i--) {
 			const day = allDays[i];
 			const scheduledForDay = userProfile.schedule[day.dayKey];
 
-			// Skip days with no scheduled activities (rest days don't break streak)
 			if (scheduledForDay.length === 0) {
 				continue;
 			}
 
-			const completedActivities = activitiesMap.get(day.dateStr);
+			const completedActivities = completedTypesMap.get(day.dateStr);
 			const allCompleted =
 				completedActivities &&
 				scheduledForDay.every((activity) => completedActivities.has(activity));
@@ -150,10 +187,9 @@ export function TrainingConsistencyPanel() {
 		}
 
 		return { currentStreak, longestStreak };
-	}, [userProfile.schedule, activitiesMap]);
+	}, [userProfile.schedule, completedTypesMap]);
 
 	const selectedDaysStats = useMemo(() => {
-		setIsCalculating(true);
 		const dateStrSet = new Set(selectedDays.map((d) => d.dateStr));
 		const selectedDaysActivities = activities.filter((a) =>
 			dateStrSet.has(a.date),
@@ -181,50 +217,46 @@ export function TrainingConsistencyPanel() {
 				60,
 		);
 
-		setIsCalculating(false);
 		return { distanceRunKm, distanceCycledKm, exerciseMinutes };
 	}, [activities, selectedDays]);
 
-	const activityStats = useMemo(() => {
-		return scheduledActivityTypes.map((activityType) => {
-			let scheduled = 0;
-			let completed = 0;
+	// Build chart data: minutes per day with completion status
+	const chartData = useMemo(() => {
+		return selectedDays.map((day) => {
+			const dayActivities = activitiesMap.get(day.dateStr) || [];
+			const totalMinutes = Math.round(
+				dayActivities.reduce((sum, a) => sum + a.durationInSeconds, 0) / 60,
+			);
 
-			for (const day of selectedDays) {
-				const isScheduled =
-					userProfile.schedule[day.dayKey].includes(activityType);
-				if (isScheduled) {
-					scheduled++;
-					const completedActivities = activitiesMap.get(day.dateStr);
-					if (completedActivities?.has(activityType)) {
-						completed++;
-					}
-				}
-			}
+			const scheduledForDay = userProfile.schedule[day.dayKey];
+			const completedActivities = completedTypesMap.get(day.dateStr);
 
-			const missed = scheduled - completed;
-			const consistency = scheduled > 0 ? (completed / scheduled) * 100 : 0;
+			// If no activities scheduled, consider it "completed" (rest day)
+			// If activities scheduled, check if all were done
+			const allCompleted =
+				scheduledForDay.length === 0 ||
+				(completedActivities !== undefined &&
+					scheduledForDay.every((activity) =>
+						completedActivities.has(activity),
+					));
 
 			return {
-				activityType,
-				label: ACTIVITY_LABELS[activityType],
-				completed,
-				missed,
-				consistency,
+				date: day.dateStr,
+				formattedDate: day.date.toLocaleDateString('en-US', {
+					month: 'short',
+					day: 'numeric',
+				}),
+				minutes: totalMinutes,
+				allCompleted,
 			};
 		});
-	}, [
-		scheduledActivityTypes,
-		selectedDays,
-		userProfile.schedule,
-		activitiesMap,
-	]);
+	}, [selectedDays, activitiesMap, completedTypesMap, userProfile.schedule]);
 
 	const timeRangeFilter = (
 		<TimeframeFilter
 			value={selectedRange}
 			onChange={setSelectedRange}
-			disabled={isLoading || isCalculating}
+			disabled={isLoading}
 		/>
 	);
 
@@ -248,16 +280,6 @@ export function TrainingConsistencyPanel() {
 		);
 	}
 
-	if (isCalculating) {
-		return (
-			<Panel title="Training Consistency" headerActions={timeRangeFilter}>
-				<div className="h-64 flex items-center justify-center text-gray-400">
-					Calculating...
-				</div>
-			</Panel>
-		);
-	}
-
 	return (
 		<Panel title="Training Consistency" headerActions={timeRangeFilter}>
 			<HighlightGroup>
@@ -276,46 +298,53 @@ export function TrainingConsistencyPanel() {
 					label="Exercise Minutes"
 				/>
 			</HighlightGroup>
-			<div className="overflow-x-auto">
-				<table className="w-full">
-					<thead>
-						<tr className="border-b border-gray-700">
-							<th className="text-left text-sm font-medium text-gray-400 pb-3 pr-4">
-								Activity
-							</th>
-							<th className="text-center text-sm font-medium text-gray-400 pb-3 px-4">
-								Completed
-							</th>
-							<th className="text-center text-sm font-medium text-gray-400 pb-3 px-4">
-								Missed
-							</th>
-							<th className="text-right text-sm font-medium text-gray-400 pb-3 pl-4">
-								Consistency
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{activityStats.map((stat) => (
-							<tr
-								key={stat.activityType}
-								className="border-b border-gray-700/50"
-							>
-								<td className="py-3 pr-4 text-sm text-gray-300">
-									{stat.label}
-								</td>
-								<td className="py-3 px-4 text-center text-sm text-green-400">
-									{stat.completed}
-								</td>
-								<td className="py-3 px-4 text-center text-sm text-red-400">
-									{stat.missed}
-								</td>
-								<td className="py-3 pl-4 text-right text-sm font-medium text-white">
-									{stat.consistency.toFixed(1)}%
-								</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
+			<div className="h-80 min-w-0 w-full">
+				<ResponsiveContainer width="100%" height="100%">
+					<BarChart
+						data={chartData}
+						margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+					>
+						<CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+						<XAxis
+							dataKey="formattedDate"
+							tick={{ fill: '#9ca3af', fontSize: 12 }}
+							tickLine={{ stroke: '#4b5563' }}
+							axisLine={{ stroke: '#4b5563' }}
+							interval="preserveStartEnd"
+						/>
+						<YAxis
+							tick={{ fill: '#9ca3af', fontSize: 12 }}
+							tickLine={{ stroke: '#4b5563' }}
+							axisLine={{ stroke: '#4b5563' }}
+							label={{
+								value: 'Minutes',
+								angle: -90,
+								position: 'insideLeft',
+								fill: '#9ca3af',
+								fontSize: 12,
+							}}
+						/>
+						<Tooltip content={<CustomTooltip />} />
+						<Bar dataKey="minutes" radius={[4, 4, 0, 0]}>
+							{chartData.map((entry) => (
+								<Cell
+									key={entry.date}
+									fill={entry.allCompleted ? '#22c55e' : '#ef4444'}
+								/>
+							))}
+						</Bar>
+					</BarChart>
+				</ResponsiveContainer>
+			</div>
+			<div className="flex justify-center gap-6 mt-4 text-sm">
+				<div className="flex items-center gap-2">
+					<div className="w-3 h-3 rounded bg-green-500" />
+					<span className="text-gray-400">Plan completed</span>
+				</div>
+				<div className="flex items-center gap-2">
+					<div className="w-3 h-3 rounded bg-red-500" />
+					<span className="text-gray-400">Plan incomplete</span>
+				</div>
 			</div>
 		</Panel>
 	);

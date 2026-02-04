@@ -1,4 +1,13 @@
 import { useMemo, useState } from 'react';
+import {
+	Bar,
+	ComposedChart,
+	ReferenceLine,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+	YAxis,
+} from 'recharts';
 import { type DietEntry, useUserData } from '../hooks/useUserData';
 import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
@@ -12,6 +21,61 @@ import {
 interface DayData {
 	date: Date;
 	dateStr: string;
+}
+
+interface ChartDataPoint {
+	dayLabel: string;
+	date: Date;
+	calories: number | null;
+	isOverLimit: boolean;
+	isToday: boolean;
+}
+
+interface CustomTooltipProps {
+	active?: boolean;
+	payload?: Array<{
+		payload: ChartDataPoint;
+		dataKey: string;
+		color: string;
+		name: string;
+		value: number;
+	}>;
+	dailyLimit: number;
+}
+
+function CustomTooltip({ active, payload, dailyLimit }: CustomTooltipProps) {
+	if (!active || !payload || payload.length === 0) return null;
+
+	const data = payload[0].payload;
+	const hasData = data.calories !== null;
+
+	return (
+		<div className="bg-gray-800 border border-gray-700 rounded-lg p-3 shadow-lg">
+			<p className="text-gray-300 text-sm mb-1">
+				{data.date.toLocaleDateString()}
+				{data.isToday && <span className="ml-2 text-purple-400">(Today)</span>}
+			</p>
+			{hasData ? (
+				<>
+					<p className="text-white">
+						Calories:{' '}
+						<span
+							className={`font-semibold ${data.isOverLimit ? 'text-red-400' : 'text-green-400'}`}
+						>
+							{data.calories} kcal
+						</span>
+					</p>
+					<p className="text-xs text-gray-400 mt-1">
+						{data.isOverLimit
+							? `🔴 ${(data.calories ?? 0) - dailyLimit} kcal over limit`
+							: `✅ ${dailyLimit - (data.calories ?? 0)} kcal under limit`}
+					</p>
+				</>
+			) : (
+				<p className="text-gray-400">No data logged</p>
+			)}
+		</div>
+	);
 }
 
 // Calculate age from date of birth
@@ -74,7 +138,6 @@ export function DietConsistencyPanel() {
 	const { userProfile, statsEntries, dietEntries, isLoading } = useUserData();
 
 	const [selectedRange, setSelectedRange] = useState<TimeRange>('1month');
-	const [isCalculating, setIsCalculating] = useState(false);
 
 	const selectedDays = useMemo(() => {
 		const days: DayData[] = [];
@@ -85,9 +148,13 @@ export function DietConsistencyPanel() {
 		for (let i = numDays - 1; i >= 0; i--) {
 			const date = new Date(today);
 			date.setDate(today.getDate() - i);
+			// Use local date format (YYYY-MM-DD) to match how meals are logged
+			const year = date.getFullYear();
+			const month = String(date.getMonth() + 1).padStart(2, '0');
+			const day = String(date.getDate()).padStart(2, '0');
 			days.push({
 				date,
-				dateStr: date.toISOString().split('T')[0],
+				dateStr: `${year}-${month}-${day}`,
 			});
 		}
 		return days;
@@ -143,9 +210,13 @@ export function DietConsistencyPanel() {
 		for (let i = 365; i >= 0; i--) {
 			const date = new Date(today);
 			date.setDate(today.getDate() - i);
+			// Use local date format (YYYY-MM-DD) to match how meals are logged
+			const year = date.getFullYear();
+			const month = String(date.getMonth() + 1).padStart(2, '0');
+			const day = String(date.getDate()).padStart(2, '0');
 			allDays.push({
 				date,
-				dateStr: date.toISOString().split('T')[0],
+				dateStr: `${year}-${month}-${day}`,
 			});
 		}
 
@@ -187,7 +258,6 @@ export function DietConsistencyPanel() {
 
 	// Calculate calorie limit and chart data for selected time range
 	const calorieData = useMemo(() => {
-		setIsCalculating(true);
 		// Get current weight from latest stats entry
 		const latestStats = statsEntries.length > 0 ? statsEntries[0] : null;
 		const currentWeightKg = latestStats?.weightKg;
@@ -221,31 +291,28 @@ export function DietConsistencyPanel() {
 			sex,
 		);
 
+		// Get today's date for comparison
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+		const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
 		// Get calorie data for selected days
-		const chartData = selectedDays.map((day) => {
+		const chartData: ChartDataPoint[] = selectedDays.map((day) => {
 			const dietEntry = dietEntriesMap.get(day.dateStr);
+			const calories = dietEntry?.calories ?? null;
 			return {
+				dayLabel: `${day.date.getDate()}`,
 				date: day.date,
-				dateStr: day.dateStr,
-				calories: dietEntry?.calories ?? null,
+				calories,
+				isOverLimit: calories !== null && calories > dailyLimit,
+				isToday: day.dateStr === todayStr,
 			};
 		});
 
-		// Calculate max calories for chart scaling
-		const calorieValues = chartData
-			.map((d) => d.calories)
-			.filter((c): c is number => c !== null);
-		const maxCalories =
-			calorieValues.length > 0
-				? Math.max(...calorieValues, dailyLimit)
-				: dailyLimit;
-
-		setIsCalculating(false);
 		return {
 			dailyLimit,
 			deficit,
 			chartData,
-			maxCalories,
 			currentWeightKg,
 			targetWeightKg,
 		};
@@ -255,7 +322,7 @@ export function DietConsistencyPanel() {
 		<TimeframeFilter
 			value={selectedRange}
 			onChange={setSelectedRange}
-			disabled={isLoading || isCalculating}
+			disabled={isLoading}
 		/>
 	);
 
@@ -275,16 +342,6 @@ export function DietConsistencyPanel() {
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Set your target weight and target weight loss per week in Settings,
 					and add weight measurements to track calorie intake.
-				</div>
-			</Panel>
-		);
-	}
-
-	if (isCalculating) {
-		return (
-			<Panel title="Diet Consistency" headerActions={timeRangeFilter}>
-				<div className="h-64 flex items-center justify-center text-gray-400">
-					Calculating...
 				</div>
 			</Panel>
 		);
@@ -311,99 +368,111 @@ export function DietConsistencyPanel() {
 				/>
 			</HighlightGroup>
 
-			<div className="overflow-x-auto">
-				<div className="min-w-[800px] h-48 relative">
-					{/* Y-axis labels */}
-					<div className="absolute left-0 top-0 bottom-6 w-12 flex flex-col justify-between text-xs text-gray-400">
-						<span>{Math.round(calorieData.maxCalories * 1.1)}</span>
-						<span>{Math.round(calorieData.maxCalories * 0.55)}</span>
-						<span>0</span>
-					</div>
-
-					{/* Chart area */}
-					<div className="ml-14 h-full relative">
-						{/* Limit line */}
-						<div
-							className="absolute left-0 right-0 border-t-2 border-dashed border-yellow-500 z-10"
-							style={{
-								bottom: `${(calorieData.dailyLimit / (calorieData.maxCalories * 1.1)) * 100}%`,
-							}}
-						>
-							<span className="absolute right-0 -top-4 text-xs text-yellow-500">
-								Limit
-							</span>
-						</div>
-
-						{/* Bars */}
-						<div className="flex items-end h-[calc(100%-24px)] gap-0.5">
-							{calorieData.chartData.map((day) => {
-								const calories = day.calories;
-								const hasData = calories !== null;
-								const heightPercent = hasData
-									? Math.min(
-											(calories / (calorieData.maxCalories * 1.1)) * 100,
-											100,
-										)
-									: 0;
-								const isOverLimit =
-									hasData && calories > calorieData.dailyLimit;
-
-								return (
-									<div
-										key={day.dateStr}
-										className="flex-1 flex flex-col items-center"
-									>
-										<div className="w-full relative flex-1 flex items-end">
-											{hasData ? (
-												<div
-													className={`w-full rounded-t-sm ${isOverLimit ? 'bg-red-500' : 'bg-green-500'}`}
-													style={{ height: `${heightPercent}%` }}
-													title={`${day.date.toLocaleDateString()}: ${calories} kcal${isOverLimit ? ' (over limit)' : ''}`}
-												/>
-											) : (
-												<div
-													className="w-full h-1 bg-gray-800 rounded-sm"
-													title={`${day.date.toLocaleDateString()}: No data`}
-												/>
-											)}
-										</div>
-									</div>
-								);
-							})}
-						</div>
-
-						{/* X-axis labels */}
-						<div className="flex mt-1">
-							{calorieData.chartData.map((day, index) => (
-								<div
-									key={day.dateStr}
-									className="flex-1 text-center text-[10px] text-gray-500"
-								>
-									{index % 5 === 0 ? day.date.getDate() : ''}
-								</div>
-							))}
-						</div>
-					</div>
+			<div className="mt-4 flex flex-wrap gap-3 text-xs">
+				<div className="flex items-center gap-1">
+					<div className="w-3 h-3 rounded bg-green-500" />
+					<span className="text-gray-400">Under limit</span>
+				</div>
+				<div className="flex items-center gap-1">
+					<div className="w-3 h-3 rounded bg-red-500" />
+					<span className="text-gray-400">Over limit</span>
+				</div>
+				<div className="flex items-center gap-1">
+					<div className="w-3 h-3 rounded bg-purple-500" />
+					<span className="text-gray-400">Today</span>
+				</div>
+				<div className="flex items-center gap-1">
+					<div className="w-6 border-t-2 border-dashed border-yellow-500" />
+					<span className="text-gray-400">Daily limit</span>
 				</div>
 			</div>
 
-			<div className="mt-4 flex items-center gap-4 text-xs text-gray-400">
-				<div className="flex items-center gap-1.5">
-					<div className="w-3 h-3 rounded-sm bg-green-500" />
-					<span>Under limit</span>
-				</div>
-				<div className="flex items-center gap-1.5">
-					<div className="w-3 h-3 rounded-sm bg-red-500" />
-					<span>Over limit</span>
-				</div>
-				<div className="flex items-center gap-1.5">
-					<div className="w-3 h-1 rounded-sm bg-gray-800" />
-					<span>No data</span>
-				</div>
-				<div className="flex items-center gap-1.5">
-					<div className="w-6 border-t-2 border-dashed border-yellow-500" />
-					<span>Daily limit</span>
-				</div>
+			<div className="h-80 min-w-0 w-full mt-4">
+				<ResponsiveContainer width="100%" height="100%">
+					<ComposedChart
+						data={calorieData.chartData}
+						margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+					>
+						<XAxis
+							dataKey="dayLabel"
+							tick={{ fill: '#9ca3af', fontSize: 11 }}
+							tickLine={{ stroke: '#4b5563' }}
+							axisLine={{ stroke: '#4b5563' }}
+							interval={calorieData.chartData.length > 15 ? 2 : 0}
+						/>
+						<YAxis
+							tick={{ fill: '#9ca3af', fontSize: 12 }}
+							tickLine={{ stroke: '#4b5563' }}
+							axisLine={{ stroke: '#4b5563' }}
+							label={{
+								value: 'kcal',
+								angle: -90,
+								position: 'insideLeft',
+								fill: '#9ca3af',
+								fontSize: 12,
+							}}
+						/>
+						<Tooltip
+							content={<CustomTooltip dailyLimit={calorieData.dailyLimit} />}
+						/>
+						<ReferenceLine
+							y={calorieData.dailyLimit}
+							stroke="#eab308"
+							strokeDasharray="5 5"
+							strokeWidth={2}
+							label={{
+								value: 'Limit',
+								position: 'right',
+								fill: '#eab308',
+								fontSize: 12,
+							}}
+						/>
+						<Bar
+							dataKey="calories"
+							name="Calories"
+							radius={[4, 4, 0, 0]}
+							fill="#6b7280"
+							// Dynamic fill based on over/under limit
+							// biome-ignore lint/suspicious/noExplicitAny: recharts types
+							shape={(props: any) => {
+								const { x, y, width, height, payload } = props;
+								if (payload.calories === null) {
+									// No data - show thin gray bar
+									return (
+										<rect
+											x={x}
+											y={y + height - 2}
+											width={width}
+											height={2}
+											fill="#374151"
+											rx={1}
+											ry={1}
+										/>
+									);
+								}
+								let fill: string;
+								if (payload.isToday) {
+									fill = '#a855f7'; // purple-500
+								} else if (payload.isOverLimit) {
+									fill = '#ef4444'; // red-500
+								} else {
+									fill = '#22c55e'; // green-500
+								}
+								return (
+									<rect
+										x={x}
+										y={y}
+										width={width}
+										height={height}
+										fill={fill}
+										rx={4}
+										ry={4}
+									/>
+								);
+							}}
+						/>
+					</ComposedChart>
+				</ResponsiveContainer>
 			</div>
 		</Panel>
 	);
