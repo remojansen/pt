@@ -139,6 +139,7 @@ export function Navbar() {
 				id: crypto.randomUUID(),
 				date: mealDate,
 				calories,
+				mealType: mealType ?? undefined,
 			});
 			setShowLogMealModal(false);
 		}
