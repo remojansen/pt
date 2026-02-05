@@ -629,8 +629,14 @@ export function TrainingSessionPage() {
 			userProfile.raceGoal,
 			userProfile.raceDate,
 			activities,
+			userProfile.raceTimeGoal,
 		);
-	}, [userProfile.raceGoal, userProfile.raceDate, activities]);
+	}, [
+		userProfile.raceGoal,
+		userProfile.raceDate,
+		userProfile.raceTimeGoal,
+		activities,
+	]);
 
 	const todayKey = getTodayKey();
 	const todayDateStr = getTodayDateStr();

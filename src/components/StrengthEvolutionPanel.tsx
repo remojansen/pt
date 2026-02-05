@@ -9,7 +9,11 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
-import { getDaysForTimeRange, useTimeframe } from '../hooks/useTimeframe';
+import {
+	TIME_RANGE_LABELS,
+	getDaysForTimeRange,
+	useTimeframe,
+} from '../hooks/useTimeframe';
 import {
 	type Activity,
 	ActivityType,
@@ -322,9 +326,11 @@ export function StrengthEvolutionPanel() {
 		});
 	}, [allActivities, timeRange]);
 
+	const panelTitle = `Strength Evolution (${TIME_RANGE_LABELS[timeRange]})`;
+
 	if (isLoading) {
 		return (
-			<Panel title="Strength Evolution" dataTour="strength-evolution">
+			<Panel title={panelTitle} dataTour="strength-evolution">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -334,7 +340,7 @@ export function StrengthEvolutionPanel() {
 
 	if (chartData.length === 0) {
 		return (
-			<Panel title="Strength Evolution" dataTour="strength-evolution">
+			<Panel title={panelTitle} dataTour="strength-evolution">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					No strength training activities yet
 				</div>
@@ -343,7 +349,7 @@ export function StrengthEvolutionPanel() {
 	}
 
 	return (
-		<Panel title="Strength Evolution" dataTour="strength-evolution">
+		<Panel title={panelTitle} dataTour="strength-evolution">
 			<HighlightGroup>
 				{muscleGroupGains.map((gain) => (
 					<Highlight

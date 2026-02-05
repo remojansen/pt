@@ -11,8 +11,8 @@ import {
 } from 'recharts';
 import { maleBodyFatData } from '../data/body-fat';
 import {
-	getDaysForTimeRange,
 	TIME_RANGE_LABELS,
+	getDaysForTimeRange,
 	useTimeframe,
 } from '../hooks/useTimeframe';
 import { useTour } from '../hooks/useTour';
@@ -483,9 +483,11 @@ export function WeightEvolutionPanel() {
 		userProfile.targetWeightLossPerWeekKg,
 	]);
 
+	const panelTitle = `Weight Evolution (${TIME_RANGE_LABELS[timeRange]})`;
+
 	if (isLoading) {
 		return (
-			<Panel title="Weight Evolution" dataTour="weight-evolution">
+			<Panel title={panelTitle} dataTour="weight-evolution">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -495,7 +497,7 @@ export function WeightEvolutionPanel() {
 
 	if (!userProfile.heightCm || !userProfile.dateOfBirth || !userProfile.sex) {
 		return (
-			<Panel title="Weight Evolution" dataTour="weight-evolution">
+			<Panel title={panelTitle} dataTour="weight-evolution">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Complete your profile to see stats chart
 				</div>
@@ -584,7 +586,7 @@ export function WeightEvolutionPanel() {
 						</div>
 					</div>
 				</Modal>
-				<Panel title="Weight Evolution" dataTour="weight-evolution">
+				<Panel title={panelTitle} dataTour="weight-evolution">
 					<div className="h-64 flex items-center justify-center text-gray-400">
 						No stats entries yet
 					</div>
@@ -694,7 +696,7 @@ export function WeightEvolutionPanel() {
 					</div>
 				</div>
 			</Modal>
-			<Panel title="Weight Evolution" dataTour="weight-evolution">
+			<Panel title={panelTitle} dataTour="weight-evolution">
 				<HighlightGroup>
 					<Highlight
 						value={

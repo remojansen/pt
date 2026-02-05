@@ -8,12 +8,111 @@ export const RACE_DISTANCES: Record<RaceGoal, number> = {
 	FullMarathon: 42.195,
 };
 
-/** Typical peak weekly volume as a multiplier of race distance */
-const PEAK_VOLUME_MULTIPLIERS: Record<RaceGoal, number> = {
-	'10K': 4.0, // ~40km peak week for 10K
-	HalfMarathon: 2.5, // ~53km peak week for half marathon
-	FullMarathon: 1.5, // ~63km peak week for full marathon
+/** Runner experience level based on race time goal */
+export type RunnerLevel = 'beginner' | 'intermediate' | 'advanced';
+
+/**
+ * Peak weekly volume (km) by race goal and runner level
+ * Based on common training plan recommendations:
+ * - Beginner: "to-finish" or first-time runners (e.g., Hal Higdon Novice)
+ * - Intermediate: Moderate time goals (e.g., 3:30-4:30 marathon, Pfitzinger 18/55)
+ * - Advanced: PR hunting, competitive runners (e.g., sub-3:15 marathon)
+ */
+const PEAK_VOLUMES_BY_LEVEL: Record<RaceGoal, Record<RunnerLevel, number>> = {
+	'10K': {
+		beginner: 35, // Comfortable finish focus
+		intermediate: 50, // Time improvement focus
+		advanced: 65, // Competitive racing
+	},
+	HalfMarathon: {
+		beginner: 50, // ~45-55 km peak
+		intermediate: 65, // ~55-75 km peak
+		advanced: 80, // ~70-90 km peak
+	},
+	FullMarathon: {
+		beginner: 65, // 55-70 km peak (Hal Higdon Novice style)
+		intermediate: 85, // 70-95 km peak (Pfitzinger 18/55 style)
+		advanced: 105, // 90-110+ km peak (High mileage plans)
+	},
 };
+
+/**
+ * Race time thresholds (in minutes) for determining runner level
+ * Times slower than the threshold = beginner for that cutoff
+ * Times faster than the threshold = next level up
+ */
+const LEVEL_TIME_THRESHOLDS: Record<
+	RaceGoal,
+	{ beginnerMax: number; intermediateMax: number }
+> = {
+	'10K': {
+		beginnerMax: 55, // Slower than 55 min = beginner
+		intermediateMax: 45, // 45-55 min = intermediate, faster than 45 = advanced
+	},
+	HalfMarathon: {
+		beginnerMax: 120, // Slower than 2:00 = beginner
+		intermediateMax: 95, // 1:35-2:00 = intermediate, faster than 1:35 = advanced
+	},
+	FullMarathon: {
+		beginnerMax: 270, // Slower than 4:30 = beginner
+		intermediateMax: 210, // 3:30-4:30 = intermediate, faster than 3:30 = advanced
+	},
+};
+
+/**
+ * Parses a race time string (H:MM:SS or HH:MM:SS) to total minutes
+ */
+export function parseRaceTimeToMinutes(raceTimeGoal: string): number | null {
+	const parts = raceTimeGoal.split(':');
+	if (parts.length !== 3) return null;
+
+	const hours = Number.parseInt(parts[0], 10);
+	const minutes = Number.parseInt(parts[1], 10);
+	const seconds = Number.parseInt(parts[2], 10);
+
+	if (Number.isNaN(hours) || Number.isNaN(minutes) || Number.isNaN(seconds)) {
+		return null;
+	}
+
+	return hours * 60 + minutes + seconds / 60;
+}
+
+/**
+ * Determines runner level based on race time goal
+ * @param raceGoal - The race distance type
+ * @param raceTimeGoal - The target race time in H:MM:SS format
+ * @returns The runner level, or 'beginner' as default if time can't be parsed
+ */
+export function determineRunnerLevel(
+	raceGoal: RaceGoal,
+	raceTimeGoal: string | null,
+): RunnerLevel {
+	if (!raceTimeGoal) return 'beginner';
+
+	const timeInMinutes = parseRaceTimeToMinutes(raceTimeGoal);
+	if (timeInMinutes === null) return 'beginner';
+
+	const thresholds = LEVEL_TIME_THRESHOLDS[raceGoal];
+
+	if (timeInMinutes >= thresholds.beginnerMax) {
+		return 'beginner';
+	}
+	if (timeInMinutes >= thresholds.intermediateMax) {
+		return 'intermediate';
+	}
+	return 'advanced';
+}
+
+/**
+ * Gets the peak weekly volume based on race goal and runner level
+ */
+export function getPeakVolumeForLevel(
+	raceGoal: RaceGoal,
+	raceTimeGoal: string | null,
+): number {
+	const level = determineRunnerLevel(raceGoal, raceTimeGoal);
+	return PEAK_VOLUMES_BY_LEVEL[raceGoal][level];
+}
 
 /** Minimum sensible weekly volume in km */
 const MIN_WEEKLY_VOLUME = 10;
@@ -225,6 +324,7 @@ export function calculateIdealWeekVolume(
  * @param raceGoalDistance - Race goal type ('10K', 'HalfMarathon', 'FullMarathon')
  * @param raceGoalDate - Target race date (ISO string or Date)
  * @param activities - Array of user activities
+ * @param raceTimeGoal - Optional target race time (H:MM:SS format) to determine training level
  * @returns Volume recommendation with weekly targets and training status
  */
 export function calculateVolumeRecommendation(
@@ -232,6 +332,7 @@ export function calculateVolumeRecommendation(
 	raceGoalDistance: RaceGoal,
 	raceGoalDate: Date | string,
 	activities: Activity[],
+	raceTimeGoal: string | null = null,
 ): VolumeRecommendation | null {
 	const raceDate =
 		typeof raceGoalDate === 'string' ? new Date(raceGoalDate) : raceGoalDate;
@@ -244,11 +345,9 @@ export function calculateVolumeRecommendation(
 		return null;
 	}
 
-	// Get race distance and peak volume targets
+	// Get race distance and peak volume targets based on runner level
 	const raceDistanceKm = RACE_DISTANCES[raceGoalDistance];
-	const peakVolumeKm = Math.round(
-		raceDistanceKm * PEAK_VOLUME_MULTIPLIERS[raceGoalDistance],
-	);
+	const peakVolumeKm = getPeakVolumeForLevel(raceGoalDistance, raceTimeGoal);
 	const peakLongRunKm =
 		Math.round(raceDistanceKm * PEAK_LONG_RUN_RATIO * 10) / 10;
 
@@ -362,6 +461,7 @@ export function calculateVolumeRecommendation(
  * @param raceGoalDate - Target race date (ISO string or Date)
  * @param startingVolumeKm - Starting weekly volume (from last week's actual or minimum)
  * @param planStartDate - Optional date to start the plan display from (defaults to today)
+ * @param raceTimeGoal - Optional target race time (H:MM:SS format) to determine training level
  * @returns Array of weekly volume plans from planStartDate to race week
  */
 export function generateTrainingPlan(
@@ -370,6 +470,7 @@ export function generateTrainingPlan(
 	raceGoalDate: Date | string,
 	startingVolumeKm: number = MIN_WEEKLY_VOLUME,
 	planStartDate?: Date,
+	raceTimeGoal: string | null = null,
 ): WeeklyVolumePlan[] | null {
 	const raceDate =
 		typeof raceGoalDate === 'string' ? new Date(raceGoalDate) : raceGoalDate;
@@ -382,11 +483,9 @@ export function generateTrainingPlan(
 		return null;
 	}
 
-	// Get race distance and peak volume targets
+	// Get race distance and peak volume targets based on runner level
 	const raceDistanceKm = RACE_DISTANCES[raceGoalDistance];
-	const peakVolumeKm = Math.round(
-		raceDistanceKm * PEAK_VOLUME_MULTIPLIERS[raceGoalDistance],
-	);
+	const peakVolumeKm = getPeakVolumeForLevel(raceGoalDistance, raceTimeGoal);
 	const peakLongRunKm =
 		Math.round(raceDistanceKm * PEAK_LONG_RUN_RATIO * 10) / 10;
 
@@ -397,8 +496,14 @@ export function generateTrainingPlan(
 
 	// Determine the starting week for the plan display
 	const displayStartDate = planStartDate || today;
-	const weeksFromDisplayStartToRace = getWeeksBetween(displayStartDate, raceDate);
-	const displayStartWeek = Math.max(1, totalWeeks - weeksFromDisplayStartToRace);
+	const weeksFromDisplayStartToRace = getWeeksBetween(
+		displayStartDate,
+		raceDate,
+	);
+	const displayStartWeek = Math.max(
+		1,
+		totalWeeks - weeksFromDisplayStartToRace,
+	);
 
 	const baseStartVolume = Math.max(startingVolumeKm, MIN_WEEKLY_VOLUME);
 	const plan: WeeklyVolumePlan[] = [];

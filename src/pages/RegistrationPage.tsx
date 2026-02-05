@@ -1,13 +1,54 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { UserProfileForm } from '../components/UserProfileForm';
+import { generateBackup } from '../data/generate-demo';
+import {
+	saveActivities,
+	saveDietEntries,
+	saveStatsEntries,
+	saveUserProfile,
+} from '../hooks/db';
 import { type UserProfile, useUserData } from '../hooks/useUserData';
 
 export function RegistrationPage() {
 	const { userProfile, setUserProfile, addStatsEntry } = useUserData();
+	const [searchParams] = useSearchParams();
 	const [localUserProfile, setLocalUserProfile] =
 		useState<UserProfile>(userProfile);
 	const [weightKg, setWeightKg] = useState<number | null>(null);
+	const [isLoadingDemo, setIsLoadingDemo] = useState(false);
+
+	const isDemo = searchParams.get('demo') === 'true';
+
+	// Handle demo mode - populate IndexedDB with generated data
+	useEffect(() => {
+		async function loadDemoData() {
+			if (!isDemo || isLoadingDemo) return;
+			setIsLoadingDemo(true);
+
+			try {
+				const backup = generateBackup();
+				const { data } = backup;
+
+				// Save all demo data to IndexedDB
+				await Promise.all([
+					data.userProfile && saveUserProfile(data.userProfile as UserProfile),
+					data.activities.length > 0 && saveActivities(data.activities as Parameters<typeof saveActivities>[0]),
+					data.statsEntries.length > 0 && saveStatsEntries(data.statsEntries as Parameters<typeof saveStatsEntries>[0]),
+					data.dietEntries.length > 0 && saveDietEntries(data.dietEntries as Parameters<typeof saveDietEntries>[0]),
+				]);
+
+				// Reload the page without demo param to trigger data load
+				window.location.href = window.location.pathname;
+			} catch (error) {
+				console.error('Failed to load demo data:', error);
+				setIsLoadingDemo(false);
+			}
+		}
+
+		loadDemoData();
+	}, [isDemo, isLoadingDemo]);
 
 	const isFormComplete =
 		localUserProfile.heightCm !== null &&
@@ -28,6 +69,20 @@ export function RegistrationPage() {
 			});
 		}
 	};
+
+	// Show loading state while demo data is being loaded
+	if (isDemo || isLoadingDemo) {
+		return (
+			<div className="min-h-screen bg-gray-950 flex items-center justify-center">
+				<div className="text-center">
+					<div className="inline-flex items-center justify-center w-16 h-16 bg-purple-900 rounded-full mb-4 animate-pulse">
+						<span className="text-3xl">💪</span>
+					</div>
+					<p className="text-white text-lg">Loading demo data...</p>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="min-h-screen bg-gray-950 flex items-center justify-center py-8 px-4">

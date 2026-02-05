@@ -1,8 +1,8 @@
-import fs from 'fs';
+
 
 // Configuration
 const START_DATE = new Date('2025-08-04'); // 6 months ago from Feb 4, 2026
-const END_DATE = new Date('2026-02-04');
+const END_DATE = new Date();
 const STARTING_WEIGHT = 98;
 const CURRENT_WEIGHT = 69;
 const STARTING_BODY_FAT = 20;
@@ -34,37 +34,47 @@ const userProfile = {
 	weightReminderEnabled: true,
 };
 
+// Types
+type DayOfWeek = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';
+type EffortLevel = 'easy' | 'moderate' | 'hard' | 'race';
+type StrengthActivityType = 'StrengthTrainingLegs' | 'StrengthTrainingArms' | 'StrengthTrainingChest' | 'StrengthTrainingBack' | 'StrengthTrainingShoulders' | 'StrengthTrainingCore';
+
+interface Exercise {
+	type: string;
+	baseWeight: number;
+}
+
 // Helper functions
-function generateId() {
+function generateId(): string {
 	return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
 }
 
-function formatDate(date) {
+function formatDate(date: Date): string {
 	return date.toISOString().split('T')[0];
 }
 
-function addDays(date, days) {
+function addDays(date: Date, days: number): Date {
 	const result = new Date(date);
 	result.setDate(result.getDate() + days);
 	return result;
 }
 
-function getDayOfWeek(date) {
-	const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+function getDayOfWeek(date: Date): DayOfWeek {
+	const days: DayOfWeek[] = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 	return days[date.getDay()];
 }
 
 // Linear interpolation with some noise
-function interpolate(start, end, progress, noiseAmount = 0) {
+function interpolate(start: number, end: number, progress: number, noiseAmount = 0): number {
 	const base = start + (end - start) * progress;
 	const noise = (Math.random() - 0.5) * 2 * noiseAmount;
 	return base + noise;
 }
 
 // Calculate pace in seconds per km based on progress (improving over time)
-function calculatePace(progress, effort) {
+function calculatePace(progress: number, effort: EffortLevel): number {
 	// Starting pace: ~6:30/km (390 sec), ending pace: ~5:00/km (300 sec) for easy runs
-	const basePaces = {
+	const basePaces: Record<EffortLevel, { start: number; end: number }> = {
 		easy: { start: 390, end: 320 },
 		moderate: { start: 360, end: 290 },
 		hard: { start: 330, end: 270 },
@@ -75,8 +85,8 @@ function calculatePace(progress, effort) {
 }
 
 // Generate strength training repetitions
-function generateRepetitions(activityType, progress) {
-	const exercisesByType = {
+function generateRepetitions(activityType: StrengthActivityType, progress: number) {
+	const exercisesByType: Record<StrengthActivityType, Exercise[]> = {
 		StrengthTrainingLegs: [
 			{ type: 'BarbellSquats', baseWeight: 40 },
 			{ type: 'LegExtension', baseWeight: 30 },
@@ -110,8 +120,8 @@ function generateRepetitions(activityType, progress) {
 		],
 	};
 
-	const exercises = exercisesByType[activityType] || [];
-	return exercises.map((ex) => ({
+	const exercises: Exercise[] = exercisesByType[activityType] || [];
+	return exercises.map((ex: Exercise) => ({
 		type: ex.type,
 		count: 12,
 		series: 3,
@@ -122,14 +132,21 @@ function generateRepetitions(activityType, progress) {
 
 // Generate activities
 function generateActivities() {
-	const activities = [];
+	const activities: Array<{
+		id: string;
+		date: string;
+		type: string;
+		distanceInKm?: number;
+		durationInSeconds: number;
+		effort?: EffortLevel;
+		repetitions?: Array<{ type: string; count: number; series: number; weightKg: number }>;
+	}> = [];
 	let currentDate = new Date(START_DATE);
-	const totalDays = Math.floor((END_DATE - START_DATE) / (1000 * 60 * 60 * 24));
 
 	while (currentDate <= END_DATE) {
 		const dayOfWeek = getDayOfWeek(currentDate);
 		const scheduledActivities = userProfile.schedule[dayOfWeek];
-		const progress = (currentDate - START_DATE) / (END_DATE - START_DATE);
+		const progress = (currentDate.getTime() - START_DATE.getTime()) / (END_DATE.getTime() - START_DATE.getTime());
 		const dateStr = formatDate(currentDate);
 
 		// 85% chance of completing scheduled activities (doing the right thing most days)
@@ -141,7 +158,7 @@ function generateActivities() {
 
 				if (isCardio) {
 					// Determine effort type based on day
-					let effort = 'easy';
+					let effort: EffortLevel = 'easy';
 					if (dayOfWeek === 'tuesday' || dayOfWeek === 'thursday') {
 						effort = Math.random() < 0.5 ? 'moderate' : 'hard';
 					} else if (dayOfWeek === 'saturday') {
@@ -149,7 +166,7 @@ function generateActivities() {
 					}
 
 					// Distance varies by day and increases over time
-					let baseDistance;
+					let baseDistance: number;
 					if (dayOfWeek === 'saturday') {
 						// Long run: starts at 15km, builds to 30km
 						baseDistance = interpolate(15, 30, progress, 2);
@@ -181,7 +198,7 @@ function generateActivities() {
 						date: dateStr,
 						type: activityType,
 						durationInSeconds: durationMinutes * 60,
-						repetitions: generateRepetitions(activityType, progress),
+						repetitions: generateRepetitions(activityType as StrengthActivityType, progress),
 					});
 				}
 			}
@@ -190,17 +207,16 @@ function generateActivities() {
 		currentDate = addDays(currentDate, 1);
 	}
 
-	return activities.sort((a, b) => new Date(b.date) - new Date(a.date)); // newest first
+	return activities.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // newest first
 }
 
 // Generate stats entries (weight and body fat)
 function generateStatsEntries() {
-	const entries = [];
+	const entries: Array<{ id: string; date: string; weightKg: number; bodyFatPercentage: number }> = [];
 	let currentDate = new Date(START_DATE);
-	const totalDays = Math.floor((END_DATE - START_DATE) / (1000 * 60 * 60 * 24));
 
 	while (currentDate <= END_DATE) {
-		const progress = (currentDate - START_DATE) / (END_DATE - START_DATE);
+		const progress = (currentDate.getTime() - START_DATE.getTime()) / (END_DATE.getTime() - START_DATE.getTime());
 		const dateStr = formatDate(currentDate);
 
 		// 90% chance of logging weight (doing the right thing most days)
@@ -221,12 +237,12 @@ function generateStatsEntries() {
 		currentDate = addDays(currentDate, 1);
 	}
 
-	return entries.sort((a, b) => new Date(b.date) - new Date(a.date)); // newest first
+	return entries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // newest first
 }
 
 // Generate diet entries
 function generateDietEntries() {
-	const entries = [];
+	const entries: Array<{ id: string; date: string; calories: number }> = [];
 	let currentDate = new Date(START_DATE);
 
 	// Daily limit is calculated using Mifflin-St Jeor: ~1856 kcal for current stats
@@ -241,7 +257,7 @@ function generateDietEntries() {
 		// 92% chance of logging calories
 		if (Math.random() < 0.92) {
 			// 85% of days are under limit (doing the right thing most days)
-			let calories;
+			let calories: number;
 			if (Math.random() < 0.85) {
 				// Good day - under limit (1500-1850 range)
 				calories = targetCalories + (Math.random() - 0.3) * 300; // mostly -100 to +150
@@ -265,13 +281,11 @@ function generateDietEntries() {
 		currentDate = addDays(currentDate, 1);
 	}
 
-	return entries.sort((a, b) => new Date(b.date) - new Date(a.date)); // newest first
+	return entries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // newest first
 }
 
 // Generate the backup file
-function generateBackup() {
-	console.log('Generating demo data...');
-	
+export function generateBackup() {
 	const activities = generateActivities();
 	const statsEntries = generateStatsEntries();
 	const dietEntries = generateDietEntries();
@@ -286,18 +300,5 @@ function generateBackup() {
 			dietEntries,
 		},
 	};
-
-	const filename = 'race-buddy-backup.json';
-	fs.writeFileSync(filename, JSON.stringify(backup, null, 2));
-
-	console.log(`\nGenerated ${filename} with:`);
-	console.log(`  - User: ${userProfile.name} (${36} years old)`);
-	console.log(`  - ${activities.length} activities`);
-	console.log(`  - ${statsEntries.length} weight/body fat entries`);
-	console.log(`  - ${dietEntries.length} diet entries`);
-	console.log(`  - Weight: ${STARTING_WEIGHT}kg → ${CURRENT_WEIGHT}kg`);
-	console.log(`  - Body fat: ${STARTING_BODY_FAT}% → ${CURRENT_BODY_FAT}%`);
-	console.log(`\nDate range: ${formatDate(START_DATE)} to ${formatDate(END_DATE)}`);
+	return backup;
 }
-
-generateBackup();

@@ -9,7 +9,11 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
-import { getDaysForTimeRange, useTimeframe } from '../hooks/useTimeframe';
+import {
+	TIME_RANGE_LABELS,
+	getDaysForTimeRange,
+	useTimeframe,
+} from '../hooks/useTimeframe';
 import {
 	type Activity,
 	ActivityType,
@@ -257,9 +261,11 @@ export function TrainingConsistencyPanel() {
 		});
 	}, [selectedDays, activitiesMap, completedTypesMap, userProfile.schedule]);
 
+	const panelTitle = `Training Consistency (${TIME_RANGE_LABELS[timeRange]})`;
+
 	if (isLoading) {
 		return (
-			<Panel title="Training Consistency" dataTour="training-consistency">
+			<Panel title={panelTitle} dataTour="training-consistency">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -269,7 +275,7 @@ export function TrainingConsistencyPanel() {
 
 	if (scheduledActivityTypes.length === 0) {
 		return (
-			<Panel title="Training Consistency" dataTour="training-consistency">
+			<Panel title={panelTitle} dataTour="training-consistency">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Set up your training schedule in Settings to track consistency
 				</div>
@@ -278,7 +284,7 @@ export function TrainingConsistencyPanel() {
 	}
 
 	return (
-		<Panel title="Training Consistency" dataTour="training-consistency">
+		<Panel title={panelTitle} dataTour="training-consistency">
 			<HighlightGroup>
 				<Highlight value={streaks.currentStreak} label="Current Streak" />
 				<Highlight value={streaks.longestStreak} label="Longest Streak" />

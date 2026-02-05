@@ -2,7 +2,9 @@
 
 A personal fitness tracking PWA for monitoring running pace, strength training, weight, and diet.
 
-**Live Demo**: https://www.remojansen.com/personal-trainer/
+**Demo mode**: https://www.remojansen.com/personal-trainer?demo=true
+
+**Registration**: https://www.remojansen.com/personal-trainer
 
 ## Privacy & Data Storage
 

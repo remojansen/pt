@@ -10,7 +10,11 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
-import { getDaysForTimeRange, useTimeframe } from '../hooks/useTimeframe';
+import {
+	TIME_RANGE_LABELS,
+	getDaysForTimeRange,
+	useTimeframe,
+} from '../hooks/useTimeframe';
 import {
 	type Activity,
 	ActivityType,
@@ -345,9 +349,11 @@ export function RunningPaceEvolutionPanel() {
 		return totalMinutes / distanceKm;
 	}, [userProfile.raceGoal, userProfile.raceTimeGoal]);
 
+	const panelTitle = `Running Evolution (${TIME_RANGE_LABELS[timeRange]})`;
+
 	if (isLoading) {
 		return (
-			<Panel title="Running Evolution" dataTour="pace-evolution">
+			<Panel title={panelTitle} dataTour="pace-evolution">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -357,7 +363,7 @@ export function RunningPaceEvolutionPanel() {
 
 	if (chartData.length === 0) {
 		return (
-			<Panel title="Running Evolution" dataTour="pace-evolution">
+			<Panel title={panelTitle} dataTour="pace-evolution">
 				<HighlightGroup>
 					<Highlight value="N/A" label="Average pace (km)" />
 					<Highlight
@@ -378,7 +384,7 @@ export function RunningPaceEvolutionPanel() {
 	}
 
 	return (
-		<Panel title="Running Evolution" dataTour="pace-evolution">
+		<Panel title={panelTitle} dataTour="pace-evolution">
 			{avgPaceForTimeRange !== null && (
 				<HighlightGroup>
 					<Highlight
@@ -486,7 +492,7 @@ export function RunningPaceEvolutionPanel() {
 							strokeDasharray="5 5"
 							dot={{ fill: '#a855f7', r: 4 }}
 							activeDot={{ r: 8, stroke: '#f3f4f6', strokeWidth: 2 }}
-							name="Avg Pace"
+							name="Pace"
 							connectNulls
 						/>
 						<Line

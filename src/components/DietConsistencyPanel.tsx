@@ -8,7 +8,11 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
-import { getDaysForTimeRange, useTimeframe } from '../hooks/useTimeframe';
+import {
+	TIME_RANGE_LABELS,
+	getDaysForTimeRange,
+	useTimeframe,
+} from '../hooks/useTimeframe';
 import { useTour } from '../hooks/useTour';
 import {
 	type DietEntry,
@@ -444,9 +448,11 @@ export function DietConsistencyPanel() {
 		};
 	}, [allStatsEntries, userProfile, selectedDays, dietEntriesMap]);
 
+	const panelTitle = `Diet Consistency (${TIME_RANGE_LABELS[timeRange]})`;
+
 	if (isLoading) {
 		return (
-			<Panel title="Diet Consistency" dataTour="diet-consistency">
+			<Panel title={panelTitle} dataTour="diet-consistency">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Loading...
 				</div>
@@ -456,7 +462,7 @@ export function DietConsistencyPanel() {
 
 	if (!calorieData) {
 		return (
-			<Panel title="Diet Consistency" dataTour="diet-consistency">
+			<Panel title={panelTitle} dataTour="diet-consistency">
 				<div className="h-64 flex items-center justify-center text-gray-400">
 					Set your target weight and target weight loss per week in Settings,
 					and add weight measurements to track calorie intake.
@@ -594,7 +600,7 @@ export function DietConsistencyPanel() {
 				</div>
 			</Modal>
 
-			<Panel title="Diet Consistency" dataTour="diet-consistency">
+			<Panel title={panelTitle} dataTour="diet-consistency">
 				<HighlightGroup>
 					<Highlight
 						value={`${calorieData.dailyLimit} kcal`}

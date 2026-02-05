@@ -108,10 +108,12 @@ export function VolumePlanPanel() {
 			userProfile.raceDate,
 			lastWeekStats.totalDistanceKm,
 			planStartDate,
+			userProfile.raceTimeGoal,
 		);
 	}, [
 		userProfile.raceGoal,
 		userProfile.raceDate,
+		userProfile.raceTimeGoal,
 		lastWeekStats.totalDistanceKm,
 		planStartDate,
 	]);
