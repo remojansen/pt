@@ -29,6 +29,10 @@ This application prioritizes user privacy:
 - **Optional Backup**: Sync data via File System Access API to a local folder
 - **Installable PWA**: Install as a native-like app on any device
 
+<br/>
+
+![Web preview](./demo.png)
+
 ## Tech Stack
 
 - React 18 + TypeScript + Vite
