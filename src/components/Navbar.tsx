@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
 	IoAddCircleSharp,
+	IoListSharp,
 	IoSettingsSharp,
 	IoStatsChartSharp,
 } from 'react-icons/io5';
@@ -221,6 +222,13 @@ export function Navbar() {
 									</div>
 								)}
 							</div>
+							<Link
+								to="/log"
+								className="flex items-center justify-center h-6 w-6 text-gray-300 hover:text-white"
+								data-tour="log-link"
+							>
+								<IoListSharp className="h-6 w-6" />
+							</Link>
 							<Link
 								to="/settings"
 								className="flex items-center justify-center h-6 w-6 text-gray-300 hover:text-white"

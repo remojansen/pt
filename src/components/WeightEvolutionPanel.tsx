@@ -11,8 +11,8 @@ import {
 } from 'recharts';
 import { maleBodyFatData } from '../data/body-fat';
 import {
-	TIME_RANGE_LABELS,
 	getDaysForTimeRange,
+	TIME_RANGE_LABELS,
 	useTimeframe,
 } from '../hooks/useTimeframe';
 import { useTour } from '../hooks/useTour';

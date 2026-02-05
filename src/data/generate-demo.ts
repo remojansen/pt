@@ -1,5 +1,3 @@
-
-
 // Configuration
 const START_DATE = new Date('2025-08-04'); // 6 months ago from Feb 4, 2026
 const END_DATE = new Date();
@@ -35,9 +33,22 @@ const userProfile = {
 };
 
 // Types
-type DayOfWeek = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';
+type DayOfWeek =
+	| 'sunday'
+	| 'monday'
+	| 'tuesday'
+	| 'wednesday'
+	| 'thursday'
+	| 'friday'
+	| 'saturday';
 type EffortLevel = 'easy' | 'moderate' | 'hard' | 'race';
-type StrengthActivityType = 'StrengthTrainingLegs' | 'StrengthTrainingArms' | 'StrengthTrainingChest' | 'StrengthTrainingBack' | 'StrengthTrainingShoulders' | 'StrengthTrainingCore';
+type StrengthActivityType =
+	| 'StrengthTrainingLegs'
+	| 'StrengthTrainingArms'
+	| 'StrengthTrainingChest'
+	| 'StrengthTrainingBack'
+	| 'StrengthTrainingShoulders'
+	| 'StrengthTrainingCore';
 
 interface Exercise {
 	type: string;
@@ -60,12 +71,25 @@ function addDays(date: Date, days: number): Date {
 }
 
 function getDayOfWeek(date: Date): DayOfWeek {
-	const days: DayOfWeek[] = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+	const days: DayOfWeek[] = [
+		'sunday',
+		'monday',
+		'tuesday',
+		'wednesday',
+		'thursday',
+		'friday',
+		'saturday',
+	];
 	return days[date.getDay()];
 }
 
 // Linear interpolation with some noise
-function interpolate(start: number, end: number, progress: number, noiseAmount = 0): number {
+function interpolate(
+	start: number,
+	end: number,
+	progress: number,
+	noiseAmount = 0,
+): number {
 	const base = start + (end - start) * progress;
 	const noise = (Math.random() - 0.5) * 2 * noiseAmount;
 	return base + noise;
@@ -85,7 +109,10 @@ function calculatePace(progress: number, effort: EffortLevel): number {
 }
 
 // Generate strength training repetitions
-function generateRepetitions(activityType: StrengthActivityType, progress: number) {
+function generateRepetitions(
+	activityType: StrengthActivityType,
+	progress: number,
+) {
 	const exercisesByType: Record<StrengthActivityType, Exercise[]> = {
 		StrengthTrainingLegs: [
 			{ type: 'BarbellSquats', baseWeight: 40 },
@@ -139,14 +166,21 @@ function generateActivities() {
 		distanceInKm?: number;
 		durationInSeconds: number;
 		effort?: EffortLevel;
-		repetitions?: Array<{ type: string; count: number; series: number; weightKg: number }>;
+		repetitions?: Array<{
+			type: string;
+			count: number;
+			series: number;
+			weightKg: number;
+		}>;
 	}> = [];
 	let currentDate = new Date(START_DATE);
 
 	while (currentDate <= END_DATE) {
 		const dayOfWeek = getDayOfWeek(currentDate);
 		const scheduledActivities = userProfile.schedule[dayOfWeek];
-		const progress = (currentDate.getTime() - START_DATE.getTime()) / (END_DATE.getTime() - START_DATE.getTime());
+		const progress =
+			(currentDate.getTime() - START_DATE.getTime()) /
+			(END_DATE.getTime() - START_DATE.getTime());
 		const dateStr = formatDate(currentDate);
 
 		// 85% chance of completing scheduled activities (doing the right thing most days)
@@ -154,7 +188,14 @@ function generateActivities() {
 
 		if (willTrain && scheduledActivities.length > 0) {
 			for (const activityType of scheduledActivities) {
-				const isCardio = ['RoadRun', 'TreadmillRun', 'PoolSwim', 'SeaSwim', 'RoadCycle', 'IndoorCycle'].includes(activityType);
+				const isCardio = [
+					'RoadRun',
+					'TreadmillRun',
+					'PoolSwim',
+					'SeaSwim',
+					'RoadCycle',
+					'IndoorCycle',
+				].includes(activityType);
 
 				if (isCardio) {
 					// Determine effort type based on day
@@ -198,7 +239,10 @@ function generateActivities() {
 						date: dateStr,
 						type: activityType,
 						durationInSeconds: durationMinutes * 60,
-						repetitions: generateRepetitions(activityType as StrengthActivityType, progress),
+						repetitions: generateRepetitions(
+							activityType as StrengthActivityType,
+							progress,
+						),
 					});
 				}
 			}
@@ -207,24 +251,43 @@ function generateActivities() {
 		currentDate = addDays(currentDate, 1);
 	}
 
-	return activities.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // newest first
+	return activities.sort(
+		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+	); // newest first
 }
 
 // Generate stats entries (weight and body fat)
 function generateStatsEntries() {
-	const entries: Array<{ id: string; date: string; weightKg: number; bodyFatPercentage: number }> = [];
+	const entries: Array<{
+		id: string;
+		date: string;
+		weightKg: number;
+		bodyFatPercentage: number;
+	}> = [];
 	let currentDate = new Date(START_DATE);
 
 	while (currentDate <= END_DATE) {
-		const progress = (currentDate.getTime() - START_DATE.getTime()) / (END_DATE.getTime() - START_DATE.getTime());
+		const progress =
+			(currentDate.getTime() - START_DATE.getTime()) /
+			(END_DATE.getTime() - START_DATE.getTime());
 		const dateStr = formatDate(currentDate);
 
 		// 90% chance of logging weight (doing the right thing most days)
 		if (Math.random() < 0.9) {
 			// Weight loss follows a curve - faster at start, slower at end
-			const weightProgress = Math.pow(progress, 0.8); // Slightly more weight lost early
-			const weight = interpolate(STARTING_WEIGHT, CURRENT_WEIGHT, weightProgress, 0.3);
-			const bodyFat = interpolate(STARTING_BODY_FAT, CURRENT_BODY_FAT, weightProgress, 0.5);
+			const weightProgress = progress ** 0.8; // Slightly more weight lost early
+			const weight = interpolate(
+				STARTING_WEIGHT,
+				CURRENT_WEIGHT,
+				weightProgress,
+				0.3,
+			);
+			const bodyFat = interpolate(
+				STARTING_BODY_FAT,
+				CURRENT_BODY_FAT,
+				weightProgress,
+				0.5,
+			);
 
 			entries.push({
 				id: generateId(),
@@ -237,7 +300,9 @@ function generateStatsEntries() {
 		currentDate = addDays(currentDate, 1);
 	}
 
-	return entries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // newest first
+	return entries.sort(
+		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+	); // newest first
 }
 
 // Generate diet entries
@@ -281,7 +346,9 @@ function generateDietEntries() {
 		currentDate = addDays(currentDate, 1);
 	}
 
-	return entries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // newest first
+	return entries.sort(
+		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+	); // newest first
 }
 
 // Generate the backup file

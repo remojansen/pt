@@ -34,9 +34,18 @@ export function RegistrationPage() {
 				// Save all demo data to IndexedDB
 				await Promise.all([
 					data.userProfile && saveUserProfile(data.userProfile as UserProfile),
-					data.activities.length > 0 && saveActivities(data.activities as Parameters<typeof saveActivities>[0]),
-					data.statsEntries.length > 0 && saveStatsEntries(data.statsEntries as Parameters<typeof saveStatsEntries>[0]),
-					data.dietEntries.length > 0 && saveDietEntries(data.dietEntries as Parameters<typeof saveDietEntries>[0]),
+					data.activities.length > 0 &&
+						saveActivities(
+							data.activities as Parameters<typeof saveActivities>[0],
+						),
+					data.statsEntries.length > 0 &&
+						saveStatsEntries(
+							data.statsEntries as Parameters<typeof saveStatsEntries>[0],
+						),
+					data.dietEntries.length > 0 &&
+						saveDietEntries(
+							data.dietEntries as Parameters<typeof saveDietEntries>[0],
+						),
 				]);
 
 				// Reload the page without demo param to trigger data load

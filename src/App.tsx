@@ -8,6 +8,7 @@ import { TimeframeProvider } from './hooks/useTimeframe';
 import { TourProvider } from './hooks/useTour';
 import { useUserData } from './hooks/useUserData';
 import { HomePage } from './pages/HomePage';
+import { LogPage } from './pages/LogPage';
 import { RegistrationPage } from './pages/RegistrationPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { TrainingSessionPage } from './pages/TrainingSessionPage';
@@ -57,6 +58,7 @@ function App() {
 					<AutoBackupSync />
 					<Routes>
 						<Route path="/" element={<HomePage />} />
+						<Route path="/log" element={<LogPage />} />
 						<Route path="/settings" element={<SettingsPage />} />
 						<Route path="/training-session" element={<TrainingSessionPage />} />
 					</Routes>
