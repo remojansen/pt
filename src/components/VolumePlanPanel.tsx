@@ -14,6 +14,7 @@ import {
 	getWeeklyRunningStats,
 	type WeeklyVolumePlan,
 } from '../data/volume';
+import { getDaysForTimeRange, useTimeframe } from '../hooks/useTimeframe';
 import { useUserData } from '../hooks/useUserData';
 import { Highlight } from './Highlight';
 import { HighlightGroup } from './HighlightGroup';
@@ -84,12 +85,20 @@ function getBarColor(data: WeeklyVolumePlan): string {
 
 export function VolumePlanPanel() {
 	const { userProfile, activities, isLoading } = useUserData();
+	const { timeRange } = useTimeframe();
 
 	const lastWeekStats = useMemo(() => {
 		const lastWeekStart = new Date();
 		lastWeekStart.setDate(lastWeekStart.getDate() - 7);
 		return getWeeklyRunningStats(activities, lastWeekStart);
 	}, [activities]);
+
+	const planStartDate = useMemo(() => {
+		const days = getDaysForTimeRange(timeRange);
+		const startDate = new Date();
+		startDate.setDate(startDate.getDate() - days);
+		return startDate;
+	}, [timeRange]);
 
 	const trainingPlan = useMemo(() => {
 		if (!userProfile.raceGoal || !userProfile.raceDate) return null;
@@ -98,11 +107,13 @@ export function VolumePlanPanel() {
 			userProfile.raceGoal,
 			userProfile.raceDate,
 			lastWeekStats.totalDistanceKm,
+			planStartDate,
 		);
 	}, [
 		userProfile.raceGoal,
 		userProfile.raceDate,
 		lastWeekStats.totalDistanceKm,
+		planStartDate,
 	]);
 
 	const chartData: ChartDataPoint[] = useMemo(() => {

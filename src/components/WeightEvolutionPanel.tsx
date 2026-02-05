@@ -10,8 +10,12 @@ import {
 	YAxis,
 } from 'recharts';
 import { maleBodyFatData } from '../data/body-fat';
+import {
+	getDaysForTimeRange,
+	TIME_RANGE_LABELS,
+	useTimeframe,
+} from '../hooks/useTimeframe';
 import { useTour } from '../hooks/useTour';
-import { getDaysForTimeRange, useTimeframe } from '../hooks/useTimeframe';
 import { type UserStatsEntry, useUserData } from '../hooks/useUserData';
 import { Button } from './Button';
 import { Highlight } from './Highlight';
@@ -354,9 +358,9 @@ export function WeightEvolutionPanel() {
 	}, [chartData]);
 
 	const weightStats = useMemo(() => {
-		if (chartData.length === 0) {
+		if (allStatsEntries.length === 0) {
 			return {
-				kgsLost90Days: null,
+				kgsLostInPeriod: null,
 				kgsToTarget: null,
 				currentWeight: null,
 				weeksToTarget: null,
@@ -365,27 +369,27 @@ export function WeightEvolutionPanel() {
 			};
 		}
 
-		// Get current weight (most recent entry)
-		const sortedData = [...chartData].sort(
+		// Get current weight (most recent entry from ALL data)
+		const sortedAllEntries = [...allStatsEntries].sort(
 			(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
 		);
-		const currentWeight = sortedData[0].weightKg;
+		const currentWeight = sortedAllEntries[0].weightKg;
 
-		// Calculate kgs lost in last 90 days
+		// Calculate kgs lost in selected time period (first day vs last day in period)
 		const today = new Date();
-		const ninetyDaysAgo = new Date(today);
-		ninetyDaysAgo.setDate(today.getDate() - 90);
+		const numDays = getDaysForTimeRange(timeRange);
+		const cutoffDate = new Date(today);
+		cutoffDate.setDate(today.getDate() - numDays);
 
-		const entriesLast90Days = chartData.filter(
-			(d) => new Date(d.date) >= ninetyDaysAgo,
-		);
+		const entriesInPeriod = allStatsEntries
+			.filter((d) => new Date(d.date) >= cutoffDate)
+			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-		let kgsLost90Days: number | null = null;
-		if (entriesLast90Days.length >= 2) {
-			const oldestIn90Days = entriesLast90Days.reduce((oldest, entry) =>
-				new Date(entry.date) < new Date(oldest.date) ? entry : oldest,
-			);
-			kgsLost90Days = oldestIn90Days.weightKg - currentWeight;
+		let kgsLostInPeriod: number | null = null;
+		if (entriesInPeriod.length >= 2) {
+			const firstInPeriod = entriesInPeriod[0];
+			const lastInPeriod = entriesInPeriod[entriesInPeriod.length - 1];
+			kgsLostInPeriod = firstInPeriod.weightKg - lastInPeriod.weightKg;
 		}
 
 		// Calculate kgs to target
@@ -464,7 +468,7 @@ export function WeightEvolutionPanel() {
 		}
 
 		return {
-			kgsLost90Days,
+			kgsLostInPeriod,
 			kgsToTarget,
 			currentWeight,
 			weeksToTarget,
@@ -472,7 +476,9 @@ export function WeightEvolutionPanel() {
 			longestStreak,
 		};
 	}, [
+		allStatsEntries,
 		chartData,
+		timeRange,
 		userProfile.targetWeightKg,
 		userProfile.targetWeightLossPerWeekKg,
 	]);
@@ -692,11 +698,11 @@ export function WeightEvolutionPanel() {
 				<HighlightGroup>
 					<Highlight
 						value={
-							weightStats.kgsLost90Days !== null
-								? `${weightStats.kgsLost90Days >= 0 ? '' : '+'}${Math.abs(weightStats.kgsLost90Days).toFixed(1)} kg`
+							weightStats.kgsLostInPeriod !== null
+								? `${weightStats.kgsLostInPeriod >= 0 ? '' : '+'}${Math.abs(weightStats.kgsLostInPeriod).toFixed(1)} kg`
 								: '0 kg'
 						}
-						label="Lost (90 days)"
+						label={`Lost`}
 					/>
 					<Highlight
 						value={

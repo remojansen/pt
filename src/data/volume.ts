@@ -361,13 +361,15 @@ export function calculateVolumeRecommendation(
  * @param raceGoalDistance - Race goal type ('10K', 'HalfMarathon', 'FullMarathon')
  * @param raceGoalDate - Target race date (ISO string or Date)
  * @param startingVolumeKm - Starting weekly volume (from last week's actual or minimum)
- * @returns Array of weekly volume plans from current week to race week
+ * @param planStartDate - Optional date to start the plan display from (defaults to today)
+ * @returns Array of weekly volume plans from planStartDate to race week
  */
 export function generateTrainingPlan(
 	today: Date,
 	raceGoalDistance: RaceGoal,
 	raceGoalDate: Date | string,
 	startingVolumeKm: number = MIN_WEEKLY_VOLUME,
+	planStartDate?: Date,
 ): WeeklyVolumePlan[] | null {
 	const raceDate =
 		typeof raceGoalDate === 'string' ? new Date(raceGoalDate) : raceGoalDate;
@@ -393,10 +395,15 @@ export function generateTrainingPlan(
 	const peakWeek = Math.max(1, totalWeeks - WEEKS_BEFORE_RACE_FOR_PEAK);
 	const currentWeek = totalWeeks - weeksUntilRace;
 
+	// Determine the starting week for the plan display
+	const displayStartDate = planStartDate || today;
+	const weeksFromDisplayStartToRace = getWeeksBetween(displayStartDate, raceDate);
+	const displayStartWeek = Math.max(1, totalWeeks - weeksFromDisplayStartToRace);
+
 	const baseStartVolume = Math.max(startingVolumeKm, MIN_WEEKLY_VOLUME);
 	const plan: WeeklyVolumePlan[] = [];
 
-	for (let week = currentWeek; week <= totalWeeks; week++) {
+	for (let week = displayStartWeek; week <= totalWeeks; week++) {
 		const weeksFromCurrent = week - currentWeek;
 		const weekStartDate = new Date(today);
 		weekStartDate.setDate(weekStartDate.getDate() + weeksFromCurrent * 7);

@@ -246,9 +246,18 @@ export function StrengthEvolutionPanel() {
 		);
 	}, [chartData]);
 
-	// Calculate muscle group gains (first day vs last day)
+	// Calculate muscle group gains (first day vs last day within selected time range)
 	const muscleGroupGains = useMemo((): MuscleGroupGain[] => {
-		const strengthActivities = allActivities.filter(isStrengthActivity);
+		// Apply same time range filter as chart data
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+		const numDays = getDaysForTimeRange(timeRange);
+		const cutoffDate = new Date(today);
+		cutoffDate.setDate(today.getDate() - numDays);
+
+		const strengthActivities = allActivities
+			.filter(isStrengthActivity)
+			.filter((a) => new Date(a.date) >= cutoffDate);
 
 		const strengthTypes: StrengthActivityType[] = [
 			ActivityType.StrengthTrainingLegs,
@@ -311,7 +320,7 @@ export function StrengthEvolutionPanel() {
 				lastWeight,
 			};
 		});
-	}, [allActivities]);
+	}, [allActivities, timeRange]);
 
 	if (isLoading) {
 		return (

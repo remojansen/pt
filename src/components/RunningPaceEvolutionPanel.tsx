@@ -28,6 +28,51 @@ interface ChartDataPoint {
 	roadRunPace: number | null;
 	treadmillRunPace: number | null;
 	avgPace: number | null;
+	movingAvgPace: number | null;
+}
+
+function calculateMovingAverage(
+	data: { avgPace: number | null }[],
+	windowSize: number,
+): (number | null)[] {
+	const result: (number | null)[] = [];
+
+	for (let i = 0; i < data.length; i++) {
+		// Collect values within the window (centered or trailing)
+		const windowValues: number[] = [];
+		const halfWindow = Math.floor(windowSize / 2);
+		const start = Math.max(0, i - halfWindow);
+		const end = Math.min(data.length - 1, i + halfWindow);
+
+		for (let j = start; j <= end; j++) {
+			const pace = data[j].avgPace;
+			if (pace !== null) {
+				windowValues.push(pace);
+			}
+		}
+
+		if (windowValues.length > 0) {
+			result.push(
+				windowValues.reduce((a, b) => a + b, 0) / windowValues.length,
+			);
+		} else {
+			result.push(null);
+		}
+	}
+
+	return result;
+}
+
+function formatPaceImprovement(improvementMinPerKm: number): string {
+	const isImprovement = improvementMinPerKm > 0;
+	const absImprovement = Math.abs(improvementMinPerKm);
+	const minutes = Math.floor(absImprovement);
+	const seconds = Math.round((absImprovement - minutes) * 60);
+
+	if (minutes === 0) {
+		return `${isImprovement ? '-' : '+'}${seconds}s`;
+	}
+	return `${isImprovement ? '-' : '+'}${minutes}:${seconds.toString().padStart(2, '0')}/km`;
 }
 
 function calculatePace(
@@ -122,6 +167,14 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
 					</span>
 				</p>
 			)}
+			{data.movingAvgPace !== null && (
+				<p className="text-white">
+					Moving Avg:{' '}
+					<span className="text-orange-400">
+						{formatPace(data.movingAvgPace)} min/km
+					</span>
+				</p>
+			)}
 		</div>
 	);
 }
@@ -139,17 +192,18 @@ export function RunningPaceEvolutionPanel() {
 		loadAllUserActivities().then(setAllActivities);
 	}, [loadAllUserActivities, activityCount]);
 
-	const avgPaceLast30Days = useMemo(() => {
+	const avgPaceForTimeRange = useMemo(() => {
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
-		const thirtyDaysAgo = new Date(today);
-		thirtyDaysAgo.setDate(today.getDate() - 30);
+		const numDays = getDaysForTimeRange(timeRange);
+		const cutoffDate = new Date(today);
+		cutoffDate.setDate(today.getDate() - numDays);
 
 		const recentRunningActivities = allActivities.filter(
 			(a): a is Cardio =>
 				(a.type === ActivityType.RoadRun ||
 					a.type === ActivityType.TreadmillRun) &&
-				new Date(a.date) >= thirtyDaysAgo &&
+				new Date(a.date) >= cutoffDate &&
 				a.distanceInKm > 0 &&
 				a.durationInSeconds > 0,
 		);
@@ -162,7 +216,7 @@ export function RunningPaceEvolutionPanel() {
 		);
 
 		return totalPace / recentRunningActivities.length;
-	}, [allActivities]);
+	}, [allActivities, timeRange]);
 
 	const chartData = useMemo(() => {
 		// Filter by time range
@@ -212,8 +266,8 @@ export function RunningPaceEvolutionPanel() {
 			}
 		}
 
-		// Convert to chart data
-		const data: ChartDataPoint[] = [];
+		// Convert to chart data (without moving average first)
+		const data: Omit<ChartDataPoint, 'movingAvgPace'>[] = [];
 		for (const [date, paces] of activitiesByDate) {
 			const roadRunPace =
 				paces.roadRun.length > 0
@@ -244,10 +298,44 @@ export function RunningPaceEvolutionPanel() {
 		}
 
 		// Sort by date ascending
-		return data.sort(
+		const sortedData = data.sort(
 			(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
 		);
+
+		// Calculate moving average (window size based on data points)
+		const windowSize = Math.max(
+			3,
+			Math.min(7, Math.floor(sortedData.length / 3)),
+		);
+		const movingAverages = calculateMovingAverage(sortedData, windowSize);
+
+		// Add moving average to each data point
+		return sortedData.map((point, index) => ({
+			...point,
+			movingAvgPace: movingAverages[index],
+		}));
 	}, [allActivities, timeRange]);
+
+	// Calculate pace improvement from moving average (start vs end)
+	const paceImprovement = useMemo(() => {
+		if (chartData.length < 2) return null;
+
+		// Find first and last valid moving average values
+		let firstMA: number | null = null;
+		let lastMA: number | null = null;
+
+		for (const point of chartData) {
+			if (point.movingAvgPace !== null) {
+				if (firstMA === null) firstMA = point.movingAvgPace;
+				lastMA = point.movingAvgPace;
+			}
+		}
+
+		if (firstMA === null || lastMA === null) return null;
+
+		// Positive value means improvement (pace decreased = faster)
+		return firstMA - lastMA;
+	}, [chartData]);
 
 	const targetPace = useMemo(() => {
 		if (!userProfile.raceGoal || !userProfile.raceTimeGoal) return null;
@@ -278,7 +366,7 @@ export function RunningPaceEvolutionPanel() {
 						}
 						label="Target Pace (km)"
 					/>
-					<Highlight value="N/A" label="Projected 10K" />
+					<Highlight value="N/A" label="Avg Pace Improvement" />
 					<Highlight value="N/A" label="Projected 1/2 Marathon" />
 					<Highlight value="N/A" label="Projected Full Marathon" />
 				</HighlightGroup>
@@ -291,10 +379,10 @@ export function RunningPaceEvolutionPanel() {
 
 	return (
 		<Panel title="Running Evolution" dataTour="pace-evolution">
-			{avgPaceLast30Days !== null && (
+			{avgPaceForTimeRange !== null && (
 				<HighlightGroup>
 					<Highlight
-						value={`${formatPace(avgPaceLast30Days)} min`}
+						value={`${formatPace(avgPaceForTimeRange)} min`}
 						label="Average pace (km)"
 					/>
 					<Highlight
@@ -304,15 +392,19 @@ export function RunningPaceEvolutionPanel() {
 						label="Target Pace (km)"
 					/>
 					<Highlight
-						value={formatTime(avgPaceLast30Days * 10)}
-						label="Projected 10K"
+						value={
+							paceImprovement !== null
+								? formatPaceImprovement(paceImprovement)
+								: 'N/A'
+						}
+						label="Avg Pace Improvement"
 					/>
 					<Highlight
-						value={formatTime(avgPaceLast30Days * 21.0975)}
+						value={formatTime(avgPaceForTimeRange * 21.0975)}
 						label="Projected 1/2 Marathon"
 					/>
 					<Highlight
-						value={formatTime(avgPaceLast30Days * 42.195)}
+						value={formatTime(avgPaceForTimeRange * 42.195)}
 						label="Projected Full Marathon"
 					/>
 				</HighlightGroup>
@@ -395,6 +487,16 @@ export function RunningPaceEvolutionPanel() {
 							dot={{ fill: '#a855f7', r: 4 }}
 							activeDot={{ r: 8, stroke: '#f3f4f6', strokeWidth: 2 }}
 							name="Avg Pace"
+							connectNulls
+						/>
+						<Line
+							type="monotone"
+							dataKey="movingAvgPace"
+							stroke="#f97316"
+							strokeWidth={3}
+							dot={false}
+							activeDot={{ r: 6, stroke: '#f3f4f6', strokeWidth: 2 }}
+							name="Moving Avg"
 							connectNulls
 						/>
 					</LineChart>
