@@ -19,7 +19,6 @@ import {
 	loadAllDietEntries,
 	loadAllStatsEntries,
 	loadDietEntries,
-	loadDietEntryByDate,
 	loadStatsEntries,
 	loadStatsEntryByDate,
 	loadUserProfile,
@@ -446,31 +445,11 @@ export function UserDataProvider({ children }: UserDataProviderProps) {
 		return loadAllDietEntries();
 	}, []);
 
-	// Add single diet entry (adds calories to existing entry for same date)
+	// Add single diet entry (creates new entry for each meal)
 	const addDietEntry = useCallback(async (entry: DietEntry) => {
-		const existingEntry = await loadDietEntryByDate(entry.date);
-		if (existingEntry) {
-			// Add new calories to existing entry for the same date
-			const updatedEntry = {
-				...existingEntry,
-				calories: existingEntry.calories + entry.calories,
-			};
-			await saveDietEntry(updatedEntry);
-			setDietEntriesState((prev) => {
-				const exists = prev.some((e) => e.id === existingEntry.id);
-				if (exists) {
-					return prev.map((e) =>
-						e.id === existingEntry.id ? updatedEntry : e,
-					);
-				}
-				// Entry exists in DB but not in paginated state - add it
-				return [updatedEntry, ...prev];
-			});
-		} else {
-			await saveDietEntry(entry);
-			setDietEntriesState((prev) => [entry, ...prev]); // newest first
-			setDietEntryCount((prev) => prev + 1);
-		}
+		await saveDietEntry(entry);
+		setDietEntriesState((prev) => [entry, ...prev]); // newest first
+		setDietEntryCount((prev) => prev + 1);
 		updateLocalModified();
 	}, []);
 

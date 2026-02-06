@@ -826,6 +826,7 @@ function MealsTable() {
 	const [editForm, setEditForm] = useState({
 		date: '',
 		calories: '',
+		mealType: '' as '' | 'breakfast' | 'lunch' | 'dinner' | 'snack',
 	});
 
 	// Delete confirmation state
@@ -844,6 +845,7 @@ function MealsTable() {
 		setEditForm({
 			date: entry.date,
 			calories: entry.calories.toString(),
+			mealType: entry.mealType ?? '',
 		});
 		setEditModalOpen(true);
 	}, []);
@@ -855,6 +857,7 @@ function MealsTable() {
 			...editingEntry,
 			date: editForm.date,
 			calories: parseInt(editForm.calories, 10) || 0,
+			mealType: editForm.mealType || undefined,
 		};
 
 		const updatedMeals = meals.map((m) =>
@@ -885,6 +888,15 @@ function MealsTable() {
 				accessorKey: 'date',
 				header: 'Date',
 				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'mealType',
+				header: 'Meal',
+				cell: (info) => {
+					const mealType = info.getValue() as string | undefined;
+					if (!mealType) return '-';
+					return mealType.charAt(0).toUpperCase() + mealType.slice(1);
+				},
 			},
 			{
 				accessorKey: 'calories',
@@ -1085,6 +1097,36 @@ function MealsTable() {
 							}
 							className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
 						/>
+					</div>
+					<div>
+						<label
+							htmlFor="meal-edit-type"
+							className="block text-sm font-medium text-gray-300 mb-1"
+						>
+							Meal Type
+						</label>
+						<select
+							id="meal-edit-type"
+							value={editForm.mealType}
+							onChange={(e) =>
+								setEditForm({
+									...editForm,
+									mealType: e.target.value as
+										| ''
+										| 'breakfast'
+										| 'lunch'
+										| 'dinner'
+										| 'snack',
+								})
+							}
+							className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+						>
+							<option value="">No meal type</option>
+							<option value="breakfast">Breakfast</option>
+							<option value="lunch">Lunch</option>
+							<option value="dinner">Dinner</option>
+							<option value="snack">Snack</option>
+						</select>
 					</div>
 					<div>
 						<label

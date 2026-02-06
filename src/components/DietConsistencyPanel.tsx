@@ -290,11 +290,16 @@ export function DietConsistencyPanel() {
 		return days;
 	}, [timeRange]);
 
-	// Create a map of diet entries by date
+	// Create a map of aggregated calories by date (supports multiple entries per day)
 	const dietEntriesMap = useMemo(() => {
-		const map = new Map<string, DietEntry>();
+		const map = new Map<string, { calories: number }>();
 		for (const entry of allDietEntries) {
-			map.set(entry.date, entry);
+			const existing = map.get(entry.date);
+			if (existing) {
+				existing.calories += entry.calories;
+			} else {
+				map.set(entry.date, { calories: entry.calories });
+			}
 		}
 		return map;
 	}, [allDietEntries]);
