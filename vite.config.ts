@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
 	const isProd = mode === 'production';
-	const base = isProd ? '/personal-trainer/' : '/';
+	const base = isProd ? '/pt/' : '/';
 
 	return {
 		root: 'src',

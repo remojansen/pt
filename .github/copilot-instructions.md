@@ -63,7 +63,7 @@ src/
 
 ## Build & Deploy
 - **Vite config**: `root: 'src'`, outputs to project root (not `dist/`)
-- **Base URL**: `/personal-trainer/` in production (GitHub Pages)
+- **Base URL**: `/pt/` in production (GitHub Pages)
 - **Deploy**: Push to `main` triggers GitHub Actions → builds → deploys to `gh-pages` branch
 
 ## Common Patterns

@@ -39,7 +39,7 @@ interface PersonalTrainerDB extends DBSchema {
 	};
 }
 
-const DB_NAME = 'personal-trainer-db';
+const DB_NAME = 'pt-db';
 const DB_VERSION = 4;
 const REQUIRED_STORES = [
 	'userProfile',
