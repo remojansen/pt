@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { UserProfileForm } from '../components/UserProfileForm';
 import { generateBackup } from '../data/generate-demo';
@@ -13,13 +12,14 @@ import { type UserProfile, useUserData } from '../hooks/useUserData';
 
 export function RegistrationPage() {
 	const { userProfile, setUserProfile, addStatsEntry } = useUserData();
-	const [searchParams] = useSearchParams();
 	const [localUserProfile, setLocalUserProfile] =
 		useState<UserProfile>(userProfile);
 	const [weightKg, setWeightKg] = useState<number | null>(null);
 	const [isLoadingDemo, setIsLoadingDemo] = useState(false);
 
-	const isDemo = searchParams.get('demo') === 'true';
+	// Check for demo param in URL (works with both /?demo=true and /#/?demo=true)
+	const isDemo =
+		new URLSearchParams(window.location.search).get('demo') === 'true';
 
 	// Handle demo mode - populate IndexedDB with generated data
 	useEffect(() => {
