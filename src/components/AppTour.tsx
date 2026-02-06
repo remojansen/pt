@@ -12,7 +12,7 @@ const tourSteps: Step[] = [
 	{
 		target: '[data-tour="navbar"]',
 		content:
-			'Welcome to Race Buddy! This is your personal fitness tracking app. Let me show you around.',
+			'Welcome to Personal Trainer (PT)! This is your personal fitness tracking app. Let me show you around.',
 		placement: 'bottom',
 		disableBeacon: true,
 	},

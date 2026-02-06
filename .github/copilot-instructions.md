@@ -1,4 +1,4 @@
-# Race Buddy - Copilot Instructions
+# Personal Trainer (PT) - Copilot Instructions
 
 ## Project Overview
 React PWA for personal fitness tracking (running pace, strength training, weight, diet). Offline-first with IndexedDB storage and optional File System Access API backup.

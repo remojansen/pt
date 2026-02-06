@@ -1,4 +1,4 @@
-# Race Buddy
+# Personal Trainer (PT)
 
 A personal fitness tracking PWA for monitoring running pace, strength training, weight, and diet.
 
