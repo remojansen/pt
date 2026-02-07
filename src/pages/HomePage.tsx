@@ -1,3 +1,4 @@
+import { AbbottWorldMarathonMajorsPanel } from '../components/AbbottWorldMarathonMajorsPanel';
 import { DietConsistencyPanel } from '../components/DietConsistencyPanel';
 import { RunningPaceEvolutionPanel } from '../components/RunningPaceEvolutionPanel';
 import { StrengthEvolutionPanel } from '../components/StrengthEvolutionPanel';
@@ -18,6 +19,7 @@ export function HomePage() {
 					<RunningPaceEvolutionPanel />
 					<WeightEvolutionPanel />
 					<StrengthEvolutionPanel />
+					<AbbottWorldMarathonMajorsPanel />
 				</div>
 			</div>
 		</div>

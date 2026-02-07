@@ -469,8 +469,8 @@ export function RunningPaceEvolutionPanel() {
 							dataKey="roadRunPace"
 							stroke="#3b82f6"
 							strokeWidth={2}
-							dot={{ fill: '#3b82f6', r: 4 }}
-							activeDot={{ r: 8, stroke: '#f3f4f6', strokeWidth: 2 }}
+							dot={{ fill: '#3b82f6', r: 1 }}
+							activeDot={{ r: 1 }}
 							name="Road Run"
 							connectNulls
 						/>
@@ -479,8 +479,8 @@ export function RunningPaceEvolutionPanel() {
 							dataKey="treadmillRunPace"
 							stroke="#22c55e"
 							strokeWidth={2}
-							dot={{ fill: '#22c55e', r: 4 }}
-							activeDot={{ r: 8, stroke: '#f3f4f6', strokeWidth: 2 }}
+							dot={{ fill: '#22c55e', r: 1 }}
+							activeDot={{ r: 1 }}
 							name="Treadmill Run"
 							connectNulls
 						/>
@@ -490,8 +490,8 @@ export function RunningPaceEvolutionPanel() {
 							stroke="#a855f7"
 							strokeWidth={2}
 							strokeDasharray="5 5"
-							dot={{ fill: '#a855f7', r: 4 }}
-							activeDot={{ r: 8, stroke: '#f3f4f6', strokeWidth: 2 }}
+							dot={{ fill: '#a855f7', r: 1 }}
+							activeDot={{ r: 1 }}
 							name="Pace"
 							connectNulls
 						/>
@@ -501,7 +501,7 @@ export function RunningPaceEvolutionPanel() {
 							stroke="#f97316"
 							strokeWidth={3}
 							dot={false}
-							activeDot={{ r: 6, stroke: '#f3f4f6', strokeWidth: 2 }}
+							activeDot={{ r: 1 }}
 							name="Moving Avg"
 							connectNulls
 						/>

@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
 	CartesianGrid,
-	Legend,
 	Line,
 	LineChart,
 	ResponsiveContainer,
@@ -385,12 +384,6 @@ export function StrengthEvolutionPanel() {
 							}}
 						/>
 						<Tooltip content={<CustomTooltip />} />
-						<Legend
-							wrapperStyle={{ color: '#9ca3af' }}
-							formatter={(value) => (
-								<span className="text-gray-300">{value}</span>
-							)}
-						/>
 						{activeRepetitionTypes.map((repType) => (
 							<Line
 								key={repType}
@@ -398,8 +391,8 @@ export function StrengthEvolutionPanel() {
 								dataKey={repType}
 								stroke={REPETITION_COLORS[repType]}
 								strokeWidth={2}
-								dot={{ fill: REPETITION_COLORS[repType], r: 4 }}
-								activeDot={{ r: 8, stroke: '#f3f4f6', strokeWidth: 2 }}
+								dot={{ fill: REPETITION_COLORS[repType], r: 1 }}
+								activeDot={{ r: 1 }}
 								name={REPETITION_LABELS[repType]}
 								connectNulls
 							/>

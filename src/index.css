@@ -1,3 +1,45 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+.bg-london {
+	background-image: url("/img/majors/london.png");
+	background-size: cover;
+	background-position: center;
+}
+
+.bg-tokyo {
+	background-image: url("/img/majors/tokyo.png");
+	background-size: cover;
+	background-position: center;
+}
+
+.bg-sydney {
+	background-image: url("/img/majors/sydney.png");
+	background-size: cover;
+	background-position: center;
+}
+
+.bg-chicago {
+	background-image: url("/img/majors/chicago.png");
+	background-size: cover;
+	background-position: center;
+}
+
+.bg-berlin {
+	background-image: url("/img/majors/berlin.png");
+	background-size: cover;
+	background-position: center;
+}
+
+.bg-ny {
+	background-image: url("/img/majors/ny.png");
+	background-size: cover;
+	background-position: center;
+}
+
+.bg-boston {
+	background-image: url("/img/majors/boston.png");
+	background-size: cover;
+	background-position: center;
+}

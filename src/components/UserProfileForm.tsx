@@ -1,4 +1,8 @@
-import type { RaceGoal, UserProfile } from '../hooks/useUserData';
+import type {
+	MarathonMajor,
+	RaceGoal,
+	UserProfile,
+} from '../hooks/useUserData';
 import { Button } from './Button';
 
 const RACE_GOAL_LABELS: Record<RaceGoal, string> = {
@@ -6,6 +10,16 @@ const RACE_GOAL_LABELS: Record<RaceGoal, string> = {
 	HalfMarathon: '1/2 Marathon',
 	FullMarathon: 'Full Marathon',
 };
+
+const MARATHON_MAJORS: { key: MarathonMajor; label: string }[] = [
+	{ key: 'tokyo', label: 'Tokyo' },
+	{ key: 'boston', label: 'Boston' },
+	{ key: 'london', label: 'London' },
+	{ key: 'berlin', label: 'Berlin' },
+	{ key: 'chicago', label: 'Chicago' },
+	{ key: 'ny', label: 'New York' },
+	{ key: 'sydney', label: 'Sydney' },
+];
 
 interface UserProfileFormProps {
 	userProfile: UserProfile;
@@ -299,6 +313,66 @@ export function UserProfileForm({
 					min="1"
 					max="20"
 				/>
+			</div>
+
+			<div>
+				<span className="block text-sm font-medium text-gray-300 mb-2">
+					Star Chaser (Abbott World Marathon Majors)
+				</span>
+				<div className="flex gap-4 mb-4">
+					<Button
+						color="purple"
+						size="md"
+						active={userProfile.starChaser === true}
+						onClick={() =>
+							onChange({
+								...userProfile,
+								starChaser: true,
+								completedMajors: userProfile.completedMajors ?? [],
+							})
+						}
+						className="flex-1"
+					>
+						Yes
+					</Button>
+					<Button
+						color="purple"
+						size="md"
+						active={
+							userProfile.starChaser === false ||
+							userProfile.starChaser === undefined
+						}
+						onClick={() => onChange({ ...userProfile, starChaser: false })}
+						className="flex-1"
+					>
+						No
+					</Button>
+				</div>
+				{userProfile.starChaser && (
+					<div className="flex flex-wrap gap-2">
+						{MARATHON_MAJORS.map((major) => {
+							const isCompleted =
+								userProfile.completedMajors?.includes(major.key) ?? false;
+							return (
+								<Button
+									key={major.key}
+									color={isCompleted ? 'green' : 'gray'}
+									size="md"
+									active={isCompleted}
+									onClick={() => {
+										const currentMajors = userProfile.completedMajors ?? [];
+										const newMajors = isCompleted
+											? currentMajors.filter((m) => m !== major.key)
+											: [...currentMajors, major.key];
+										onChange({ ...userProfile, completedMajors: newMajors });
+									}}
+								>
+									{major.label}
+								</Button>
+							);
+						})}
+					</div>
+				)}
 			</div>
 		</div>
 	);

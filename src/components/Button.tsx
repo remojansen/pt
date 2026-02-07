@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost';
-type ButtonColor = 'blue' | 'purple' | 'gray';
+type ButtonColor = 'blue' | 'purple' | 'gray' | 'green';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -32,6 +32,12 @@ const colorStyles: Record<ButtonColor, Record<ButtonVariant, string>> = {
 		secondary:
 			'bg-gray-800 text-gray-300 hover:bg-gray-700 focus:ring-gray-500',
 		ghost: 'text-gray-400 hover:text-gray-300 hover:bg-gray-800',
+	},
+	green: {
+		primary: 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500',
+		secondary:
+			'bg-gray-800 text-gray-300 hover:bg-gray-700 focus:ring-gray-500',
+		ghost: 'text-green-400 hover:text-green-300 hover:bg-gray-800',
 	},
 };
 

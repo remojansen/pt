@@ -34,6 +34,15 @@ import { updateLocalModified } from './useBackup';
 
 export type RaceGoal = '10K' | 'HalfMarathon' | 'FullMarathon';
 
+export type MarathonMajor =
+	| 'tokyo'
+	| 'boston'
+	| 'london'
+	| 'berlin'
+	| 'chicago'
+	| 'ny'
+	| 'sydney';
+
 export interface UserProfile {
 	name: string | null;
 	heightCm: number | null;
@@ -50,6 +59,9 @@ export interface UserProfile {
 	// Notification settings
 	calorieReminderEnabled?: boolean;
 	weightReminderEnabled?: boolean;
+	// Star Chaser (Abbott World Marathon Majors)
+	starChaser?: boolean;
+	completedMajors?: MarathonMajor[];
 }
 
 export const ActivityType = {
@@ -286,6 +298,8 @@ const DEFAULT_USER_PROFILE: UserProfile = {
 	schedule: DEFAULT_SCHEDULE,
 	calorieReminderEnabled: true,
 	weightReminderEnabled: true,
+	starChaser: false,
+	completedMajors: [],
 };
 
 const ACTIVITIES_PAGE_SIZE = 50;

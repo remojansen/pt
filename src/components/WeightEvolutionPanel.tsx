@@ -114,6 +114,7 @@ interface ChartDataPoint {
 	date: string;
 	formattedDate: string;
 	weightKg: number;
+	bmi: number;
 	bodyFatPercentage: number | null;
 	bmiCategory: BMICategory;
 	bodyFatCategory: BodyFatCategory | null;
@@ -129,16 +130,7 @@ interface CustomDotProps {
 function WeightDot({ cx, cy, payload }: CustomDotProps) {
 	if (cx === undefined || cy === undefined || !payload) return null;
 	const color = BMI_COLORS[payload.bmiCategory];
-	return (
-		<circle
-			cx={cx}
-			cy={cy}
-			r={6}
-			fill={color}
-			stroke="#1f2937"
-			strokeWidth={2}
-		/>
-	);
+	return <circle cx={cx} cy={cy} r={1} fill={color} />;
 }
 
 function BodyFatDot({ cx, cy, payload }: CustomDotProps) {
@@ -150,16 +142,7 @@ function BodyFatDot({ cx, cy, payload }: CustomDotProps) {
 	)
 		return null;
 	const color = BODY_FAT_COLORS[payload.bodyFatCategory];
-	return (
-		<circle
-			cx={cx}
-			cy={cy}
-			r={6}
-			fill={color}
-			stroke="#1f2937"
-			strokeWidth={2}
-		/>
-	);
+	return <circle cx={cx} cy={cy} r={1} fill={color} />;
 }
 
 interface CustomTooltipProps {
@@ -179,6 +162,13 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
 				Weight:{' '}
 				<span style={{ color: BMI_COLORS[data.bmiCategory] }}>
 					{data.weightKg.toFixed(1)} kg
+				</span>
+				<span className="text-gray-400 text-sm ml-2">({data.bmiCategory})</span>
+			</p>
+			<p className="text-white">
+				BMI:{' '}
+				<span style={{ color: BMI_COLORS[data.bmiCategory] }}>
+					{data.bmi.toFixed(1)}
 				</span>
 				<span className="text-gray-400 text-sm ml-2">({data.bmiCategory})</span>
 			</p>
@@ -341,6 +331,7 @@ export function WeightEvolutionPanel() {
 						year: 'numeric',
 					}),
 					weightKg: entry.weightKg,
+					bmi,
 					bodyFatPercentage: entry.bodyFatPercentage,
 					bmiCategory,
 					bodyFatCategory,
@@ -366,6 +357,7 @@ export function WeightEvolutionPanel() {
 				weeksToTarget: null,
 				currentStreak: 0,
 				longestStreak: 0,
+				currentBmi: null,
 			};
 		}
 
@@ -467,6 +459,12 @@ export function WeightEvolutionPanel() {
 			}
 		}
 
+		// Calculate current BMI
+		const currentBmi =
+			currentWeight !== null && userProfile.heightCm
+				? calculateBMI(currentWeight, userProfile.heightCm)
+				: null;
+
 		return {
 			kgsLostInPeriod,
 			kgsToTarget,
@@ -474,6 +472,7 @@ export function WeightEvolutionPanel() {
 			weeksToTarget,
 			currentStreak,
 			longestStreak,
+			currentBmi,
 		};
 	}, [
 		allStatsEntries,
@@ -481,6 +480,7 @@ export function WeightEvolutionPanel() {
 		timeRange,
 		userProfile.targetWeightKg,
 		userProfile.targetWeightLossPerWeekKg,
+		userProfile.heightCm,
 	]);
 
 	const panelTitle = `Weight Evolution (${TIME_RANGE_LABELS[timeRange]})`;
@@ -700,6 +700,14 @@ export function WeightEvolutionPanel() {
 				<HighlightGroup>
 					<Highlight
 						value={
+							weightStats.currentBmi !== null
+								? weightStats.currentBmi.toFixed(1)
+								: '—'
+						}
+						label="BMI"
+					/>
+					<Highlight
+						value={
 							weightStats.kgsLostInPeriod !== null
 								? `${weightStats.kgsLostInPeriod >= 0 ? '' : '+'}${Math.abs(weightStats.kgsLostInPeriod).toFixed(1)} kg`
 								: '0 kg'
@@ -762,7 +770,7 @@ export function WeightEvolutionPanel() {
 								axisLine={{ stroke: '#4b5563' }}
 								domain={[0, 50]}
 								label={{
-									value: 'Body Fat (%)',
+									value: 'BMI / Body Fat (%)',
 									angle: 90,
 									position: 'insideRight',
 									fill: '#9ca3af',
@@ -792,19 +800,29 @@ export function WeightEvolutionPanel() {
 								stroke="#6b7280"
 								strokeWidth={2}
 								dot={<WeightDot />}
-								activeDot={{ r: 8, stroke: '#f3f4f6', strokeWidth: 2 }}
+								activeDot={{ r: 1 }}
 								name="Weight"
+							/>
+							<Line
+								yAxisId="bodyFat"
+								type="monotone"
+								dataKey="bmi"
+								stroke="#8b5cf6"
+								strokeWidth={2}
+								dot={{ fill: '#8b5cf6', r: 1 }}
+								activeDot={{ r: 1, fill: '#8b5cf6' }}
+								name="BMI"
 							/>
 							{hasBodyFatData && (
 								<Line
 									yAxisId="bodyFat"
 									type="monotone"
 									dataKey="bodyFatPercentage"
-									stroke="#6b7280"
+									stroke="#06b6d4"
 									strokeWidth={2}
 									strokeDasharray="5 5"
 									dot={<BodyFatDot />}
-									activeDot={{ r: 8, stroke: '#f3f4f6', strokeWidth: 2 }}
+									activeDot={{ r: 1, fill: '#06b6d4' }}
 									name="Body Fat"
 									connectNulls
 								/>

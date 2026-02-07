@@ -45,7 +45,7 @@ interface TimeframeProviderProps {
 }
 
 export function TimeframeProvider({ children }: TimeframeProviderProps) {
-	const [timeRange, setTimeRangeState] = useState<TimeRange>('1month');
+	const [timeRange, setTimeRangeState] = useState<TimeRange>('3months');
 
 	const setTimeRange = useCallback((range: TimeRange) => {
 		setTimeRangeState(range);

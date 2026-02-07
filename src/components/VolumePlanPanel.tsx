@@ -305,8 +305,8 @@ export function VolumePlanPanel() {
 							name="Long Run"
 							stroke="#3b82f6"
 							strokeWidth={3}
-							dot={{ fill: '#3b82f6', r: 4, strokeWidth: 2, stroke: '#1e3a5f' }}
-							activeDot={{ r: 6, stroke: '#f3f4f6', strokeWidth: 2 }}
+							dot={{ fill: '#3b82f6', r: 1 }}
+							activeDot={{ r: 1 }}
 						/>
 					</ComposedChart>
 				</ResponsiveContainer>
